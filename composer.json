@@ -1,0 +1,20 @@
+{
+    "name": "metrique/laravel-block",
+    "description": "A flexible page management system for Laravel 5.",
+    "type": "Library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Daniel Hudson",
+            "email": "support@shinobicorp.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Metrique\\\Block\\": "src/"
+        }
+    },
+    "require-dev": {
+        "laravel/framework": "^5.1"
+    }
+}
