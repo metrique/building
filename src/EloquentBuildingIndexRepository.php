@@ -17,11 +17,14 @@ class EloquentBuildingIndexRepository extends BuildingAbstractRepository impleme
 			'published' => false,
 		];
 
+		$where = array_intersect_key($where, $defaults);
 		$where = array_merge($defaults, $where);
-		$where = array_intersect_key($defaults, $where);
 
-		dump($where);
+		$collection = $this->model->all();
+		foreach ($where as $key => $value) {
+			$collection = $collection->where('published', '=', '1');
+		}
 
-		return $this->model->all()->toArray();
+		return $collection->toArray();
 	}
 }

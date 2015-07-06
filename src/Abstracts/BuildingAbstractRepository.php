@@ -23,7 +23,10 @@ abstract class BuildingAbstractRepository implements BuildingRepositoryInterface
             Throw new \Exception('Model class name is not set.');
         }
 
-        $this->model = $app->make($this->modelClassName);
+        if(!empty($this->modelClassName))
+        {
+            $this->model = $app->make($this->modelClassName);
+        }
     }
 
     public function create(array $attributes)

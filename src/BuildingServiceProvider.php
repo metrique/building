@@ -37,9 +37,17 @@ class BuildingServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // Decorate with caching repository.
         $this->app->bind(
             BuildingIndexRepositoryInterface::class,
-            EloquentBuildingIndexRepository::class
+            function($app) {
+                $eloquentRepository = new EloquentBuildingIndexRepository($this->app);
+
+                // Decorate with caching
+                $cachingRepository = new CachingBuildingIndexRepository($this->app, $eloquentRepository);
+
+                return $cachingRepository;
+            }
         );
 
         $this->registerCommands();
