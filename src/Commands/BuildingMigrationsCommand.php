@@ -1,10 +1,10 @@
 <?php
 
-namespace Metrique\Block\Commands;
+namespace Metrique\Building\Commands;
 
 use Illuminate\Console\Command;
 
-class BlockMigrationsCommand extends Command
+class BuildingMigrationsCommand extends Command
 {
 
     const CONSOLE_INFO = 0;
@@ -16,14 +16,14 @@ class BlockMigrationsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'metrique:block-migrations';
+    protected $signature = 'metrique:building-migrations';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create block migration files.';
+    protected $description = 'Create building migration files.';
 
     /**
      * Path to database migrations in your laravel app.
@@ -42,13 +42,13 @@ class BlockMigrationsCommand extends Command
         'create_content_page',
         'create_content_item',
         'create_content_group',
-        'create_content_block',
-        'create_content_block_structure',
-        'create_content_block_type',
+        'create_content_building',
+        'create_content_building_structure',
+        'create_content_building_type',
         'fk_content_index',
         'fk_content_page',
         'fk_content_item',
-        'fk_content_block_structure'
+        'fk_content_building_structure'
     ];
 
     /**
@@ -78,7 +78,7 @@ class BlockMigrationsCommand extends Command
         //
         foreach ($this->migrations as $key => $value) {
             $migration = [
-                'view' => 'block::migrations.' . $value,
+                'view' => 'building::migrations.' . $value,
                 'file' => base_path($this->migrationPath) . '/' . date('Y_m_d_His') . '_' . $value . '.php',
             ];
 

@@ -1,5 +1,5 @@
 {
-    "name": "metrique/laravel-block",
+    "name": "metrique/laravel-building",
     "description": "A flexible page management system for Laravel 5.",
     "type": "Library",
     "license": "MIT",
@@ -11,7 +11,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Metrique\\Block\\": "src/"
+            "Metrique\\Building\\": "src/"
         }
     },
     "require-dev": {

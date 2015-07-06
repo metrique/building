@@ -1,11 +1,11 @@
 <?php
 
-namespace Metrique\Block;
+namespace Metrique\Building;
 
 use Illuminate\Support\ServiceProvider;
-use Metrique\Block\Commands\BlockMigrationsCommand;
+use Metrique\Building\Commands\BuildingMigrationsCommand;
 
-class BlockServiceProvider extends ServiceProvider
+class BuildingServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -15,10 +15,10 @@ class BlockServiceProvider extends ServiceProvider
     public function boot()
     {           
         // Commands
-        $this->commands('command.metrique.block-migrations');
+        $this->commands('command.metrique.building-migrations');
 
         // Views
-        $this->loadViewsFrom(__DIR__.'/Resources/views/', 'block');
+        $this->loadViewsFrom(__DIR__.'/Resources/views/', 'building');
     }
 
     /**
@@ -38,8 +38,8 @@ class BlockServiceProvider extends ServiceProvider
      */
     private function registerCommands()
     {
-        $this->app->bindShared('command.metrique.block-migrations', function ($app) {
-            return new BlockMigrationsCommand();
+        $this->app->bindShared('command.metrique.building-migrations', function ($app) {
+            return new BuildingMigrationsCommand();
         });
     }
 }
