@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateContentItem extends Migration
+class CreateBuildingBlockType extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,14 @@ class CreateContentItem extends Migration
      */
     public function up()
     {
-        Schema::create('content_item', function(Blueprint $table) {
-
+        Schema::create('building_block_type', function(Blueprint $table) {
+            
             $table->timestamps();
             $table->increments('id');
             $table->text('params');
-            $table->text('body');
+            $table->string('title', 255);
+            $table->string('slug', 255)->unique();
+            $table->string('input_type', 255);
         });
     }
 
@@ -28,6 +30,6 @@ class CreateContentItem extends Migration
      */
     public function down()
     {
-        Schema::drop('content_item');
+        Schema::drop('building_index_block_type');
     }
 }

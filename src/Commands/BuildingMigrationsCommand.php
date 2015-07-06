@@ -38,17 +38,17 @@ class BuildingMigrationsCommand extends Command
      * @var array
      */
     protected $migrations = [
-        'create_content_index',
-        'create_content_page',
-        'create_content_item',
-        'create_content_group',
-        'create_content_building',
-        'create_content_building_structure',
-        'create_content_building_type',
-        'fk_content_index',
-        'fk_content_page',
-        'fk_content_item',
-        'fk_content_building_structure'
+        'create_building_index',
+        'create_building_page',
+        'create_building_item',
+        'create_building_group',
+        'create_building_block',
+        'create_building_block_structure',
+        'create_building_block_type',
+        'fk_building_index',
+        'fk_building_page',
+        'fk_building_item',
+        'fk_building_block_structure'
     ];
 
     /**

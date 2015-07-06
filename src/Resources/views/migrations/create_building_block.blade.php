@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateContentBlock extends Migration
+class CreateBuildingBlock extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class CreateContentBlock extends Migration
      */
     public function up()
     {
-        Schema::create('content_block', function(Blueprint $table) {
+        Schema::create('building_block', function(Blueprint $table) {
             
             $table->timestamps();
             $table->increments('id');
@@ -30,6 +30,6 @@ class CreateContentBlock extends Migration
      */
     public function down()
     {
-        Schema::drop('content_block');
+        Schema::drop('building_block');
     }
 }

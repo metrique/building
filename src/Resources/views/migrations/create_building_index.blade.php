@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateContentBlockStructure extends Migration
+class CreateBuildingIndex extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,19 @@ class CreateContentBlockStructure extends Migration
      */
     public function up()
     {
-        Schema::create('content_block_structure', function(Blueprint $table) {
-            
+        Schema::create('building_index', function(Blueprint $table) {
+
             $table->timestamps();
             $table->increments('id');
             $table->text('params');
             $table->integer('order')->unsigned()->default(0);
+            $table->string('title', 255);
+            $table->string('slug', 255)->unique();
+            $table->text('meta', 255);
+            $table->text('href');
+            $table->integer('disabled')->default(0);
+            $table->integer('navigation')->default(0);
+            $table->integer('published')->default(0);
         });
     }
 
@@ -28,6 +35,6 @@ class CreateContentBlockStructure extends Migration
      */
     public function down()
     {
-        Schema::drop('content_block_structure');
+        Schema::drop('building_index');
     }
 }

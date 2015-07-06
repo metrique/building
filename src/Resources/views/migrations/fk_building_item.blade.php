@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class FkContentItem extends Migration
+class FkBuildingItem extends Migration
 {
     /**
      * Run the migrations.
@@ -12,38 +12,38 @@ class FkContentItem extends Migration
      */
     public function up()
     {
-        Schema::table('content_item', function(Blueprint $table) {
+        Schema::table('building_item', function(Blueprint $table) {
 
-            $table->integer('content_index_id')
+            $table->integer('building_index_id')
                 ->unsigned();
 
-            $table->foreign('content_index_id')
+            $table->foreign('building_index_id')
                 ->references('id')
-                ->on('content_index')
+                ->on('building_index')
                 ->onDelete('cascade');
 
-            $table->integer('content_page_id')
+            $table->integer('building_page_id')
                 ->unsigned();
 
-            $table->foreign('content_page_id')
+            $table->foreign('building_page_id')
                 ->references('id')
-                ->on('content_page')
+                ->on('building_page')
                 ->onDelete('cascade');
 
-            $table->integer('content_group_id')
+            $table->integer('building_group_id')
                 ->unsigned();
 
-            $table->foreign('content_group_id')
+            $table->foreign('building_group_id')
                 ->references('id')
-                ->on('content_group')
+                ->on('building_group')
                 ->onDelete('cascade');
 
-            $table->integer('content_block_type_id')
+            $table->integer('building_block_type_id')
                 ->unsigned();
 
-            $table->foreign('content_block_type_id')
+            $table->foreign('building_block_type_id')
                 ->references('id')
-                ->on('content_block_type')
+                ->on('building_block_type')
                 ->onDelete('cascade');
         });
     }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class FkContentPage extends Migration
+class FkBuildingPage extends Migration
 {
     /**
      * Run the migrations.
@@ -12,22 +12,22 @@ class FkContentPage extends Migration
      */
     public function up()
     {
-        Schema::table('content_page', function(Blueprint $table) {
+        Schema::table('building_page', function(Blueprint $table) {
 
-            $table->integer('content_index_id')
+            $table->integer('building_index_id')
                 ->unsigned();
 
-            $table->foreign('content_index_id')
+            $table->foreign('building_index_id')
                 ->references('id')
-                ->on('content_index')
+                ->on('building_index')
                 ->onDelete('cascade');
                   
-            $table->integer('content_block_id')
+            $table->integer('building_block_id')
                 ->unsigned();
 
-            $table->foreign('content_block_id')
+            $table->foreign('building_block_id')
                 ->references('id')
-                ->on('content_block')
+                ->on('building_block')
                 ->onDelete('cascade');
         });
     }
