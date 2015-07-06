@@ -4,9 +4,18 @@ namespace Metrique\Building;
 
 use Illuminate\Support\ServiceProvider;
 use Metrique\Building\Commands\BuildingMigrationsCommand;
+use Metrique\Building\Contracts\BuildingIndexRepositoryInterface;
+use Metrique\Building\EloquentBuildingIndexRepository;
 
 class BuildingServiceProvider extends ServiceProvider
 {
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = true;
+
     /**
      * Bootstrap the application services.
      *
@@ -28,6 +37,11 @@ class BuildingServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(
+            BuildingIndexRepositoryInterface::class,
+            EloquentBuildingIndexRepository::class
+        );
+
         $this->registerCommands();
     }
 
