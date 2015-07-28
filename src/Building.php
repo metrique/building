@@ -36,11 +36,11 @@ class Building implements BuildingInterface {
      */
     public function slugify($string, $delimiter = '-', $directorySeperator = '_')
     {
-        // Allowed character list
-        $allowed = "/[^a-zA-Z\d\s-_\/$delimiterQuoted]/u";
-
         // Quote delimiter
         $delimiterQuoted = preg_quote($delimiter);
+
+        // Allowed character list
+        $allowed = "/[^a-zA-Z\d\s-_\/$delimiterQuoted]/u";
 
         // Convert to closest ASCII
         $string = Stringy::create($string)->toAscii();
