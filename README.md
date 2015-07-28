@@ -1,25 +1,26 @@
-# laravel-block
+# laravel-building
 
 A flexible page management system for Laravel 5.
 
 ## Installation
 
-1. Add the following to the `repositories` section of your composer.json
+Add the following to the `repositories` section of your composer.json
 
 ```
 "repositories": [
     {
-        "url": "https://github.com/Metrique/laravel-block",
+        "url": "https://github.com/Metrique/laravel-building",
         "type": "git"
     }
 ],
 ```
 
-2. Add `"Metrique/laravel-block": "dev-master"` to the require section of your composer.json. 
-3. `composer update`
-4. Add `Metrique\Block\BlockServiceProvider::class,` to your list of service providers. in `config/app.php`.
-5. `php artisan vendor:publish` to publish the `config/block.php` config file to your application config directory.
-6. `php artisan metrique:block-migrations` to install the migrations to the database/migrations in your application.
+1. Add `"Metrique/laravel-building": "dev-master"` to the require section of your composer.json.
+2. Add `Metrique\Building\BuildingServiceProvider::class` to your list of service providers in `config/app.php`.
+3. Add `'Building' => Metrique\Building\BuildingFacade::class` to your list of aliases in `config/app.php`.
+4. `composer update`
+5. `php artisan vendor:publish` to publish the `config/building.php` config file to your application config directory.
+6. `php artisan metrique:building-migrations` to install the migrations to the database/migrations in your application.
 
 ## Usage
 

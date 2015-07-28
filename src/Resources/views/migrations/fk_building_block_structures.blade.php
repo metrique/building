@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class FkBuildingBlockStructure extends Migration
+class FkBuildingBlockStructures extends Migration
 {
     /**
      * Run the migrations.
@@ -12,22 +12,22 @@ class FkBuildingBlockStructure extends Migration
      */
     public function up()
     {
-        Schema::table('building_block_structure', function(Blueprint $table) {
+        Schema::table('building_block_structures', function(Blueprint $table) {
 
-            $table->integer('building_block_id')
+            $table->integer('building_blocks_id')
                 ->unsigned();
 
-            $table->foreign('building_block_id')
+            $table->foreign('building_blocks_id')
                 ->references('id')
-                ->on('building_block')
+                ->on('building_blocks')
                 ->onDelete('cascade');
 
-            $table->integer('building_block_type_id')
+            $table->integer('building_block_types_id')
                 ->unsigned();
 
-            $table->foreign('building_block_type_id')
+            $table->foreign('building_block_types_id')
                 ->references('id')
-                ->on('building_block_type')
+                ->on('building_block_types')
                 ->onDelete('cascade');
         });
     }

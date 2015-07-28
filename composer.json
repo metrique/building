@@ -15,6 +15,11 @@
         }
     },
     "require-dev": {
-        "laravel/framework": "^5.1"
+        "php": ">=5.4.0"
+    },
+    "require": {
+        "illuminate/console": "^5.1",
+        "illuminate/support": "^5.1",
+        "danielstjules/stringy": "^1.10"
     }
 }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBuildingGroup extends Migration
+class CreateBuildingContents extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,12 @@ class CreateBuildingGroup extends Migration
      */
     public function up()
     {
-        Schema::create('building_group', function(Blueprint $table) {
+        Schema::create('building_contents', function(Blueprint $table) {
 
             $table->timestamps();
             $table->increments('id');
             $table->text('params');
-            $table->integer('order')->unsigned()->default(0);
-            $table->integer('published')->default(0);
+            $table->text('body');
         });
     }
 
@@ -29,6 +28,6 @@ class CreateBuildingGroup extends Migration
      */
     public function down()
     {
-        Schema::drop('building_group');
+        Schema::drop('building_contents');
     }
 }

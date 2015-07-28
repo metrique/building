@@ -23,7 +23,7 @@ class BuildingMigrationsCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Create building migration files.';
+    protected $description = 'Create metrique/building migration files.';
 
     /**
      * Path to database migrations in your laravel app.
@@ -38,17 +38,16 @@ class BuildingMigrationsCommand extends Command
      * @var array
      */
     protected $migrations = [
-        'create_building_index',
-        'create_building_page',
-        'create_building_item',
-        'create_building_group',
-        'create_building_block',
-        'create_building_block_structure',
-        'create_building_block_type',
-        'fk_building_index',
-        'fk_building_page',
-        'fk_building_item',
-        'fk_building_block_structure'
+        'create_building_pages',
+        'create_building_sections',
+        'create_building_contents',
+        'create_building_groups',
+        'create_building_blocks',
+        'create_building_block_structures',
+        'create_building_block_types',
+        'fk_building_sections',
+        'fk_building_contents',
+        'fk_building_block_structures'
     ];
 
     /**
@@ -56,7 +55,7 @@ class BuildingMigrationsCommand extends Command
      *
      * @var array
      */
-    protected $migrationsOutput = [ ];
+    protected $migrationsOutput = [];
 
     /**
      * Create a new command instance.
@@ -78,7 +77,7 @@ class BuildingMigrationsCommand extends Command
         //
         foreach ($this->migrations as $key => $value) {
             $migration = [
-                'view' => 'building::migrations.' . $value,
+                'view' => 'metrique-building::migrations.' . $value,
                 'file' => base_path($this->migrationPath) . '/' . date('Y_m_d_His') . '_' . $value . '.php',
             ];
 
@@ -87,10 +86,14 @@ class BuildingMigrationsCommand extends Command
                 $this->output(self::CONSOLE_ERROR, 'Could not create migration. (' . $migration['file'] . ')');
             }
         }
+
+        // To do, roll back migrations if any failed..
     }
 
     public function createMigration($migration)
     {
+        array_push($this->migrationsOutput, $migration['file']);
+
         if(file_exists($migration['file']))
         {
             return false;
@@ -112,6 +115,8 @@ class BuildingMigrationsCommand extends Command
 
         $this->output(self::CONSOLE_INFO, 'Created migration. (' . $migration['file'] . ')');
         
+        array_pop($this->migrationsOutput);
+
         return true;
     }
 

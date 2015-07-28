@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class FkBuildingItem extends Migration
+class FkBuildingContents extends Migration
 {
     /**
      * Run the migrations.
@@ -12,38 +12,38 @@ class FkBuildingItem extends Migration
      */
     public function up()
     {
-        Schema::table('building_item', function(Blueprint $table) {
-
-            $table->integer('building_index_id')
+        Schema::table('building_contents', function(Blueprint $table) {
+            
+            $table->integer('building_pages_id')
                 ->unsigned();
 
-            $table->foreign('building_index_id')
+            $table->foreign('building_pages_id')
                 ->references('id')
-                ->on('building_index')
+                ->on('building_pages')
                 ->onDelete('cascade');
 
-            $table->integer('building_page_id')
+            $table->integer('building_sections_id')
                 ->unsigned();
 
-            $table->foreign('building_page_id')
+            $table->foreign('building_sections_id')
                 ->references('id')
-                ->on('building_page')
+                ->on('building_sections')
                 ->onDelete('cascade');
 
-            $table->integer('building_group_id')
+            $table->integer('building_groups_id')
                 ->unsigned();
 
-            $table->foreign('building_group_id')
+            $table->foreign('building_groups_id')
                 ->references('id')
-                ->on('building_group')
+                ->on('building_groups')
                 ->onDelete('cascade');
 
-            $table->integer('building_block_type_id')
+            $table->integer('building_block_types_id')
                 ->unsigned();
 
-            $table->foreign('building_block_type_id')
+            $table->foreign('building_block_types_id')
                 ->references('id')
-                ->on('building_block_type')
+                ->on('building_block_types')
                 ->onDelete('cascade');
         });
     }

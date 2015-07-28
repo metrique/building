@@ -3,6 +3,7 @@
 namespace Metrique\Building;
 
 use Illuminate\Support\ServiceProvider;
+use Metrique\Building\Building;
 use Metrique\Building\Commands\BuildingMigrationsCommand;
 use Metrique\Building\Contracts\BuildingIndexRepositoryInterface;
 use Metrique\Building\EloquentBuildingIndexRepository;
@@ -27,7 +28,7 @@ class BuildingServiceProvider extends ServiceProvider
         $this->commands('command.metrique.building-migrations');
 
         // Views
-        $this->loadViewsFrom(__DIR__.'/Resources/views/', 'building');
+        $this->loadViewsFrom(__DIR__.'/Resources/views/', 'metrique-building');
     }
 
     /**
@@ -37,12 +38,20 @@ class BuildingServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(
-            BuildingIndexRepositoryInterface::class,
-            EloquentBuildingIndexRepository::class
-        );
-
+        $this->registerBuildingFacade();
         $this->registerCommands();
+    }
+
+    /**
+     * Register the Building Facade
+     * 
+     * @return void
+     */
+    private function registerBuildingFacade()
+    {
+        $this->app->bind('\Metrique\Building\Building', function(){
+            return new Building($this->app);
+        });
     }
 
     /**
@@ -56,4 +65,16 @@ class BuildingServiceProvider extends ServiceProvider
             return new BuildingMigrationsCommand();
         });
     }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['Riak\Contracts\Connection'];
+    }
+
+
 }
