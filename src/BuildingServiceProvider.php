@@ -5,6 +5,7 @@ namespace Metrique\Building;
 use Illuminate\Support\ServiceProvider;
 use Metrique\Building\Building;
 use Metrique\Building\Commands\BuildingMigrationsCommand;
+use Metrique\Building\Commands\BuildingSeedsCommand;
 use Metrique\Building\Contracts\BuildingIndexRepositoryInterface;
 use Metrique\Building\EloquentBuildingIndexRepository;
 
@@ -25,7 +26,8 @@ class BuildingServiceProvider extends ServiceProvider
     public function boot()
     {           
         // Commands
-        $this->commands('command.metrique.building-migrations');
+        $this->commands('command.metrique.migrate-building');
+        $this->commands('command.metrique.seed-building');
 
         // Views
         $this->loadViewsFrom(__DIR__.'/Resources/views/', 'metrique-building');
@@ -49,7 +51,7 @@ class BuildingServiceProvider extends ServiceProvider
      */
     private function registerBuildingFacade()
     {
-        $this->app->bind('\Metrique\Building\Building', function(){
+        $this->app->bind('\Metrique\Building\Building', function() {
             return new Building($this->app);
         });
     }
@@ -61,8 +63,12 @@ class BuildingServiceProvider extends ServiceProvider
      */
     private function registerCommands()
     {
-        $this->app->bindShared('command.metrique.building-migrations', function ($app) {
+        $this->app->bindShared('command.metrique.migrate-building', function($app) {
             return new BuildingMigrationsCommand();
+        });
+
+        $this->app->bindShared('command.metrique.seed-building', function($app) {
+            return new BuildingSeedsCommand();
         });
     }
 
@@ -73,7 +79,7 @@ class BuildingServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Riak\Contracts\Connection'];
+        return ['Riak\Contracts\Connection']; // Uhmm...
     }
 
 

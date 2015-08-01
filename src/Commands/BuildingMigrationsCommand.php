@@ -3,20 +3,18 @@
 namespace Metrique\Building\Commands;
 
 use Illuminate\Console\Command;
+use Metrique\Building\Traits\BuildingCommandOutputTrait;
 
 class BuildingMigrationsCommand extends Command
 {
-
-    const CONSOLE_INFO = 0;
-    const CONSOLE_ERROR = 1;
-    const CONSOLE_COMMENT = 2;
+    use BuildingCommandOutputTrait;
 
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'metrique:building-migrations';
+    protected $signature = 'metrique:migrate-building';
 
     /**
      * The console command description.
@@ -83,7 +81,7 @@ class BuildingMigrationsCommand extends Command
 
             if($this->createMigration($migration) === false)
             {
-                $this->output(self::CONSOLE_ERROR, 'Could not create migration. (' . $migration['file'] . ')');
+                $this->output(self::$CONSOLE_ERROR, 'Could not create migration. (' . $migration['file'] . ')');
             }
         }
 
@@ -113,43 +111,10 @@ class BuildingMigrationsCommand extends Command
 
         fclose($fh);
 
-        $this->output(self::CONSOLE_INFO, 'Created migration. (' . $migration['file'] . ')');
+        $this->output(self::$CONSOLE_INFO, 'Created migration. (' . $migration['file'] . ')');
         
         array_pop($this->migrationsOutput);
 
         return true;
-    }
-
-    /**
-     * Outputs information to the console.
-     * @param int $mode 
-     * @param string $message 
-     * @return void
-     */
-    private function output($mode, $message, $newline = false) {
-
-        $newline = $newline ? PHP_EOL : '';
-
-        switch ($mode) {
-            case self::CONSOLE_COMMENT:
-                $this->comment('[-msg-] ' . $message . $newline);
-            break;
-
-            case self::CONSOLE_ERROR:
-                $this->error('[-err-] ' . $message . $newline);
-            break;
-            
-            default:
-                $this->info('[-nfo-] ' . $message . $newline);
-            break;
-        }
-    }
-
-    /**
-     * Helper method to make new lines, and comments look pretty!
-     * @return void
-     */
-    private function newline() {
-        $this->info('');    
     }
 }
