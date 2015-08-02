@@ -6,8 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use Metrique\Building\Building;
 use Metrique\Building\Commands\BuildingMigrationsCommand;
 use Metrique\Building\Commands\BuildingSeedsCommand;
-use Metrique\Building\Contracts\BuildingIndexRepositoryInterface;
-use Metrique\Building\EloquentBuildingIndexRepository;
+use Metrique\Building\Contracts\BlockTypeRepositoryInterface;
+use Metrique\Building\BlockTypeRepositoryEloquent;
 
 class BuildingServiceProvider extends ServiceProvider
 {
@@ -16,7 +16,7 @@ class BuildingServiceProvider extends ServiceProvider
      *
      * @var bool
      */
-    protected $defer = true;
+    // protected $defer = true;
 
     /**
      * Bootstrap the application services.
@@ -40,7 +40,13 @@ class BuildingServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // Facade
         $this->registerBuildingFacade();
+
+        // Repositories
+        $this->registerBlockTypeRepository();
+
+        // Commands
         $this->registerCommands();
     }
 
@@ -53,6 +59,14 @@ class BuildingServiceProvider extends ServiceProvider
     {
         $this->app->bind('\Metrique\Building\Building', function() {
             return new Building($this->app);
+        });
+    }
+
+    private function registerBlockTypeRepository()
+    {
+        $this->app->bind(
+            '\Metrique\Building\Contracts\BlockTypeRepositoryInterface',
+            '\Metrique\Building\BlockTypeRepositoryEloquent',
         });
     }
 
@@ -79,7 +93,9 @@ class BuildingServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return ['Riak\Contracts\Connection']; // Uhmm...
+        return [
+            'Metrique\Building\Contracts\BlockTypeRepositoryInterface'
+        ];
     }
 
 
