@@ -7,7 +7,7 @@ use Metrique\Building\Building;
 use Metrique\Building\Commands\BuildingMigrationsCommand;
 use Metrique\Building\Commands\BuildingSeedsCommand;
 use Metrique\Building\Contracts\BlockTypeRepositoryInterface;
-use Metrique\Building\BlockTypeRepositoryEloquent;
+use Metrique\Building\Repositories\BlockTypeRepositoryEloquent;
 
 class BuildingServiceProvider extends ServiceProvider
 {
@@ -65,9 +65,9 @@ class BuildingServiceProvider extends ServiceProvider
     private function registerBlockTypeRepository()
     {
         $this->app->bind(
-            '\Metrique\Building\Contracts\BlockTypeRepositoryInterface',
-            '\Metrique\Building\BlockTypeRepositoryEloquent',
-        });
+            BlockTypeRepositoryInterface::class,
+            BlockTypeRepositoryEloquent::class
+        );
     }
 
     /**
@@ -94,7 +94,8 @@ class BuildingServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            'Metrique\Building\Contracts\BlockTypeRepositoryInterface'
+            'Metrique\Building\Contracts\BlockTypeRepositoryInterface',
+            // 'Metrique\Building\Repositories\BlockTypeRepositoryEloquent'
         ];
     }
 

@@ -2,7 +2,8 @@
 
 namespace Metrique\Building\Contracts;
 
-interface BlockTypeRepositoryInterface {
-    public function slugify($string, $delimiter = '-', $directorySeperator = '_');
-    public function unslugify($string, $directorySeperator = '_');
+use Metrique\Building\Contracts\EloquentRepositoryInterface;
+
+interface BlockTypeRepositoryInterface extends EloquentRepositoryInterface
+{
 }
