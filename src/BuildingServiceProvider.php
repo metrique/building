@@ -6,8 +6,12 @@ use Illuminate\Support\ServiceProvider;
 use Metrique\Building\Building;
 use Metrique\Building\Commands\BuildingMigrationsCommand;
 use Metrique\Building\Commands\BuildingSeedsCommand;
+use Metrique\Building\Contracts\BlockRepositoryInterface;
+use Metrique\Building\Repositories\BlockRepositoryEloquent;
 use Metrique\Building\Contracts\BlockTypeRepositoryInterface;
 use Metrique\Building\Repositories\BlockTypeRepositoryEloquent;
+use Metrique\Building\Contracts\PageRepositoryInterface;
+use Metrique\Building\Repositories\PageRepositoryEloquent;
 
 class BuildingServiceProvider extends ServiceProvider
 {
@@ -44,7 +48,8 @@ class BuildingServiceProvider extends ServiceProvider
         $this->registerBuildingFacade();
 
         // Repositories
-        $this->registerBlockTypeRepository();
+        $this->registerBlocks();
+        $this->registerPages();
 
         // Commands
         $this->registerCommands();
@@ -62,11 +67,27 @@ class BuildingServiceProvider extends ServiceProvider
         });
     }
 
-    private function registerBlockTypeRepository()
+    private function registerBlocks()
     {
+        // Block
+        $this->app->bind(
+            BlockRepositoryInterface::class,
+            BlockRepositoryEloquent::class
+        );
+
+        // Block type
         $this->app->bind(
             BlockTypeRepositoryInterface::class,
             BlockTypeRepositoryEloquent::class
+        );
+    }
+
+    private function registerPages()
+    {
+        // Page
+        $this->app->bind(
+            PageRepositoryInterface::class,
+            PageRepositoryEloquent::class
         );
     }
 

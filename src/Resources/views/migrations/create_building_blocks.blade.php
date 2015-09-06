@@ -16,7 +16,7 @@ class CreateBuildingBlocks extends Migration
             
             $table->timestamps();
             $table->increments('id');
-            $table->text('params');
+            $table->json('params');
             $table->string('title', 255);
             $table->string('slug', 255)->unique();
             $table->boolean('single_item')->default(0);

@@ -16,7 +16,7 @@ class CreateBuildingGroups extends Migration
 
             $table->timestamps();
             $table->increments('id');
-            $table->text('params');
+            $table->json('params');
             $table->integer('order')->unsigned()->default(0);
             $table->boolean('published')->default(0);
         });

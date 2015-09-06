@@ -16,7 +16,7 @@ class CreateBuildingContents extends Migration
 
             $table->timestamps();
             $table->increments('id');
-            $table->text('params');
+            $table->json('params');
             $table->text('body');
         });
     }

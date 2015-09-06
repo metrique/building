@@ -16,8 +16,8 @@ class CreateBuildingPages extends Migration
 
             $table->timestamps();
             $table->increments('id');
-            $table->text('params');
-            $table->text('meta');
+            $table->json('params');
+            $table->json('meta');
             $table->string('title', 255);
             $table->string('slug', 255)->unique();
             $table->boolean('published')->default(0);

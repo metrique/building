@@ -7,6 +7,5 @@ use Metrique\Building\Contracts\BlockTypeRepositoryInterface;
 
 class BlockTypeRepositoryEloquent extends EloquentRepositoryAbstract implements BlockTypeRepositoryInterface
 {
-	public function __construct() {
-	}
+	protected $modelClassName = 'Metrique\Building\Eloquent\BlockType';
 }

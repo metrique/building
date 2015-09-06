@@ -2,8 +2,9 @@
 
 namespace Metrique\Building\Contracts;
 
-use Metrique\Building\Contracts\EloquentRepositoryInterface;
+use Metrique\Building\Abstracts\EloquentRepositoryAbstractInterface;
 
-interface BlockTypeRepositoryInterface extends EloquentRepositoryInterface
+interface BlockTypeRepositoryInterface extends EloquentRepositoryAbstractInterface
 {
+	
 }

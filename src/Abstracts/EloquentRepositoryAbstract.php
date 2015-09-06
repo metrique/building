@@ -3,16 +3,14 @@
 namespace Metrique\Building\Abstracts;
 
 use Illuminate\Container\Container;
-use Metrique\Building\Contracts\EloquentRepositoryInterface;
 
 /**
  * The Abstract Repository provides default implementations of the methods defined
  * in the base repository interface. These simply delegate static function calls 
  * to the right eloquent model based on the $modelClassName.
- *
  * 
  */
-abstract class EloquentRepositoryAbstract implements EloquentRepositoryInterface {
+abstract class EloquentRepositoryAbstract implements EloquentRepositoryAbstractInterface {
     
     protected $model;
     protected $modelClassName;
@@ -33,33 +31,79 @@ abstract class EloquentRepositoryAbstract implements EloquentRepositoryInterface
         return $this;
     }
 
-    public function all(array $columns = ['*'])
+    public function all(array $columns = ['*'], array $order = [])
     {
+        if(count($order) > 0)
+        {
+            foreach($order as $key => $value)
+            {
+                $this->model = $this->model->orderBy($key, $value);
+            }
+
+            return $this->model->get();
+        }
+
         return $this->model->all($columns);
     }
 
-    public function paginate($perPage = 10, array $columns = ['*'])
+    public function paginate($perPage = 10, array $columns = ['*'], array $order = [])
     {
+        if(count($order) > 0)
+        {
+            foreach($order as $key => $value)
+            {
+                $this->model = $this->model->orderBy($key, $value);
+            }
+
+            return $this->model->get();
+        }
+        
         return $this->model->paginate($perPage, $columns);
     }
 
     public function create(array $data)
     {
-        return $this->model->create($data);
+        $create = $this->model->create($data);
+
+        if(!$create)
+        {
+            Throw new \Exception('Model was not created.');
+        }
+
+        return $create;
     }
 
     public function update($id, array $data)
     {
-        return $this->model->find($id)->update($data);
+        $update = $this->model->find($id)->update($data);
+
+        if(!$update)
+        {
+            Throw new \Exception('Model was not updated.');
+        }
+
+        return $update;
     }
 
-    public function find($id, array $columns = ['*'])
+    public function find($id, array $columns = ['*'], $fail = true)
     {
+        if($fail)
+        {
+            return $this->model->findOrFail($id, $columns);
+        }
+        
         return $this->model->find($id, $columns);
     }
 
     public function destroy($id)
     {
-        return $this->model->destroy($id);
+        $destroy = $this->model->destroy($id);
+
+        if(!$destroy)
+        {
+            Throw new \Exception('Model was not be deleted.');
+        }
+
+        return $destroy;
     }
 }
