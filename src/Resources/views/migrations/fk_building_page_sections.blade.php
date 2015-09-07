@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class FkBuildingSections extends Migration
+class FkBuildingPageSections extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class FkBuildingSections extends Migration
      */
     public function up()
     {
-        Schema::table('building_sections', function(Blueprint $table) {
+        Schema::table('building_page_sections', function(Blueprint $table) {
             
             $table->integer('building_pages_id')
                 ->unsigned();

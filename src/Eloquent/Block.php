@@ -18,6 +18,6 @@ class Block extends Model
 
     public function structures()
     {
-    	return $this->hasMany('Metrique\Building\Eloquent\BlockStructure', 'building_blocks_id');
+    	return $this->hasMany('Metrique\Building\Eloquent\Block\Structure', 'building_blocks_id');
     }
 }

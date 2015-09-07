@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBuildingSections extends Migration
+class CreateBuildingPageSections extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,15 @@ class CreateBuildingSections extends Migration
      */
     public function up()
     {
-        Schema::create('building_sections', function(Blueprint $table) {
+        Schema::create('building_page_sections', function(Blueprint $table) {
 
             $table->timestamps();
             $table->increments('id');
-            $table->json('params');
             $table->json('meta');
-            $table->integer('order')->unsigned()->default(0);
+            $table->json('params');
             $table->string('title', 255);
             $table->string('slug', 255)->unique();
+            $table->integer('order')->unsigned()->default(0);
         });
     }
 
@@ -31,6 +31,6 @@ class CreateBuildingSections extends Migration
      */
     public function down()
     {
-        Schema::drop('building_sections');
+        Schema::drop('building_page_sections');
     }
 }

@@ -106,4 +106,17 @@ abstract class EloquentRepositoryAbstract implements EloquentRepositoryAbstractI
 
         return $destroy;
     }
+
+    public function orderBy(array $order)
+    {
+        if(count($order) > 0)
+        {
+            foreach($order as $key => $value)
+            {
+                $this->model = $this->model->orderBy($key, $value);
+            }
+        }
+
+        return $this->model;
+    }
 }

@@ -20,7 +20,7 @@ Add the following to the `repositories` section of your composer.json
 3. Add `'Building' => Metrique\Building\BuildingFacade::class` to your list of aliases in `config/app.php`.
 4. `composer update`
 5. `php artisan vendor:publish` to publish the `config/building.php` config file to your application config directory.
-6. `php artisan metrique:building-migrations` to install the migrations to the database/migrations in your application.
+6. `php artisan metrique:migrate-building` to install the migrations to the database/migrations in your application.
 
 ## Usage
 

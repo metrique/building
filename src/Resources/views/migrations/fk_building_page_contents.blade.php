@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class FkBuildingContents extends Migration
+class FkBuildingPageContents extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class FkBuildingContents extends Migration
      */
     public function up()
     {
-        Schema::table('building_contents', function(Blueprint $table) {
+        Schema::table('building_page_contents', function(Blueprint $table) {
             
             $table->integer('building_pages_id')
                 ->unsigned();
@@ -22,20 +22,20 @@ class FkBuildingContents extends Migration
                 ->on('building_pages')
                 ->onDelete('cascade');
 
-            $table->integer('building_sections_id')
+            $table->integer('building_page_sections_id')
                 ->unsigned();
 
-            $table->foreign('building_sections_id')
+            $table->foreign('building_page_sections_id')
                 ->references('id')
-                ->on('building_sections')
+                ->on('building_page_sections')
                 ->onDelete('cascade');
 
-            $table->integer('building_groups_id')
+            $table->integer('building_page_groups_id')
                 ->unsigned();
 
-            $table->foreign('building_groups_id')
+            $table->foreign('building_page_groups_id')
                 ->references('id')
-                ->on('building_groups')
+                ->on('building_page_groups')
                 ->onDelete('cascade');
 
             $table->integer('building_block_types_id')

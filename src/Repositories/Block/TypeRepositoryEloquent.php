@@ -7,7 +7,7 @@ use Metrique\Building\Contracts\Block\TypeRepositoryInterface;
 
 class TypeRepositoryEloquent extends EloquentRepositoryAbstract implements TypeRepositoryInterface
 {
-	protected $modelClassName = 'Metrique\Building\Eloquent\BlockType';
+	protected $modelClassName = 'Metrique\Building\Eloquent\Block\Type';
 
 	public function formSelect()
 	{

@@ -1,10 +1,10 @@
 <?php
 
-namespace Metrique\Building\Eloquent;
+namespace Metrique\Building\Eloquent\Block;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BlockType extends Model
+class Type extends Model
 {
 
 	protected $fillable = ['title', 'slug', 'params'];

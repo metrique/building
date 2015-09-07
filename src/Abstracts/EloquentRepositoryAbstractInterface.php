@@ -13,4 +13,5 @@ interface EloquentRepositoryAbstractInterface {
     public function update($id, array $data);
     public function find($id, array $columns = ['*'], $fail = true);
     public function destroy($id);
+    public function orderBy(array $order);
 }

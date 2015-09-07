@@ -37,14 +37,14 @@ class BuildingMigrationsCommand extends Command
      */
     protected $migrations = [
         'create_building_pages',
-        'create_building_sections',
-        'create_building_contents',
-        'create_building_groups',
+        'create_building_page_sections',
+        'create_building_page_contents',
+        'create_building_page_groups',
         'create_building_blocks',
         'create_building_block_structures',
         'create_building_block_types',
-        'fk_building_sections',
-        'fk_building_contents',
+        'fk_building_page_sections',
+        'fk_building_page_contents',
         'fk_building_block_structures'
     ];
 

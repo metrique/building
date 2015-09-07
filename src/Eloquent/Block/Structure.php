@@ -1,10 +1,10 @@
 <?php
 
-namespace Metrique\Building\Eloquent;
+namespace Metrique\Building\Eloquent\Block;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BlockStructure extends Model
+class Structure extends Model
 {
 
 	protected $fillable = ['title', 'order', 'building_blocks_id', 'building_block_types_id'];
@@ -23,6 +23,6 @@ class BlockStructure extends Model
 
     public function type()
     {
-    	return $this->belongsTo('Metrique\Building\Eloquent\BlockType', 'building_block_types_id');
+    	return $this->belongsTo('Metrique\Building\Eloquent\Block\Type', 'building_block_types_id');
     }
 }
