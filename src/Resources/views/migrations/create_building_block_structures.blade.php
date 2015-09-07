@@ -16,6 +16,7 @@ class CreateBuildingBlockStructures extends Migration
             
             $table->timestamps();
             $table->increments('id');
+            $table->string('title', 255);
             $table->integer('order')->unsigned()->default(0);
         });
     }

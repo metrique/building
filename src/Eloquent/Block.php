@@ -15,4 +15,9 @@ class Block extends Model
      * @var string
      */
     protected $table = 'building_blocks';
+
+    public function structures()
+    {
+    	return $this->hasMany('Metrique\Building\Eloquent\BlockStructure', 'building_blocks_id');
+    }
 }

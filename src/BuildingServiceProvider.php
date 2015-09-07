@@ -6,10 +6,14 @@ use Illuminate\Support\ServiceProvider;
 use Metrique\Building\Building;
 use Metrique\Building\Commands\BuildingMigrationsCommand;
 use Metrique\Building\Commands\BuildingSeedsCommand;
+
 use Metrique\Building\Contracts\BlockRepositoryInterface;
 use Metrique\Building\Repositories\BlockRepositoryEloquent;
-use Metrique\Building\Contracts\BlockTypeRepositoryInterface;
-use Metrique\Building\Repositories\BlockTypeRepositoryEloquent;
+use Metrique\Building\Contracts\Block\StructureRepositoryInterface;
+use Metrique\Building\Repositories\Block\StructureRepositoryEloquent;
+use Metrique\Building\Contracts\Block\TypeRepositoryInterface;
+use Metrique\Building\Repositories\Block\TypeRepositoryEloquent;
+
 use Metrique\Building\Contracts\PageRepositoryInterface;
 use Metrique\Building\Repositories\PageRepositoryEloquent;
 
@@ -77,8 +81,14 @@ class BuildingServiceProvider extends ServiceProvider
 
         // Block type
         $this->app->bind(
-            BlockTypeRepositoryInterface::class,
-            BlockTypeRepositoryEloquent::class
+            TypeRepositoryInterface::class,
+            TypeRepositoryEloquent::class
+        );
+
+        // Block structure
+        $this->app->bind(
+            StructureRepositoryInterface::class,
+            StructureRepositoryEloquent::class
         );
     }
 
@@ -115,7 +125,7 @@ class BuildingServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            'Metrique\Building\Contracts\BlockTypeRepositoryInterface',
+            // 'Metrique\Building\Contracts\BlockTypeRepositoryInterface',
             // 'Metrique\Building\Repositories\BlockTypeRepositoryEloquent'
         ];
     }
