@@ -12,6 +12,7 @@ use Illuminate\Container\Container;
  */
 abstract class EloquentRepositoryAbstract implements EloquentRepositoryAbstractInterface {
     
+    protected $app;
     protected $model;
     protected $modelClassName;
 
@@ -26,9 +27,15 @@ abstract class EloquentRepositoryAbstract implements EloquentRepositoryAbstractI
             Throw new \Exception('Model class name is not set.');
         }
 
-        $this->model = $app->make($this->modelClassName);
+        $this->app = $app;
+        $this->make();
 
         return $this;
+    }
+
+    public function make()
+    {
+        $this->model = $this->app->make($this->modelClassName);
     }
 
     public function all(array $columns = ['*'], array $order = [])
@@ -63,26 +70,26 @@ abstract class EloquentRepositoryAbstract implements EloquentRepositoryAbstractI
 
     public function create(array $data)
     {
-        $create = $this->model->create($data);
+        $model = $this->model->create($data);
 
-        if(!$create)
+        if(!$model)
         {
             Throw new \Exception('Model was not created.');
         }
 
-        return $create;
+        return $model;
     }
 
     public function update($id, array $data)
     {
-        $update = $this->model->find($id)->update($data);
+        $model = $this->model->find($id)->update($data);
 
-        if(!$update)
+        if(!$model)
         {
             Throw new \Exception('Model was not updated.');
         }
 
-        return $update;
+        return $model;
     }
 
     public function find($id, array $columns = ['*'], $fail = true)
@@ -97,14 +104,14 @@ abstract class EloquentRepositoryAbstract implements EloquentRepositoryAbstractI
 
     public function destroy($id)
     {
-        $destroy = $this->model->destroy($id);
+        $model = $this->model->destroy($id);
 
-        if(!$destroy)
+        if(!$model)
         {
             Throw new \Exception('Model was not be deleted.');
         }
 
-        return $destroy;
+        return $model;
     }
 
     public function orderBy(array $order)

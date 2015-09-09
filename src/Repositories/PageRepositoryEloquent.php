@@ -24,7 +24,7 @@ class PageRepositoryEloquent extends EloquentRepositoryAbstract implements PageR
 	/**
 	 * {@inheritdoc}
 	 */
-	public function withSlug($slug)
+	public function bySlug($slug)
 	{
 		$this->page = $this->model->where(['slug' => $slug, 'published' => 1]);
 

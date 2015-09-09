@@ -11,7 +11,7 @@ interface PageRepositoryInterface extends EloquentRepositoryAbstractInterface
 	 * @param  [type] $slug [description]
 	 * @return [type]       [description]
 	 */
-	public function withSlug($slug);
+	public function bySlug($slug);
 
 	/**
 	 * Access to a previously retrieved page.

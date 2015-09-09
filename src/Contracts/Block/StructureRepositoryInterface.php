@@ -6,5 +6,5 @@ use Metrique\Building\Abstracts\EloquentRepositoryAbstractInterface;
 
 interface StructureRepositoryInterface extends EloquentRepositoryAbstractInterface
 {
-	public function withBlockId($id, $order = ['order' => 'DESC']);
+	public function byBlockId($id, $order = ['order' => 'DESC']);
 }

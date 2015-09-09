@@ -15,4 +15,14 @@ class Section extends Model
      * @var string
      */
     protected $table = 'building_page_sections';
+
+    public function page()
+    {
+        return $this->belongsTo('Metrique\Building\Eloquent\Page', 'building_pages_id');
+    }
+
+    public function block()
+    {
+    	return $this->belongsTo('Metrique\Building\Eloquent\Block', 'building_blocks_id');
+    }
 }

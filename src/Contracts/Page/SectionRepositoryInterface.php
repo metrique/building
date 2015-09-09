@@ -6,5 +6,6 @@ use Metrique\Building\Abstracts\EloquentRepositoryAbstractInterface;
 
 interface SectionRepositoryInterface extends EloquentRepositoryAbstractInterface
 {
-	public function withPageId($id, $order = ['order' => 'DESC']);
+	public function byPageId($id, $order = ['order' => 'DESC']);
+	public function findWithAll($id);
 }
