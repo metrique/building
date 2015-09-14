@@ -38,6 +38,11 @@ abstract class EloquentRepositoryAbstract implements EloquentRepositoryAbstractI
         $this->model = $this->app->make($this->modelClassName);
     }
 
+    public function toArray()
+    {
+        return $this->model->get()->toArray();
+    }
+
     public function all(array $columns = ['*'], array $order = [])
     {
         if(count($order) > 0)

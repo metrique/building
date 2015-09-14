@@ -37,6 +37,14 @@ class FkBuildingPageContents extends Migration
                 ->references('id')
                 ->on('building_page_groups')
                 ->onDelete('cascade');
+            
+            $table->integer('building_block_structures_id')
+                ->unsigned();
+
+            $table->foreign('building_block_structures_id')
+                ->references('id')
+                ->on('building_block_structures')
+                ->onDelete('cascade');
 
             $table->integer('building_block_types_id')
                 ->unsigned();

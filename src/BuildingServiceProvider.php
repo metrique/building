@@ -18,6 +18,8 @@ use Metrique\Building\Contracts\PageRepositoryInterface;
 use Metrique\Building\Repositories\PageRepositoryEloquent;
 use Metrique\Building\Contracts\Page\ContentRepositoryInterface;
 use Metrique\Building\Repositories\Page\ContentRepositoryEloquent;
+use Metrique\Building\Contracts\Page\GroupRepositoryInterface;
+use Metrique\Building\Repositories\Page\GroupRepositoryEloquent;
 use Metrique\Building\Contracts\Page\SectionRepositoryInterface;
 use Metrique\Building\Repositories\Page\SectionRepositoryEloquent;
 
@@ -114,6 +116,12 @@ class BuildingServiceProvider extends ServiceProvider
         $this->app->bind(
             SectionRepositoryInterface::class,
             SectionRepositoryEloquent::class
+        );
+
+        // Page sections
+        $this->app->bind(
+            GroupRepositoryInterface::class,
+            GroupRepositoryEloquent::class
         );
     }
 

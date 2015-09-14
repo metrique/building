@@ -14,6 +14,9 @@ class SectionRepositoryEloquent extends EloquentRepositoryAbstract implements Se
 		return $this->orderBy($order)->where(['building_pages_id' => $id]);
 	}
 
+	/**
+	 * {@inheritdocs}
+	 */
 	public function findWithAll($id)
 	{
 		return $this->model->with(['page','block.structure' => function($query){

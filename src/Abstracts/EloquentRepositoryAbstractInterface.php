@@ -8,6 +8,7 @@ namespace Metrique\Building\Abstracts;
  */
 interface EloquentRepositoryAbstractInterface { 
 	public function make();
+	public function toArray();
     public function all(array $columns = ['*'], array $order = []);
     public function paginate($perPage = 10, array $columns = ['*'], array $order = []);
     public function create(array $data);
