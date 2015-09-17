@@ -24,14 +24,8 @@ class SectionRepositoryEloquent extends EloquentRepositoryAbstract implements Se
 	{
 		$this->make();
 
-		$this->model->with(['page', 'block.structure' => function($query){
+		return $this->model->with(['page', 'block.structure' => function($query){
 			$query->orderBy('order', 'desc');
-		}, 'block.structure.type']);
-		if(is_array($id))
-		{
-			return $this->model->whereIn('id', $id)->first();
-		}
-		
-		return $this->model->where('id', $id)->first();
+		}, 'block.structure.type'])->where('id', $id)->first()->toArray();
 	}
 }

@@ -18,7 +18,7 @@ interface PageRepositoryInterface extends EloquentRepositoryAbstractInterface
 	 * @param  [type] $slug [description]
 	 * @return [type]       [description]
 	 */
-	public function contentBySlug($slug);
+	public function contentsBySlug($slug);
 
 	/**
 	 * Get meta data from page meta json.

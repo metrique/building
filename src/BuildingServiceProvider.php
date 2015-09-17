@@ -45,6 +45,10 @@ class BuildingServiceProvider extends ServiceProvider
 
         // Views
         $this->loadViewsFrom(__DIR__.'/Resources/views/', 'metrique-building');
+
+        $this->publishes([
+            __DIR__.'/Resources/views' => base_path('resources/views/vendor/metrique-building'),
+        ], 'building');
     }
 
     /**

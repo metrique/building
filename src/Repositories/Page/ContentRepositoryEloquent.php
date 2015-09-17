@@ -18,6 +18,7 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
     {
         return $this->model
             ->join('building_page_groups as group', 'group.id', '=', 'building_page_groups_id')
+            ->select('building_page_contents.*', 'group.order', 'group.published')
             ->where(['building_page_sections_id' => $id])
             ->orderBy('group.order', 'desc')
             ->get()
@@ -28,7 +29,7 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
      * {@inheritdoc}
      */
     public function groupBySectionId($id)
-    {   
+    {
         $groups = [];
 
         foreach($this->bySectionId($id) as $key => $value)
@@ -46,17 +47,6 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
             // Re map content, groupId -> sectionId -> content
             $groups[$groupId][$value['building_block_structures_id']] = $value;
         }
-
-        return $groups;
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function sortGroupsToStructure($id, array $structure) {
-
-        $structure = array_pluck($structure, 'id'); // We only need the id!
-        $groups = $this->groupBySectionId($id);
 
         return $groups;
     }

@@ -13,7 +13,7 @@ class TypeRepositoryEloquent extends EloquentRepositoryAbstract implements TypeR
 	{
 		$form = [];
 
-		foreach($this->all(['id', 'title'], ['title' => 'ASC']) as $key => $value)
+		foreach($this->all(['id', 'title'], ['title' => 'asc']) as $key => $value)
 		{
 			$form[$value->id] = $value->title;
 		}

@@ -46,18 +46,30 @@ class PageRepositoryEloquent extends EloquentRepositoryAbstract implements PageR
 	/**
 	 * {@inheritdoc}
 	 */
-	public function contentBySlug($slug)
+	public function contentsBySlug($slug)
 	{
-		$contentRepository = $this->app->make('Metrique\Building\Contracts\Page\ContentRepositoryInterface');
-		$sectionRepository = $this->app->make('Metrique\Building\Contracts\Page\SectionRepositoryInterface');
+		$content = $this->app->make('Metrique\Building\Contracts\Page\ContentRepositoryInterface');
+		$section = $this->app->make('Metrique\Building\Contracts\Page\SectionRepositoryInterface');
 
-		// Find sectinos by slug.
-		$sections = $sectionRepository->byPageId($this->bySlug($slug)->id);
+		$contents = [];
 
-		foreach($sections as $section)
+		foreach($section->byPageId($this->bySlug($slug)->id) as $key => $value)
 		{
-			dump($sectionRepository->findWithAll($section['id']));
+        	$value['_contents'] = $content->groupBySectionId($value['id']);
+
+        	// Widget rendering should go here?
+			$contents[] = $value;
 		}
+
+		return $contents;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get()
+	{
+		return $this->page;
 	}
 
 	/**

@@ -20,6 +20,7 @@
     "require": {
         "illuminate/console": "^5.1",
         "illuminate/support": "^5.1",
-        "danielstjules/stringy": "^1.10"
+        "danielstjules/stringy": "^1.10",
+        "laracasts/flash": "~1.3"
     }
 }

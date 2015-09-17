@@ -17,8 +17,9 @@ interface ContentRepositoryInterface extends EloquentRepositoryAbstractInterface
 	/**
 	 * Returns content by Section id and groups by group id's
 	 * The contents of the groups will also conform to the structure given.
-	 * @param  [type] $id [description]
-	 * @return [type]     [description]
+	 * 
+	 * @param  int $id
+	 * @return array
 	 */
 	public function groupBySectionId($id);
 
@@ -29,7 +30,7 @@ interface ContentRepositoryInterface extends EloquentRepositoryAbstractInterface
 	 * @param  array $structure
 	 * @return array
 	 */
-	public function sortGroupsToStructure($id, array $structure);
+	// public function sortGroupsToStructure($id, array $structure);
 
 	/**
 	 * Parses the the name attribute from the request, which may hold several pieces
