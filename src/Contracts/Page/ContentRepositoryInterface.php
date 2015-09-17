@@ -23,7 +23,7 @@ interface ContentRepositoryInterface extends EloquentRepositoryAbstractInterface
 	public function groupBySectionId($id);
 
 	/**
-	 * This will sort the a groupBySectionId array so that the array of content
+	 * This will sort a groupBySectionId array so that the array of content
 	 * matches the given structure.
 	 * 
 	 * @param  array $structure

@@ -5,6 +5,7 @@ namespace Metrique\Building\Repositories;
 use Metrique\Building\Abstracts\EloquentRepositoryAbstract;
 use Metrique\Building\Contracts\PageRepositoryInterface;
 
+
 class PageRepositoryEloquent extends EloquentRepositoryAbstract implements PageRepositoryInterface
 {
 	protected $modelClassName = 'Metrique\Building\Eloquent\Page';
@@ -45,9 +46,18 @@ class PageRepositoryEloquent extends EloquentRepositoryAbstract implements PageR
 	/**
 	 * {@inheritdoc}
 	 */
-	public function get()
+	public function contentBySlug($slug)
 	{
-		return $this->page;
+		$contentRepository = $this->app->make('Metrique\Building\Contracts\Page\ContentRepositoryInterface');
+		$sectionRepository = $this->app->make('Metrique\Building\Contracts\Page\SectionRepositoryInterface');
+
+		// Find sectinos by slug.
+		$sections = $sectionRepository->byPageId($this->bySlug($slug)->id);
+
+		foreach($sections as $section)
+		{
+			dump($sectionRepository->findWithAll($section['id']));
+		}
 	}
 
 	/**

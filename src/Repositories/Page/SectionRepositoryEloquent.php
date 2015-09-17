@@ -9,9 +9,12 @@ class SectionRepositoryEloquent extends EloquentRepositoryAbstract implements Se
 {
 	protected $modelClassName = 'Metrique\Building\Eloquent\Page\Section';
 
+	/**
+	 * {@inheritdocs}
+	 */
 	public function byPageId($id, $order = ['order' => 'desc'])
 	{
-		return $this->orderBy($order)->where(['building_pages_id' => $id]);
+		return $this->orderBy($order)->where(['building_pages_id' => $id])->get()->toArray();
 	}
 
 	/**
@@ -19,8 +22,16 @@ class SectionRepositoryEloquent extends EloquentRepositoryAbstract implements Se
 	 */
 	public function findWithAll($id)
 	{
-		return $this->model->with(['page','block.structure' => function($query){
+		$this->make();
+
+		$this->model->with(['page', 'block.structure' => function($query){
 			$query->orderBy('order', 'desc');
-		}, 'block.structure.type'])->where('id', $id)->first()->toArray();
+		}, 'block.structure.type']);
+		if(is_array($id))
+		{
+			return $this->model->whereIn('id', $id)->first();
+		}
+		
+		return $this->model->where('id', $id)->first();
 	}
 }

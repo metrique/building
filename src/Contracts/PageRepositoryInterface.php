@@ -7,16 +7,18 @@ use Metrique\Building\Abstracts\EloquentRepositoryAbstractInterface;
 interface PageRepositoryInterface extends EloquentRepositoryAbstractInterface
 {
 	/**
-	 * Get the page, and contents by slug.
+	 * Get the page and meta by slug.
 	 * @param  [type] $slug [description]
 	 * @return [type]       [description]
 	 */
 	public function bySlug($slug);
 
 	/**
-	 * Access to a previously retrieved page.
+	 * Get the page and full formatted content by slug.
+	 * @param  [type] $slug [description]
+	 * @return [type]       [description]
 	 */
-	public function get();
+	public function contentBySlug($slug);
 
 	/**
 	 * Get meta data from page meta json.

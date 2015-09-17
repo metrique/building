@@ -15,4 +15,9 @@ class Content extends Model
      * @var string
      */
     protected $table = 'building_page_contents';
+
+    public function group()
+    {
+    	return $this->belongsTo('Metrique\Building\Eloquent\Page\Group', 'building_page_groups_id');
+    }
 }
