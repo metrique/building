@@ -3,7 +3,7 @@
 namespace Metrique\Building\Abstracts;
 
 use Illuminate\Container\Container;
-use Metrique\Building\Abstracts\AbstractException;
+use Metrique\Building\Abstracts\EloquentAbstractException;
 
 /**
  * The Abstract Repository provides default implementations of the methods defined
@@ -25,7 +25,7 @@ abstract class EloquentRepositoryAbstract implements EloquentRepositoryAbstractI
     {
         if(is_null($this->modelClassName))
         {
-            Throw new AbstractException('Model class name is not set.');
+            Throw new EloquentAbstractException('Model class name is not set.');
         }
 
         $this->app = $app;
@@ -92,7 +92,7 @@ abstract class EloquentRepositoryAbstract implements EloquentRepositoryAbstractI
 
         if(!$model)
         {
-            Throw new AbstractException('Model was not updated.');
+            Throw new EloquentAbstractException('Model was not updated.');
         }
 
         return $model;
@@ -114,7 +114,7 @@ abstract class EloquentRepositoryAbstract implements EloquentRepositoryAbstractI
 
         if(!$model)
         {
-            Throw new AbstractException('Model was not deleted.');
+            Throw new EloquentAbstractException('Model was not deleted.');
         }
 
         return $model;

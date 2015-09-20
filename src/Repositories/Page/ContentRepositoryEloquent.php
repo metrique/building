@@ -103,6 +103,9 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
         return $group;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function store(Request $request, $pageId, $sectionId)
     {
         $content = $this->parseRequest($request, $map = ['group_id', 'structure_id', 'content_id']);
@@ -121,6 +124,14 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
                 Throw new \Exception('Building request type was not valid.');
             break;
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function destroyBySectionId($id)
+    {
+        return $this->model->where('building_page_sections_id', $id)->delete();
     }
 
     private function storeSingle(Request $request, array $content)

@@ -14,7 +14,7 @@ class SectionRepositoryEloquent extends EloquentRepositoryAbstract implements Se
 	 */
 	public function byPageId($id, $order = ['order' => 'desc'])
 	{
-		return $this->orderBy($order)->where(['building_pages_id' => $id])->get()->toArray();
+		return $this->orderBy($order)->with(['block'])->where(['building_pages_id' => $id])->get()->toArray();
 	}
 
 	/**

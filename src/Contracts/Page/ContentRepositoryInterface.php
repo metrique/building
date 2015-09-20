@@ -67,4 +67,9 @@ interface ContentRepositoryInterface extends EloquentRepositoryAbstractInterface
 	 * @return bool
 	 */
 	public function store(Request $request, $pageId, $sectionId);
+
+	/**
+	 * Destroys all content with by section id.
+	 */
+	public function destroyBySectionId($id);
 }
