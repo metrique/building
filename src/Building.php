@@ -64,4 +64,31 @@ class Building implements BuildingInterface {
     {
         return str_replace($directorySeperator, '/', $string);
     }
+
+    /**
+     * Gets the relevant input type
+     * 
+     * @param  string $type
+     * @param  string $name
+     * @param  string $title
+     * @param  string $value
+     * @return string 
+     */
+    public function input($type, $name, $title, $value)
+    {
+        $label = sprintf('<label for="%s">%s</label>', $name, $title);
+
+        switch($type)
+        {
+            case 'text-area':
+                $input = sprintf('<div id="%s" style="height: 200px;" data-ace></div><textarea class="ace" name="%s">%s</textarea>', $name, $name, $value);
+            break;
+
+            default:
+                $input = sprintf('<input name="%s" type="text" value="%s">', $name, $value);
+            break;
+        }
+
+        return $label.$input;
+    }
 }

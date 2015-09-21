@@ -141,18 +141,20 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
             // Get group key...
             $groupId = $key;
 
+            // dd($request->all());
             // Create a new group + new content.
             if($groupId === 0)
             {
-                \DB::transaction(function() use($value) {
+                \DB::transaction(function() use($value, $groupId, $request) {
 
                     $groupId = $this->app->make('Metrique\Building\Contracts\Page\GroupRepositoryInterface')->create([
-                        'order' => 0,
-                        'published' => 1, // Get from request!
+                        'order' => $request->get('order-'.$groupId, 0),
+                        'published' => in_array(0, $request->get('published', []))
                     ])->id;
 
-                    foreach($value as $content)
+                    foreach($value as $key => $content)
                     {
+                        // dump($key);
                         $content['group_id'] = $groupId;
 
                         $this->create([
@@ -165,27 +167,27 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
                         ]);
                     }
                 });
-
+    
                 continue;
             }
 
             // Existing group, or update!
-            \DB::transaction(function() use($value, $groupId) {
-                // $this->update()
-                // 
-                foreach($value as $content)
+            \DB::transaction(function() use($value, $groupId, $request) {
+
+                $group = $this->app->make('Metrique\Building\Contracts\Page\GroupRepositoryInterface')->update($groupId, [
+                    'order' => $request->get('order-'.$groupId),
+                    'published' => in_array($groupId, $request->get('published', [])),
+                ]);
+
+                foreach($value as $key => $content)
                 {
                     $this->update($content['content_id'], [
                         'content' => $content['_content'],
                     ]);
                 }
             });
-
-            // Update
-
         }
 
-        // dd($content);
         return true;
     }
 
