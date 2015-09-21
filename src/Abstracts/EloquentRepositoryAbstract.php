@@ -80,7 +80,7 @@ abstract class EloquentRepositoryAbstract implements EloquentRepositoryAbstractI
 
         if(!$model)
         {
-            Throw new \Exception('Model was not created.');
+            Throw new EloquentAbstractException('Model was not created.');
         }
 
         return $model;
