@@ -162,14 +162,13 @@ class PageController extends Controller
     public function destroy($id, PageRepository $page)
     {
         try {
-            $page->destroy(2382);
+            $page->destroy($id);
         } catch (AbstractException $e) {
-            dd('super duper faile...');
-            // flash()->error(trans('error.general'));
+            flash()->error(trans('error.general'));
             return redirect()->back();          
         }
 
-        // flash()->success(trans('common.success'));
+        flash()->success(trans('common.success'));
         return redirect()->route($this->routes['index']);
     }
 }

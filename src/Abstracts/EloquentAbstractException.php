@@ -2,7 +2,9 @@
 
 namespace Metrique\Building\Abstracts;
 
-class AbstractException extends Exception
+use Exception;
+
+class EloquentAbstractException extends Exception
 {
 	
 }
