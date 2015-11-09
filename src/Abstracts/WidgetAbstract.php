@@ -2,8 +2,15 @@
 
 namespace Metrique\Building\Abstracts;
 
-class WidgetAbstract implements WidgetAbstractInterface
+use Illuminate\Container\Container;
+
+abstract class WidgetAbstract implements WidgetAbstractInterface
 {
+	public function __construct(Container $app)
+	{
+		$this->app = $app;
+	}
+
 	public function render($params)
 	{
 		return $this->wrap('');
