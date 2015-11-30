@@ -4,6 +4,25 @@ namespace Metrique\Building\Abstracts;
 
 interface WidgetAbstractInterface
 {
+	/**
+	 * Render widget
+	 * @param  string $params
+	 * @return string
+	 */
 	public function render($params);
-	public function wrap($content);	
+	
+	/**
+	 * Wraps widget content for use with laravel-building
+	 * @param  string $content
+	 * @return array
+	 */
+	public function wrap($content);
+
+	/**
+     * Merge given json parms with defaults.
+     * 
+     * @param  json $params
+     * @return array
+     */
+    public function params($params);
 }

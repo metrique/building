@@ -50,7 +50,6 @@ class PageRepositoryEloquent extends EloquentRepositoryAbstract implements PageR
     {
         $content = $this->app->make('Metrique\Building\Contracts\Page\ContentRepositoryInterface');
         $section = $this->app->make('Metrique\Building\Contracts\Page\SectionRepositoryInterface');
-
         $contents = [];
 
         foreach($section->byPageId($this->bySlug($slug)->id) as $key => $value)
@@ -63,7 +62,7 @@ class PageRepositoryEloquent extends EloquentRepositoryAbstract implements PageR
                 $value['_contents'] = array_pluck($content->bySectionId($value['id']), 'content');
                 $value['_contents'] = $this->app->make($value['_contents'][0])->render($value['_contents'][1], $this->app);
             } else {
-                $value['_contents'] = $content->groupBySectionId($value['id']);    
+                $value['_contents'] = $content->groupBySectionId($value['id']);
             }
 
             // Widget rendering should go here?
