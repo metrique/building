@@ -1,13 +1,12 @@
-@extends('cms.main')
+@extends('metrique-building::master')
 
 @section('content')
-	@include('cms.partial.header', [
+	@include('metrique-building::partial.header', [
 		'heading'=>'Page content',
-		'link'=>route('cms.page.section.content.create', [$pageId, $sectionId]),
+		'link'=>route($routes['create'], [$pageId, $sectionId]),
 		'title'=>'New item',
 		'icon'=>'fa-plus'
 	])
-	@include('cms.partial.breadcrumbs')
 	
 	{{-- No structure... --}}
 	@if(count($section['block']['structure']) == 0)
@@ -18,6 +17,6 @@
 	@if(count($content) == 0)
 		<p>No content exists.</p>
 	@else
-		@include('cms.building.page.content.multi.edit')
+		@include($views['edit'])
 	@endif
 @endsection

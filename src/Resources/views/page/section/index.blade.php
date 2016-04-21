@@ -31,7 +31,7 @@
 				<td>{{ $value['order'] }}</td>
 				
 				<td class="text-right no-wrap">
-					<a href="{{ route($routes['edit'], [$page->id, $value['id']]) }}" class="button tiny">
+					<a href="{{ route($routes['content.index'], [$page->id, $value['id']]) }}" class="button tiny">
 						<i class="fa fa-pencil"></i> Edit content
 					</a>
 				</td>

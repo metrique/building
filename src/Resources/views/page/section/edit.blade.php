@@ -3,7 +3,7 @@
 @section('content')
     @include('metrique-building::partial.header', [
         'heading'=>'Page section',
-        'link'=>route($routes['index'], [$page->id, $section->id]),
+        'link'=>route($routes['content.index'], [$page->id, $section->id]),
         'title'=>'Edit content',
         'icon'=>'fa-pencil',
     ])

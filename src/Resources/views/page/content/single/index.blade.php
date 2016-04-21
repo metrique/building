@@ -1,13 +1,9 @@
-@extends('cms.main')
+@extends('metrique-building::master')
 
 @section('content')
-	@include('cms.partial.header', [
+	@include('metrique-building::partial.header', [
 		'heading'=>'Page content',
-		// 'link'=>route('cms.block.structure.create', $block->id),
-		// 'title'=>'New structure',
-		// 'icon'=>'fa-plus'
 	])
-	@include('cms.partial.breadcrumbs')
 	
 	{{-- No structure... --}}
 	@if(count($section['block']['structure']) == 0)
