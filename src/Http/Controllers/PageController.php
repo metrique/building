@@ -107,7 +107,7 @@ class PageController extends Controller
      */
     public function show($id)
     {
-        $this->app->abort('404');
+        abort('404');
     }
 
     /**
@@ -164,11 +164,11 @@ class PageController extends Controller
         try {
             $page->destroy($id);
         } catch (AbstractException $e) {
-            flash()->error(trans('error.general'));
+            // flash()->error(trans('error.general'));
             return redirect()->back();          
         }
 
-        flash()->success(trans('common.success'));
+        // flash()->success(trans('common.success'));
         return redirect()->route($this->routes['index']);
     }
 }
