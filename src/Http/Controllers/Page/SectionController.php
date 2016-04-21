@@ -35,13 +35,12 @@ class SectionController extends Controller
      * @var [type]
      */
     protected $routes = [
-        'index' => 'cms.page.index',
-        'create' => 'cms.page.create',
-        'store' => 'cms.page.store',
-        'edit' => 'cms.page.edit',
-        'update' => 'cms.page.update',
-        'destroy' => 'cms.page.destroy',
-        'section.index' => 'cms.page.section.index',
+        'index' => 'cms.page.section.index',
+        'create' => 'cms.page.section.create',
+        'store' => 'cms.page.section.store',
+        'edit' => 'cms.page.section.edit',
+        'update' => 'cms.page.section.update',
+        'destroy' => 'cms.page.section.destroy',
     ];
 
     public function __construct()

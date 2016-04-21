@@ -1,12 +1,12 @@
-@extends('cms.main')
+@extends('metrique-building::master')
 
 @section('content')
-    @include('cms.partial.header', [
+    @include('metrique-building::partial.header', [
         'heading'=>'Page sections',
     ])
     @include('cms.partial.breadcrumbs')
 
-    <form action="{{ route('cms.page.section.store', $page->id) }}" method="POST" data-abide>
+    <form action="{{ route($routes['store'], $page->id) }}" method="POST" data-abide>
         {!! csrf_field() !!}
         <fieldset> 
             <legend>New section</legend>

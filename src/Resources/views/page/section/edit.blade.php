@@ -1,15 +1,14 @@
-@extends('cms.main')
+@extends('metrique-building::master')
 
 @section('content')
-    @include('cms.partial.header', [
+    @include('metrique-building::partial.header', [
         'heading'=>'Page section',
-        'link'=>route('cms.page.section.content.index', [$page->id, $section->id]),
+        'link'=>route($routes['index'], [$page->id, $section->id]),
         'title'=>'Edit content',
         'icon'=>'fa-pencil',
     ])
-    @include('cms.partial.breadcrumbs')
 
-    <form action="{{ route('cms.page.section.update', [$page->id, $section->id]) }}" method="POST" data-abide>
+    <form action="{{ route($routes['update'], [$page->id, $section->id]) }}" method="POST" data-abide>
         {!! csrf_field() !!}
         <input type="hidden" name="_method" value="PATCH">
 
