@@ -57,13 +57,13 @@ class SectionController extends Controller
     {
         $page = $page->find($pageId);
 
-        $data = [
+        $this->data = array_merge($this->data, [
             'page' => $page,
             'section' => $section->byPageId($pageId),
             'routes' => $this->routes,
-        ];
+        ]);
 
-        return view($this->views['index'])->with($data);
+        return view($this->views['index'])->with($this->data);
     }
 
     /**
@@ -75,13 +75,13 @@ class SectionController extends Controller
     {
         $page = $page->find($pageId);
 
-        $data = [
+        $this->data = [
             'blocks' => $block->formSelect(),
             'page' => $page,
             'routes' => $this->routes,
         ];
 
-        return view($this->views['create'])->with($data);
+        return view($this->views['create'])->with($this->data);
     }
 
     /**
@@ -132,14 +132,14 @@ class SectionController extends Controller
         $page = $page->find($pageId);
         $section = $section->find($sectionId);
 
-        $data = [
+        $this->data = array_merge($this->data, [
             'page' => $page,
             'section' => $section,
             'blocks' => $block->formSelect(),
             'routes' => $this->routes,
-        ];
+        ]);
 
-        return view($this->views['edit'])->with($data);
+        return view($this->views['edit'])->with($this->data);
     }
 
     /**

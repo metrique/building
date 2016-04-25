@@ -64,7 +64,7 @@ class ContentController extends Controller
         $singleItem = $section['block']['single_item'] ? true : false;
 
         // Data/View binding
-        $data = [
+        $this->data = array_merge($this->data, [
             'content' => $content,
             'counter' => 0,
             'pageId' => $pageId,
@@ -74,15 +74,15 @@ class ContentController extends Controller
             'structure' => $structure,
             'routes' => $this->routes,
             'views' => $this->views,
-        ];
+        ]);
 
         // Please move this to somewhere else...
         if($singleItem)
         {
-            return view($this->views['single.index'])->with($data);
+            return view($this->views['single.index'])->with($this->data);
         }
 
-        return view($this->views['multi.index'])->with($data);
+        return view($this->views['multi.index'])->with($this->data);
     }
 
     /**
