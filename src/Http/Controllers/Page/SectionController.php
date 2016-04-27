@@ -31,8 +31,9 @@ class SectionController extends Controller
     ];
 
     /**
-     * List of routes used
-     * @var [type]
+     * List of routes used.
+     * 
+     * @var array
      */
     protected $routes = [
         'index' => 'cms.page.section.index',
@@ -41,7 +42,6 @@ class SectionController extends Controller
         'edit' => 'cms.page.section.edit',
         'update' => 'cms.page.section.update',
         'destroy' => 'cms.page.section.destroy',
-        'content.index' => 'cms.page.section.content.index',
     ];
 
     public function __construct()
