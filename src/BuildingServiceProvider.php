@@ -3,17 +3,14 @@
 namespace Metrique\Building;
 
 use Illuminate\Support\ServiceProvider;
-use Metrique\Building\Building;
 use Metrique\Building\Commands\BuildingMigrationsCommand;
 use Metrique\Building\Commands\BuildingSeedsCommand;
-
 use Metrique\Building\Contracts\BlockRepositoryInterface;
 use Metrique\Building\Repositories\BlockRepositoryEloquent;
 use Metrique\Building\Contracts\Block\StructureRepositoryInterface;
 use Metrique\Building\Repositories\Block\StructureRepositoryEloquent;
 use Metrique\Building\Contracts\Block\TypeRepositoryInterface;
 use Metrique\Building\Repositories\Block\TypeRepositoryEloquent;
-
 use Metrique\Building\Contracts\PageRepositoryInterface;
 use Metrique\Building\Repositories\PageRepositoryEloquent;
 use Metrique\Building\Contracts\Page\ContentRepositoryInterface;
@@ -34,11 +31,9 @@ class BuildingServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap the application services.
-     *
-     * @return void
      */
     public function boot()
-    {           
+    {
         // Commands
         $this->commands('command.metrique.migrate-building');
         $this->commands('command.metrique.seed-building');
@@ -53,8 +48,6 @@ class BuildingServiceProvider extends ServiceProvider
 
     /**
      * Register the application services.
-     *
-     * @return void
      */
     public function register()
     {
@@ -70,13 +63,11 @@ class BuildingServiceProvider extends ServiceProvider
     }
 
     /**
-     * Register the Building Facade
-     * 
-     * @return void
+     * Register the Building Facade.
      */
     private function registerBuildingFacade()
     {
-        $this->app->bind('\Metrique\Building\Building', function() {
+        $this->app->bind('\Metrique\Building\Building', function () {
             return new Building($this->app);
         });
     }
@@ -131,16 +122,14 @@ class BuildingServiceProvider extends ServiceProvider
 
     /**
      * Register the artisan commands.
-     *
-     * @return void
      */
     private function registerCommands()
     {
-        $this->app->bindShared('command.metrique.migrate-building', function($app) {
+        $this->app->singleton('command.metrique.migrate-building', function ($app) {
             return new BuildingMigrationsCommand();
         });
 
-        $this->app->bindShared('command.metrique.seed-building', function($app) {
+        $this->app->singleton('command.metrique.seed-building', function ($app) {
             return new BuildingSeedsCommand();
         });
     }
@@ -157,6 +146,4 @@ class BuildingServiceProvider extends ServiceProvider
             // 'Metrique\Building\Repositories\BlockTypeRepositoryEloquent'
         ];
     }
-
-
 }
