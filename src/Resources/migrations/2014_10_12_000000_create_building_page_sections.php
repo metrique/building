@@ -1,9 +1,9 @@
-<?php echo '<?php' ?>
+    <?php
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBuildingBlocks extends Migration
+class CreateBuildingPageSections extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,14 @@ class CreateBuildingBlocks extends Migration
      */
     public function up()
     {
-        Schema::create('building_blocks', function(Blueprint $table) {
-            
+        Schema::create('building_page_sections', function (Blueprint $table) {
             $table->timestamps();
             $table->increments('id');
-            $table->json('params');
+            $table->text('meta');
+            $table->text('params');
             $table->string('title', 255);
             $table->string('slug', 255)->unique();
-            $table->boolean('single_item')->default(0);
+            $table->integer('order')->unsigned()->default(0);
         });
     }
 
@@ -30,6 +30,6 @@ class CreateBuildingBlocks extends Migration
      */
     public function down()
     {
-        Schema::drop('building_blocks');
+        Schema::drop('building_page_sections');
     }
 }

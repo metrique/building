@@ -1,4 +1,4 @@
-<?php echo '<?php' ?>
+<?php
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -12,8 +12,8 @@ class FkBuildingPageSections extends Migration
      */
     public function up()
     {
-        Schema::table('building_page_sections', function(Blueprint $table) {
-            
+        Schema::table('building_page_sections', function (Blueprint $table) {
+
             $table->integer('building_pages_id')
                 ->unsigned();
 
@@ -39,6 +39,9 @@ class FkBuildingPageSections extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('building_page_contents', function (Blueprint $table) {
+            $table->dropForeign('building_pages_id');
+            $table->dropForeign('building_blocks_id');
+        });
     }
 }

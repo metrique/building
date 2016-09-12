@@ -1,4 +1,4 @@
-<?php echo '<?php' ?>
+<?php
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -12,8 +12,8 @@ class FkBuildingPageContents extends Migration
      */
     public function up()
     {
-        Schema::table('building_page_contents', function(Blueprint $table) {
-            
+        Schema::table('building_page_contents', function (Blueprint $table) {
+
             $table->integer('building_pages_id')
                 ->unsigned();
 
@@ -37,7 +37,7 @@ class FkBuildingPageContents extends Migration
                 ->references('id')
                 ->on('building_page_groups')
                 ->onDelete('cascade');
-            
+
             $table->integer('building_block_structures_id')
                 ->unsigned();
 
@@ -63,6 +63,12 @@ class FkBuildingPageContents extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('building_page_contents', function (Blueprint $table) {
+            $table->dropForeign('building_pages_id');
+            $table->dropForeign('building_page_sections_id');
+            $table->dropForeign('building_page_groups_id');
+            $table->dropForeign('building_block_structures_id');
+            $table->dropForeign('building_block_types_id');
+        });
     }
 }

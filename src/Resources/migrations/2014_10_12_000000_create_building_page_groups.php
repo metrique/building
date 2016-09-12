@@ -1,9 +1,9 @@
-<?php echo '<?php' ?>
+<?php
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBuildingPageContents extends Migration
+class CreateBuildingPageGroups extends Migration
 {
     /**
      * Run the migrations.
@@ -12,12 +12,12 @@ class CreateBuildingPageContents extends Migration
      */
     public function up()
     {
-        Schema::create('building_page_contents', function(Blueprint $table) {
-
+        Schema::create('building_page_groups', function (Blueprint $table) {
             $table->timestamps();
             $table->increments('id');
-            $table->json('params');
-            $table->text('content');
+            $table->text('params');
+            $table->boolean('published');
+            $table->integer('order')->unsigned()->default(0);
         });
     }
 
@@ -28,6 +28,6 @@ class CreateBuildingPageContents extends Migration
      */
     public function down()
     {
-        Schema::drop('building_page_contents');
+        Schema::drop('building_page_groups');
     }
 }

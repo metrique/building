@@ -27,7 +27,6 @@ class BuildingServiceProvider extends ServiceProvider
      *
      * @var bool
      */
-    // protected $defer = true;
 
     /**
      * Bootstrap the application services.
@@ -38,12 +37,17 @@ class BuildingServiceProvider extends ServiceProvider
         $this->commands('command.metrique.migrate-building');
         $this->commands('command.metrique.seed-building');
 
-        // Views
-        $this->loadViewsFrom(__DIR__.'/Resources/views/', 'metrique-building');
-
+        // Config
         $this->publishes([
-            __DIR__.'/Resources/views' => base_path('resources/views/vendor/metrique-building'),
-        ], 'building');
+            __DIR__.'/Resources/config/metrique-building.php' => config_path('metrique-building.php')
+        ], 'metrique-building');
+
+        // Migrations
+        $this->loadMigrationsFrom(__DIR__.'/Resources/migrations');
+        
+        // Views
+        $views = __DIR__ . '/Resources/views/';
+        $this->loadViewsFrom($views, 'metrique-building');
     }
 
     /**
