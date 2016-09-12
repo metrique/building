@@ -21,12 +21,12 @@ Add the following to the `repositories` section of your composer.json
 4. `composer update`
 
 ### Config
-You can publish the `config/building.php` config file to your application config directory by running `php artisan vendor:publish --tag="building-config"`
+You can publish the `config/metrique-building.php` config file to your application config directory by running `php artisan vendor:publish --tag="metrique-building"`
 
 ### Views
-You can publish the views into `resource/vendor/building/` in your application by runnint `php artisan vendor:publish --tag=building-views`
+You can create your own views instead of using the laravel-building defaults by overriding the `$views` property in any controller.
 
 ### Migrations
-Run `php artisan metrique:migrate-building` to install the migrations to the database/migrations in your application.
+laravel-building migrations will be automatically run when the `php artisan migrate` command is executed.
 
 - To do.
