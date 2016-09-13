@@ -15,10 +15,10 @@ class CreateBuildingPages extends Migration
         Schema::create('building_pages', function (Blueprint $table) {
             $table->timestamps();
             $table->increments('id');
-            $table->text('params');
-            $table->text('meta');
             $table->string('title', 255);
             $table->string('slug', 255)->unique();
+            $table->text('params');
+            $table->text('meta');
             $table->boolean('published')->default(0);
         });
     }

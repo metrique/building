@@ -15,8 +15,8 @@ class CreateBuildingPageContents extends Migration
         Schema::create('building_page_contents', function (Blueprint $table) {
             $table->timestamps();
             $table->increments('id');
-            $table->text('params');
             $table->text('content');
+            $table->text('params');
         });
     }
 

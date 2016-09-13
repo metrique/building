@@ -15,11 +15,11 @@ class CreateBuildingPageSections extends Migration
         Schema::create('building_page_sections', function (Blueprint $table) {
             $table->timestamps();
             $table->increments('id');
-            $table->text('meta');
-            $table->text('params');
             $table->string('title', 255);
             $table->string('slug', 255)->unique();
             $table->integer('order')->unsigned()->default(0);
+            $table->text('params');
+            $table->text('meta');
         });
     }
 

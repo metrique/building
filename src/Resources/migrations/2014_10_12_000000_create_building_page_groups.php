@@ -15,9 +15,9 @@ class CreateBuildingPageGroups extends Migration
         Schema::create('building_page_groups', function (Blueprint $table) {
             $table->timestamps();
             $table->increments('id');
-            $table->text('params');
             $table->boolean('published');
             $table->integer('order')->unsigned()->default(0);
+            $table->text('params');
         });
     }
 
