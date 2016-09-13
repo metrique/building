@@ -55,11 +55,21 @@ class BuildingSeedsCommand extends Command
      */
     public function handle()
     {
-        //
-        foreach ($this->seeds as $key => $value) {
-            $seed = new $value();
-            $seed->run();
+        $this->info('Starting laravel-building database seeding...');
+
+        try {
+            foreach ($this->seeds as $key => $value) {
+                $seed = new $value();
+                $seed->run();
+                $this->info('Seeded: ' . $value);
+            }
+        } catch (Exception $e) {
+            return $this->error('Seeding failed...');
         }
+
+        $this->info('Seeding complete...');
+
+
 
         // To do, roll back seeds if any failed..
     }

@@ -26,16 +26,6 @@ class BuildingBlockTypesSeeder extends Seeder
                 'params'=>'{}',
             ],[
                 // 3
-                'title'=>'Text editor',
-                'slug'=>'text-editor',
-                'params'=>'{}',
-            ],[
-                // 4
-                'title'=>'Rich text',
-                'slug'=>'rich-text',
-                'params'=>'{}',
-            ],[
-                // 5
                 'title'=>'File',
                 'slug'=>'file',
                 'params'=>'{}',
