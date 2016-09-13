@@ -3,12 +3,20 @@
 namespace Metrique\Building\Eloquent\Page;
 
 use Illuminate\Database\Eloquent\Model;
+use Metrique\Building\Eloquent\Page;
+use Metrique\Building\Eloquent\Block;
 
 class Section extends Model
 {
+    protected $fillable = [
+        'title',
+        'slug',
+        'order',
+        'params',
+        'building_pages_id',
+        'building_blocks_id'
+    ];
 
-	protected $fillable = ['title', 'slug', 'order', 'params', 'building_pages_id', 'building_blocks_id'];
-	
     /**
      * The database table used by the model.
      *
@@ -18,11 +26,11 @@ class Section extends Model
 
     public function page()
     {
-        return $this->belongsTo('Metrique\Building\Eloquent\Page', 'building_pages_id');
+        return $this->belongsTo(Page::class, 'building_pages_id');
     }
 
     public function block()
     {
-    	return $this->belongsTo('Metrique\Building\Eloquent\Block', 'building_blocks_id');
+        return $this->belongsTo(Block::class, 'building_blocks_id');
     }
 }

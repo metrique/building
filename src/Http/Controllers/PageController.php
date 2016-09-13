@@ -11,14 +11,14 @@ class PageController extends Controller
 {
     /**
      * Holder for view data
-     * 
+     *
      * @var array
      */
     protected $data = [];
 
     /**
      * List of views used.
-     * 
+     *
      * @var array
      */
     protected $views = [
@@ -32,13 +32,13 @@ class PageController extends Controller
      * @var [type]
      */
     protected $routes = [
-        'index' => 'cms.page.index',
-        'create' => 'cms.page.create',
-        'store' => 'cms.page.store',
-        'edit' => 'cms.page.edit',
-        'update' => 'cms.page.update',
-        'destroy' => 'cms.page.destroy',
-        'section.index' => 'cms.page.section.index',
+        'index' => 'page.index',
+        'create' => 'page.create',
+        'store' => 'page.store',
+        'edit' => 'page.edit',
+        'update' => 'page.update',
+        'destroy' => 'page.destroy',
+        'section.index' => 'page.section.index',
     ];
 
     public function __construct()
@@ -52,12 +52,10 @@ class PageController extends Controller
      */
     public function index(PageRepository $page)
     {
-        $this->data = array_merge($this->data, [
-            'pages' => $page->all(['id', 'title', 'slug', 'published'], ['title' => 'asc']),
+        return view($this->views['index'])->with([
+            'pages' => $page->all(),
             'routes' => $this->routes,
         ]);
-
-        return view($this->views['index'])->with($this->data);
     }
 
     /**
@@ -67,11 +65,9 @@ class PageController extends Controller
      */
     public function create()
     {
-        $this->data = array_merge($this->data, [
+        return view($this->views['create'])->with([
             'routes' => $this->routes,
         ]);
-
-        return view($this->views['create'])->with($this->data);
     }
 
     /**
@@ -82,20 +78,8 @@ class PageController extends Controller
      */
     public function store(PageRequest $request, PageRepository $page)
     {
-        try {
-            $page->create([
-                'title' => $request->input('title'),
-                'slug' => $request->input('slug'),
-                'params' => $request->input('params'),
-                'meta' => $request->input('meta'),
-                'published' => $request->input('published') == 1 ? 1 : 0,
-            ]);
-        } catch (AbstractException $e) {
-            // flash()->error(trans('error.general'));
-            return redirect()->back();
-        }
+        $page->createWithRequest();
 
-        // flash()->success(trans('common.success'));
         return redirect()->route($this->routes['index']);
     }
 
@@ -118,12 +102,10 @@ class PageController extends Controller
      */
     public function edit($id, PageRepository $page)
     {
-        $this->data = array_merge($this->data, [
-            'page' => $page->find($id, ['id', 'title', 'slug', 'params', 'meta', 'published']),
+        return view($this->views['edit'])->with([
+            'page' => $page->find($id),
             'routes' => $this->routes,
         ]);
-
-        return view($this->views['edit'])->with($this->data);
     }
 
     /**
@@ -135,21 +117,8 @@ class PageController extends Controller
      */
     public function update(PageRequest $request, $id, PageRepository $page)
     {
-        try {
-            $page->update($id, [
-                'title' => $request->input('title'),
-                'slug' => $request->input('slug'),
-                'params' => $request->input('params'),
-                'meta' => $request->input('meta'),
-                'published' => $request->input('published') == 1 ? 1 : 0,
-            ]);
+        $page->updateWithRequest($id);
 
-        } catch (AbstractException $e) {
-            // flash()->error(trans('general.error'));
-            return redirect()->back();
-        }
-
-        // flash()->success(trans('common.success'));
         return redirect()->route($this->routes['index']);
     }
 
@@ -161,14 +130,8 @@ class PageController extends Controller
      */
     public function destroy($id, PageRepository $page)
     {
-        try {
-            $page->destroy($id);
-        } catch (AbstractException $e) {
-            // flash()->error(trans('error.general'));
-            return redirect()->back();          
-        }
-
-        // flash()->success(trans('common.success'));
+        $page->destroy($id);
+        
         return redirect()->route($this->routes['index']);
     }
 }

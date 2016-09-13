@@ -3,8 +3,6 @@
 namespace Metrique\Building;
 
 use Illuminate\Support\ServiceProvider;
-use Metrique\Building\Commands\BuildingMigrationsCommand;
-use Metrique\Building\Commands\BuildingSeedsCommand;
 use Metrique\Building\Contracts\BlockRepositoryInterface;
 use Metrique\Building\Repositories\BlockRepositoryEloquent;
 use Metrique\Building\Contracts\Block\StructureRepositoryInterface;
@@ -33,10 +31,6 @@ class BuildingServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Commands
-        $this->commands('command.metrique.migrate-building');
-        $this->commands('command.metrique.seed-building');
-
         // Config
         $this->publishes([
             __DIR__.'/Resources/config/metrique-building.php' => config_path('metrique-building.php')
@@ -44,7 +38,7 @@ class BuildingServiceProvider extends ServiceProvider
 
         // Migrations
         $this->loadMigrationsFrom(__DIR__.'/Resources/migrations');
-        
+
         // Views
         $views = __DIR__ . '/Resources/views/';
         $this->loadViewsFrom($views, 'metrique-building');

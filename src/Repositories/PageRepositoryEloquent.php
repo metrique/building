@@ -2,14 +2,11 @@
 
 namespace Metrique\Building\Repositories;
 
-use Metrique\Building\Abstracts\EloquentRepositoryAbstract;
 use Metrique\Building\Contracts\PageRepositoryInterface;
+use Metrique\Building\Eloquent\Page;
 
-
-class PageRepositoryEloquent extends EloquentRepositoryAbstract implements PageRepositoryInterface
+class PageRepositoryEloquent implements PageRepositoryInterface
 {
-    protected $modelClassName = 'Metrique\Building\Eloquent\Page';
-
     /**
      * The last collected page.
      * @var Illuminate\Database\Eloquent\Builder
@@ -25,13 +22,66 @@ class PageRepositoryEloquent extends EloquentRepositoryAbstract implements PageR
     /**
      * {@inheritdoc}
      */
+    public function all()
+    {
+        return Page::orderBy('title', 'asc')->get(['id', 'title', 'slug', 'published']);
+    }
+
+    public function find($id)
+    {
+        return Page::find($id);
+    }
+
+    public function create(array $data)
+    {
+        if (isset($data['blach'])) {
+            die('blach');
+        }
+
+        return Page::create($data);
+    }
+
+    public function createWithRequest()
+    {
+        return $this->create(request()->only([
+            'title',
+            'slug',
+            'params',
+            'meta',
+            'published'
+        ]));
+    }
+
+    public function destroy($id)
+    {
+        return Page::destroy($id);
+    }
+
+    public function update($id, array $data)
+    {
+        return $this->find($id)->update($data);
+    }
+
+    public function updateWithRequest($id)
+    {
+        return $this->update($id, request()->only([
+            'title',
+            'slug',
+            'params',
+            'meta',
+            'published'
+        ]));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function bySlug($slug)
     {
-        $this->page = $this->model->where(['slug' => $slug, 'published' => 1]);
+        $this->page = Page::where(['slug' => $slug, 'published' => 1]);
 
-        if($this->page->count() != 1)
-        {
-            Throw new \Exception("Page with slug `$slug` doesn't exist.");
+        if ($this->page->count() != 1) {
+            throw new \Exception("Page with slug `$slug` doesn't exist.");
         }
 
         // Store page
@@ -46,26 +96,24 @@ class PageRepositoryEloquent extends EloquentRepositoryAbstract implements PageR
     /**
      * {@inheritdoc}
      */
-    public function contentsBySlug($slug)
+    public function contentBySlug($slug)
     {
         $content = $this->app->make('Metrique\Building\Contracts\Page\ContentRepositoryInterface');
         $section = $this->app->make('Metrique\Building\Contracts\Page\SectionRepositoryInterface');
+
         $contents = [];
 
-        foreach($section->byPageId($this->bySlug($slug)->id) as $key => $value)
-        {
+        foreach ($section->byPageId($this->bySlug($slug)->id) as $key => $value) {
             $value['params'] = json_decode($value['params'], true);
-            
+
             // Widget rendering.
-            if($value['block']['slug'] == 'widget')
-            {
+            if ($value['block']['slug'] == 'widget') {
                 $value['_contents'] = array_pluck($content->bySectionId($value['id']), 'content');
                 $value['_contents'] = $this->app->make($value['_contents'][0])->render($value['_contents'][1], $this->app);
             } else {
                 $value['_contents'] = $content->groupBySectionId($value['id']);
             }
 
-            // Widget rendering should go here?
             $contents[] = $value;
         }
 
@@ -85,8 +133,7 @@ class PageRepositoryEloquent extends EloquentRepositoryAbstract implements PageR
      */
     public function getMeta($key)
     {
-        if(!array_key_exists($key, $this->meta))
-        {
+        if (!array_key_exists($key, $this->meta)) {
             return '';
         }
 

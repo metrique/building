@@ -7,48 +7,41 @@
         'title'=>'Edit sections',
         'icon'=>'fa-pencil',
     ])
-    
-    <form action="{{ route($routes['update'], $page->id) }}" method="POST" data-abide>
+
+    <form action="{{ route($routes['update'], $page->id) }}" method="POST">
         {!! csrf_field() !!}
+
+        <legend>Edit page</legend>
         <input type="hidden" name="_method" value="PATCH">
 
-        <fieldset>
-            <legend>Edit page</legend>
+        <div class="form-group col-xs-12">
+            <label for="title">Title</label>
+            <input class="form-control" type="text" name="title" placeholder="My new page title." value="{{ $page->title }}">
+        </div>
 
-            {{-- Form --}}
-            <div>
-                <label for="title">Title</label>
-                <input type="text" name="title" placeholder="My new page title." value="{{ $page->title }}" required>
-                <small class="error">Title is required.</small>
-            </div>
-            
-            <div>
-                <label for="slug">Slug</label>
-                <input type="text" name="slug" placeholder="a-z, 0-9, -, _" value="{{ $page->slug }}" pattern="slug" required>
-                <small class="error">Slug is required, and may only use the following characters. "a-z", "0-9", "-", "_".</small>
-            </div>
-            
-            <div>
-                <label for="params">Params</label>
-                <input type="text" name="params" placeholder="Valid JSON only." value="{{ $page->params }}" data-abide-validator="json">
-                <small class="error">Invalid JSON</small>
-            </div>
-            
-            <div>
-                <label for="meta">Meta</label>
-                <input type="text" name="meta" placeholder="Valid JSON only." value="{{ $page->meta }}" data-abide-validator="json">
-                <small class="error">Invalid JSON</small>
-            </div>
-            
-            <div>
-                <input id="published"  name="published" type="checkbox" value="1" {{ $page->published == 1 ? 'checked="checked"' : '' }} >
-                <label for="published">Published</label>
-            </div>
-        </fieldset>
+        <div class="form-group col-xs-12">
+            <label for="slug">Slug</label>
+            <input class="form-control" type="text" name="slug" placeholder="a-z, 0-9, -, _" value="{{ $page->slug }}">
+        </div>
+
+        <div class="form-group col-xs-12">
+            <label for="params">Params</label>
+            <input class="form-control" type="text" name="params" placeholder="Valid JSON only." value="{{ $page->params }}">
+        </div>
+
+        <div class="form-group col-xs-12">
+            <label for="meta">Meta</label>
+            <input class="form-control" type="text" name="meta" placeholder="Valid JSON only." value="{{ $page->meta }}">
+        </div>
+
+        <div class="form-group col-xs-12">
+            <input class="form-control" id="published" name="published" type="checkbox" value="1" {{ $page->published == true ? 'checked="checked"' : '' }} >
+            <label for="published">Published</label>
+        </div>
 
         <div class="row text-center">
-            <div class="small-12">
-                <button type="submit">{{ trans('common.save') }}</button>
+            <div class="col-sm-12">
+                <button type="submit" class="btn btn-success">Save</button>
             </div>
         </div>
     </form>

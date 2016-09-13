@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Type extends Model
 {
+    protected $fillable = [
+        'title',
+        'slug',
+        'params'
+    ];
 
-	protected $fillable = ['title', 'slug', 'params'];
-	
     /**
      * The database table used by the model.
      *
@@ -18,6 +21,6 @@ class Type extends Model
 
     // public function structure()
     // {
-    	// return $this->belongsTo('Metrique\Building\Eloquent\BlockStructure', 'building_block_structure');
+        // return $this->belongsTo('Metrique\Building\Eloquent\BlockStructure', 'building_block_structure');
     // }
 }
