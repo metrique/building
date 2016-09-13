@@ -17,6 +17,7 @@ use Metrique\Building\Contracts\Page\GroupRepositoryInterface;
 use Metrique\Building\Repositories\Page\GroupRepositoryEloquent;
 use Metrique\Building\Contracts\Page\SectionRepositoryInterface;
 use Metrique\Building\Repositories\Page\SectionRepositoryEloquent;
+use Metrique\Building\Http\Composers\BuildingViewComposer;
 
 class BuildingServiceProvider extends ServiceProvider
 {
@@ -42,6 +43,8 @@ class BuildingServiceProvider extends ServiceProvider
         // Views
         $views = __DIR__ . '/Resources/views/';
         $this->loadViewsFrom($views, 'metrique-building');
+
+        view()->composer('*', BuildingViewComposer::class);
     }
 
     /**
