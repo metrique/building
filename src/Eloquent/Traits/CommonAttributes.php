@@ -15,4 +15,9 @@ trait CommonAttributes
     {
         $this->attributes['published'] = $value == 1 ? true : false;
     }
+
+    public function setSingleItemAttribute($value)
+    {
+        $this->attributes['single_item'] = $value == 1 ? true : false;
+    }
 }
