@@ -8,7 +8,7 @@
             form {
                 margin-bottom: 0;
             }
-            
+
             .row {
                 margin-bottom: 1em;
             }
@@ -20,12 +20,27 @@
     </head>
     <main>
         <div>
-            <div class="container">
-                @include('metrique-building::partial.message')
-            </div>
-            <div class="container">
-                @yield('content')
-            </div>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="github.com/metrique/laravel-building">Laravel Building</a>
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="{{ route('page.index') }}">Pages</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('block.index') }}">Blocks</a>
+                            </li>
+                    </div>
+                </div>
+            <nav>
+        </div>
+
+        <div class="container">
+            @include('metrique-building::partial.message')
+        </div>
+        <div class="container">
+            @yield('content')
         </div>
     </main>
     <script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>

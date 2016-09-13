@@ -22,7 +22,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($data as $key => $value)
+                        @foreach ($data as $key=>$value)
                             <tr>
                                 <td>
                                     <a href="{{ route($routes['edit'], $value->id) }}">{{ $value->title }}</a>
@@ -41,11 +41,9 @@
                                 </td>
 
                                 <td class="text-right">
-                                    <form method="POST" action="{{ route($routes['destroy'], $value->id) }}">
-                                        {!! csrf_field() !!}
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <button type="submit" class="btn btn-danger" data-role="destroy"><i class="fa fa-trash-o"></i> Delete</button>
-                                    </form>
+                                    @include('metrique-building::partial.button-destroy', [
+                                        'route'=>route($routes['destroy'], $value->id),
+                                    ])
                                 </td>
                             </tr>
                         @endforeach
@@ -54,7 +52,6 @@
             @else
                 <p>No pages exist.</p>
             @endif
-
         </div>
     </div>
 @endsection

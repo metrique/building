@@ -4,28 +4,29 @@ namespace Metrique\Building\Repositories\Page;
 
 use Metrique\Building\Abstracts\EloquentRepositoryAbstract;
 use Metrique\Building\Contracts\Page\SectionRepositoryInterface;
+use Metrique\Building\Eloquent\Page\Section;
 
-class SectionRepositoryEloquent extends EloquentRepositoryAbstract implements SectionRepositoryInterface
+class SectionRepositoryEloquent implements SectionRepositoryInterface
 {
-	protected $modelClassName = 'Metrique\Building\Eloquent\Page\Section';
+    /**
+     * {@inheritdocs}
+     */
+    public function byPageId($id, $order = ['order' => 'desc'])
+    {
+        return Section::orderBy('order', 'desc')->where([
+            'building_pages_id' => $id
+        ])->get();
+    }
 
-	/**
-	 * {@inheritdocs}
-	 */
-	public function byPageId($id, $order = ['order' => 'desc'])
-	{
-		return $this->orderBy($order)->with(['block'])->where(['building_pages_id' => $id])->get()->toArray();
-	}
+    /**
+     * {@inheritdocs}
+     */
+    public function findWithAll($id)
+    {
+        $this->make();
 
-	/**
-	 * {@inheritdocs}
-	 */
-	public function findWithAll($id)
-	{
-		$this->make();
-
-		return $this->model->with(['page', 'block.structure' => function($query){
-			$query->orderBy('order', 'desc');
-		}, 'block.structure.type'])->where('id', $id)->first()->toArray();
-	}
+        return $this->model->with(['page', 'block.structure' => function ($query) {
+            $query->orderBy('order', 'desc');
+        }, 'block.structure.type'])->where('id', $id)->first()->toArray();
+    }
 }

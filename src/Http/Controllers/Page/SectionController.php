@@ -14,14 +14,14 @@ class SectionController extends Controller
 {
     /**
      * Holder for view data
-     * 
+     *
      * @var array
      */
     protected $data = [];
 
     /**
      * List of views used.
-     * 
+     *
      * @var array
      */
     protected $views = [
@@ -32,38 +32,32 @@ class SectionController extends Controller
 
     /**
      * List of routes used.
-     * 
+     *
      * @var array
      */
     protected $routes = [
-        'index' => 'cms.page.section.index',
-        'create' => 'cms.page.section.create',
-        'store' => 'cms.page.section.store',
-        'edit' => 'cms.page.section.edit',
-        'update' => 'cms.page.section.update',
-        'destroy' => 'cms.page.section.destroy',
+        'index' => 'page.section.index',
+        'create' => 'page.section.create',
+        'store' => 'page.section.store',
+        'edit' => 'page.section.edit',
+        'update' => 'page.section.update',
+        'destroy' => 'page.section.destroy',
     ];
-
-    public function __construct()
-    {
-    }
 
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index($pageId, PageRepository $page, SectionRepository $section)
+    public function index($id, PageRepository $page, SectionRepository $section)
     {
-        $page = $page->find($pageId);
-
-        $this->data = array_merge($this->data, [
-            'page' => $page,
-            'section' => $section->byPageId($pageId),
+        return view($this->views['index'])->with([
             'routes' => $this->routes,
+            'data' => [
+                'page' => $page->find($id),
+                'section' => $section->byPageId($id),
+            ]
         ]);
-
-        return view($this->views['index'])->with($this->data);
     }
 
     /**
@@ -71,17 +65,15 @@ class SectionController extends Controller
      *
      * @return Response
      */
-    public function create($pageId, PageRepository $page, BlockRepository $block)
+    public function create($id, PageRepository $page, BlockRepository $block)
     {
-        $page = $page->find($pageId);
-
-        $this->data = [
-            'blocks' => $block->formSelect(),
-            'page' => $page,
+        return view($this->views['create'])->with([
             'routes' => $this->routes,
-        ];
-
-        return view($this->views['create'])->with($this->data);
+            'data' => [
+                'page' => $page->find($id),
+                'blocks' => $block->formSelect()
+            ]
+        ]);
     }
 
     /**
@@ -152,8 +144,7 @@ class SectionController extends Controller
     public function update(Request $request, $pageId, $sectionId, SectionRepository $section, ContentRepository $content)
     {
         try {
-            if($section->find($sectionId)->building_blocks_id != $request->input('building_blocks_id'))
-            {
+            if ($section->find($sectionId)->building_blocks_id != $request->input('building_blocks_id')) {
                 $content->destroyBySectionId($sectionId);
             }
 
@@ -186,7 +177,7 @@ class SectionController extends Controller
             $section->destroy($sectionId);
         } catch (\Exception $e) {
             // flash()->error(trans('error.general'));
-            return redirect()->back();          
+            return redirect()->back();
         }
 
         // flash()->success(trans('common.success'));

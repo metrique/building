@@ -35,13 +35,13 @@
             </div>
 
             <div class="col-xs-12">
-                <input id="published" name="published" type="checkbox" value="1" {{ $edit ? $building->checked($data->published) : '' }}>
+                <input id="published" type="checkbox" name="published" value="1" {{ $edit ? $building->checked($data->published) : '' }}>
                 <label for="published">Published</label>
             </div>
 
             <div class="row text-center">
                 <div class="col-sm-12">
-                    <button type="submit" class="btn btn-success">Save</button>
+                    @include('metrique-building::partial.button-save')
                 </div>
             </div>
         </div>
