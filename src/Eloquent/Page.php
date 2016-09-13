@@ -3,9 +3,12 @@
 namespace Metrique\Building\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use Metrique\Building\Contracts\BuildingInterface;
 
 class Page extends Model
 {
+    use Traits\CommonAttributes;
+
     protected $casts = [
         'published' => 'boolean',
     ];
@@ -25,8 +28,8 @@ class Page extends Model
      */
     protected $table = 'building_pages';
 
-    public function setPublishedAttribute($value)
+    public function __construct(array $attributes = [])
     {
-        $this->attributes['published'] = $value == 1 ? true : false;
+        parent::__construct($attributes);
     }
 }
