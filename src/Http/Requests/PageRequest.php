@@ -24,8 +24,8 @@ class PageRequest extends Request
     public function rules()
     {
         return [
-            'title'=>'required',
-            'slug'=>'required',
+            'title'=>'required|string|unique:building_pages,id,'.$this->get('id'),
+            'slug'=>'nullable|string',
             'params'=>'json',
             'meta'=>'json',
             'published'=>'boolean',

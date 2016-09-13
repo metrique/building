@@ -53,7 +53,7 @@ class PageController extends Controller
     public function index(PageRepository $page)
     {
         return view($this->views['index'])->with([
-            'pages' => $page->all(),
+            'data' => $page->all(),
             'routes' => $this->routes,
         ]);
     }
@@ -103,7 +103,7 @@ class PageController extends Controller
     public function edit($id, PageRepository $page)
     {
         return view($this->views['edit'])->with([
-            'page' => $page->find($id),
+            'data' => $page->find($id),
             'routes' => $this->routes,
         ]);
     }
@@ -131,7 +131,7 @@ class PageController extends Controller
     public function destroy($id, PageRepository $page)
     {
         $page->destroy($id);
-        
+
         return redirect()->route($this->routes['index']);
     }
 }

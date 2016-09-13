@@ -1,4 +1,4 @@
-@extends('metrique-building::master')
+@extends('metrique-building::main')
 
 @section('content')
     @include('metrique-building::partial.header', [
@@ -10,19 +10,19 @@
 
     <div class="row">
         <div class="col-sm-12">
-            @if(count($pages) > 0)
-                <table class="table">
+            @if(count($data) > 0)
+                <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th width="35%">Title</th>
-                            <th width="30%">Slug</th>
-                            <th width="5%">Published</th>
-                            <th width="auto"></th>
-                            <th width="auto"></th>
+                            <th>Title</th>
+                            <th>Slug</th>
+                            <th>Published</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($pages as $key => $value)
+                        @foreach ($data as $key => $value)
                             <tr>
                                 <td>
                                     <a href="{{ route($routes['edit'], $value->id) }}">{{ $value->title }}</a>
@@ -30,8 +30,8 @@
 
                                 <td>{{ $value->slug }}</td>
 
-                                <td class="text-center">
-                                    <p><i class="fa fa-lg fa-{{ $value->published ? 'check' : 'times' }}"></i></p>
+                                <td>
+                                    <i class="fa fa-lg fa-{{ $value->published ? 'check' : 'times' }}"></i>
                                 </td>
 
                                 <td class="text-right">

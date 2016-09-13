@@ -34,10 +34,8 @@ class PageRepositoryEloquent implements PageRepositoryInterface
 
     public function create(array $data)
     {
-        if (isset($data['blach'])) {
-            die('blach');
-        }
-
+        $data['slug'] = $data['slug'] ?: $data['title'];
+        
         return Page::create($data);
     }
 
