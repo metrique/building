@@ -2,6 +2,8 @@
 
 namespace Metrique\Building;
 
+use Collective\Html\HtmlServiceProvider;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\ServiceProvider;
 use Metrique\Building\Contracts\BlockRepositoryInterface;
 use Metrique\Building\Repositories\BlockRepositoryEloquent;
@@ -18,6 +20,7 @@ use Metrique\Building\Repositories\Page\GroupRepositoryEloquent;
 use Metrique\Building\Contracts\Page\SectionRepositoryInterface;
 use Metrique\Building\Repositories\Page\SectionRepositoryEloquent;
 use Metrique\Building\Http\Composers\BuildingViewComposer;
+use Metrique\Building\Commands\BuildingSeedsCommand;
 
 class BuildingServiceProvider extends ServiceProvider
 {
@@ -27,11 +30,22 @@ class BuildingServiceProvider extends ServiceProvider
      * @var bool
      */
 
+    public function __construct($app)
+    {
+        parent::__construct($app);
+
+        // Register other packages.
+        $this->html = new HtmlServiceProvider($app);
+    }
+
     /**
      * Bootstrap the application services.
      */
     public function boot()
     {
+        // Commands
+        $this->commands('command.metrique.building-seed');
+
         // Config
         $this->publishes([
             __DIR__.'/Resources/config/metrique-building.php' => config_path('metrique-building.php')
@@ -61,6 +75,9 @@ class BuildingServiceProvider extends ServiceProvider
 
         // Commands
         $this->registerCommands();
+
+        // Html
+        $this->html->register();
     }
 
     /**
@@ -126,11 +143,7 @@ class BuildingServiceProvider extends ServiceProvider
      */
     private function registerCommands()
     {
-        $this->app->singleton('command.metrique.migrate-building', function ($app) {
-            return new BuildingMigrationsCommand();
-        });
-
-        $this->app->singleton('command.metrique.seed-building', function ($app) {
+        $this->app->singleton('command.metrique.building-seed', function ($app) {
             return new BuildingSeedsCommand();
         });
     }

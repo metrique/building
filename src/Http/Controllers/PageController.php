@@ -41,10 +41,6 @@ class PageController extends Controller
         'section.index' => 'page.section.index',
     ];
 
-    public function __construct()
-    {
-    }
-
     /**
      * Display a listing of the resource.
      *
