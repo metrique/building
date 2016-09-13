@@ -4,17 +4,16 @@ namespace Metrique\Building\Commands;
 
 use Illuminate\Console\Command;
 use Metrique\Building\Traits\BuildingCommandOutputTrait;
+use Metrique\Building\Database\Seeds\BuildingBlockTypesSeeder;
 
 class BuildingSeedsCommand extends Command
 {
-    use BuildingCommandOutputTrait;
-    
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'metrique:seed-building';
+    protected $signature = 'metrique:building-seed';
 
     /**
      * The console command description.
@@ -28,7 +27,7 @@ class BuildingSeedsCommand extends Command
      *
      * @var string
      */
-    protected $seedsPath = 'database/seeds';
+    protected $seedsPath = 'seeds';
 
     /**
      * List of seeds to be processed in order.
@@ -36,15 +35,8 @@ class BuildingSeedsCommand extends Command
      * @var array
      */
     protected $seeds = [
-        'BuildingBlockTypesSeeder'
+        '\Metrique\Building\Database\Seeds\BuildingBlockTypesSeeder'
     ];
-
-    /**
-     * Track any seed files that are created.
-     *
-     * @var array
-     */
-    protected $seedsOutput = [];
 
     /**
      * Create a new command instance.
@@ -65,51 +57,10 @@ class BuildingSeedsCommand extends Command
     {
         //
         foreach ($this->seeds as $key => $value) {
-            $seed = [
-                'view' => 'metrique-building::seeds.' . $value,
-                'file' => base_path($this->seedsPath) . '/' . $value . '.php',
-            ];
-
-            if($this->createSeed($seed) === false)
-            {
-                $this->output(self::$CONSOLE_ERROR, 'Could not create migration. (' . $seed['file'] . ')');
-            }
+            $seed = new $value();
+            $seed->run();
         }
 
         // To do, roll back seeds if any failed..
-    }
-
-    public function createSeed($seed)
-    {
-        array_push($this->seedsOutput, $seed['file']);
-
-        if(file_exists($seed['file']))
-        {
-            if(!$this->confirm('File exists, do you wish to overwrite? [y|N]'))
-            {
-                return false;
-            }
-
-        }
-
-        $fh = fopen($seed['file'], 'w+');
-
-        if($fh === false)
-        {
-            return false;
-        }
-
-        if(fwrite($fh, view()->make($seed['view'])->render()) === false)
-        {
-            return false;
-        }
-
-        fclose($fh);
-
-        $this->output(self::$CONSOLE_INFO, 'Created seed. (' . $seed['file'] . ')');
-        
-        array_pop($this->seedsOutput);
-
-        return true;
     }
 }

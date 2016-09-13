@@ -17,8 +17,9 @@ Add the following to the `repositories` section of your composer.json
 
 1. Add `"Metrique/laravel-building": "dev-master"` to the require section of your composer.json.
 2. Add `Metrique\Building\BuildingServiceProvider::class` to your list of service providers in `config/app.php`.
-3. Add `'Building' => Metrique\Building\BuildingFacade::class` to your list of aliases in `config/app.php`.
-4. `composer update`
+3. `composer update`.
+4. `php artisan migrate --tag="metrique-building"`.
+5. `php artisan metrique:building-seed`.
 
 ### Config
 You can publish the `config/metrique-building.php` config file to your application config directory by running `php artisan vendor:publish --tag="metrique-building"`
