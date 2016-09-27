@@ -19,7 +19,6 @@ class CreateBuildingPageSections extends Migration
             $table->string('slug', 255)->unique();
             $table->integer('order')->unsigned()->default(0);
             $table->text('params');
-            $table->text('meta');
         });
     }
 

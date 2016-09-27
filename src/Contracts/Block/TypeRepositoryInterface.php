@@ -2,9 +2,7 @@
 
 namespace Metrique\Building\Contracts\Block;
 
-use Metrique\Building\Abstracts\EloquentRepositoryAbstractInterface;
-
-interface TypeRepositoryInterface extends EloquentRepositoryAbstractInterface
+interface TypeRepositoryInterface
 {
-	public function formSelect();
+    public function formBuilderSelect();
 }

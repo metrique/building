@@ -1,14 +1,15 @@
 <?php
 
-namespace Metrique\Building\Http\Controllers;
+namespace Metrique\Building\Http\Controllers\Block;
 
 use Illuminate\Http\Request;
 use Metrique\Building\Contracts\BlockRepositoryInterface as BlockRepository;
+use Metrique\Building\Contracts\Block\StructureRepositoryInterface as StructureRepository;
+use Metrique\Building\Contracts\Block\TypeRepositoryInterface as TypeRepository;
 use Metrique\Building\Http\Controllers\PageController;
-use Metrique\Building\Http\Requests\BlockRequest;
 use Metrique\Plonk\Http\Controller;
 
-class BlockController extends Controller
+class StructureController extends Controller
 {
     /**
      * List of views used.
@@ -16,23 +17,23 @@ class BlockController extends Controller
      * @var array
      */
     protected $views = [
-        'index' => 'metrique-building::block.index',
-        'create' => 'metrique-building::block.create',
-        'edit' => 'metrique-building::block.edit',
+        'index' => 'metrique-building::block.structure.index',
+        'create' => 'metrique-building::block.structure.create',
+        'edit' => 'metrique-building::block.structure.edit',
     ];
 
     /**
      * List of routes used
+     *
      * @var array
      */
     protected $routes = [
-        'index' => 'block.index',
-        'create' => 'block.create',
-        'store' => 'block.store',
-        'edit' => 'block.edit',
-        'update' => 'block.update',
-        'destroy' => 'block.destroy',
-        'structure.index' => 'block.structure.index',
+        'index' => 'block.structure.index',
+        'create' => 'block.structure.create',
+        'store' => 'block.structure.store',
+        'edit' => 'block.structure.edit',
+        'update' => 'block.structure.update',
+        'destroy' => 'block.structure.destroy',
     ];
 
     /**
@@ -40,11 +41,14 @@ class BlockController extends Controller
      *
      * @return Response
      */
-    public function index(BlockRepository $blocks)
+    public function index($id, BlockRepository $blocks, StructureRepository $structure)
     {
         return view($this->views['index'])->with([
-            'data' => $blocks->all(),
             'routes' => $this->routes,
+            'data' => [
+                'block' => $blocks->find($id),
+                'structure' => $structure->byBlockId($id),
+            ],
         ]);
     }
 
@@ -53,12 +57,16 @@ class BlockController extends Controller
      *
      * @return Response
      */
-    public function create()
+    public function create($id, BlockRepository $blocks, TypeRepository $type)
     {
         return view($this->views['create'])->with([
             'routes' => $this->routes,
+            'data' => [
+                'block' => $blocks->find($id),
+                'types' => $type->formBuilderSelect(),
+            ]
         ]);
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -66,7 +74,7 @@ class BlockController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(BlockRequest $request, BlockRepository $block)
+    public function store(StructureRequest $request, BlockRepository $block)
     {
         $block->createWithRequest();
 
@@ -120,8 +128,14 @@ class BlockController extends Controller
      */
     public function destroy($id, BlockRepository $block)
     {
-        $block->destroy($id);
+        try {
+            $block->destroy($id);
+        } catch (\Exception $e) {
+            flash()->error(trans('error.general'));
+            return redirect()->back();
+        }
 
-        return redirect()->route($this->routes['destroy']);
+        flash()->success(trans('common.success'));
+        return redirect()->route('cms.block.index');
     }
 }

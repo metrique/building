@@ -72,7 +72,9 @@ class PageRepositoryEloquent implements PageRepositoryInterface
      */
     public function update($id, array $data)
     {
-        return $this->find($id)->update($data);
+        $data['slug'] = $data['slug'] ?: $data['title'];
+        
+        return Page::find($id)->update($data);
     }
 
     /**

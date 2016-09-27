@@ -78,15 +78,8 @@ class BlockRepositoryEloquent implements BlockRepositoryInterface
 
     public function formBuilderSelect()
     {
-        $form = [];
-
-        $form = Block::orderBy('title', 'asc')->get()->map(function ($key, $item) {
+        return Block::orderBy('title', 'asc')->get()->keyBy('id')->map(function ($item) {
+            return $item->title;
         });
-
-        // foreach ($this->all(['id', 'title'], ['title' => 'ASC']) as $key => $value) {
-            // $form[$value->id] = $value->title;
-        // }
-
-        return $form;
     }
 }

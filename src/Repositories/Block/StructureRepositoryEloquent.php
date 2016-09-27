@@ -2,15 +2,15 @@
 
 namespace Metrique\Building\Repositories\Block;
 
-use Metrique\Building\Abstracts\EloquentRepositoryAbstract;
 use Metrique\Building\Contracts\Block\StructureRepositoryInterface;
+use Metrique\Building\Eloquent\Block\Structure;
 
-class StructureRepositoryEloquent extends EloquentRepositoryAbstract implements StructureRepositoryInterface
+class StructureRepositoryEloquent implements StructureRepositoryInterface
 {
-	protected $modelClassName = 'Metrique\Building\Eloquent\Block\Structure';
+    protected $modelClassName = 'Metrique\Building\Eloquent\Block\Structure';
 
-	public function byBlockId($id, $order = ['order' => 'desc'])
-	{
-		return $this->orderBy($order)->where(['building_blocks_id' => $id]);
-	}
+    public function byBlockId($id)
+    {
+        return Structure::orderBy('order', 'desc')->where('building_blocks_id', $id)->get();
+    }
 }

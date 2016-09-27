@@ -2,9 +2,7 @@
 
 namespace Metrique\Building\Contracts\Block;
 
-use Metrique\Building\Abstracts\EloquentRepositoryAbstractInterface;
-
-interface StructureRepositoryInterface extends EloquentRepositoryAbstractInterface
+interface StructureRepositoryInterface
 {
-	public function byBlockId($id, $order = ['order' => 'DESC']);
+    public function byBlockId($id);
 }

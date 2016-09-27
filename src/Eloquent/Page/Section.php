@@ -5,9 +5,12 @@ namespace Metrique\Building\Eloquent\Page;
 use Illuminate\Database\Eloquent\Model;
 use Metrique\Building\Eloquent\Page;
 use Metrique\Building\Eloquent\Block;
+use Metrique\Building\Eloquent\Traits\CommonAttributes;
 
 class Section extends Model
 {
+    use CommonAttributes;
+
     protected $fillable = [
         'title',
         'slug',

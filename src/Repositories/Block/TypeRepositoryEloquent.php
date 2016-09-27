@@ -4,20 +4,14 @@ namespace Metrique\Building\Repositories\Block;
 
 use Metrique\Building\Abstracts\EloquentRepositoryAbstract;
 use Metrique\Building\Contracts\Block\TypeRepositoryInterface;
+use Metrique\Building\Eloquent\Block\Type;
 
-class TypeRepositoryEloquent extends EloquentRepositoryAbstract implements TypeRepositoryInterface
+class TypeRepositoryEloquent implements TypeRepositoryInterface
 {
-	protected $modelClassName = 'Metrique\Building\Eloquent\Block\Type';
-
-	public function formSelect()
-	{
-		$form = [];
-
-		foreach($this->all(['id', 'title'], ['title' => 'asc']) as $key => $value)
-		{
-			$form[$value->id] = $value->title;
-		}
-
-		return $form;
-	}
+    public function formBuilderSelect()
+    {
+        return Type::orderBy('title', 'asc')->get()->keyBy('id')->map(function ($item) {
+            return $item->title;
+        });
+    }
 }

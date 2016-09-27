@@ -27,25 +27,23 @@
                 @foreach($data['section'] as $key => $value)
                     <tr>
                         <td>
-                            <a href="{{ route($routes['edit'], [$data['page']->id, $value['id']]) }}">
+                            <a href="{{ route($routes['edit'], [$data['page']->id, $value->id]) }}">
                                 {{ $value['title'] }}
                             </a>
                         </td>
                         <td>{{ $value['slug'] }}</td>
                         <td>{{ $value['order'] }}</td>
 
-                        <td class="text-right no-wrap">
-                            <a href="{{ route($routes['content.index'], [$data['page']->id, $value['id']]) }}" class="button tiny">
+                        <td class="text-right">
+                            <a href="{{ route($routes['index'], [$data['page']->id, $value->id]) }}" class="btn btn-default">
                                 <i class="fa fa-pencil"></i> Edit content
                             </a>
                         </td>
 
-                        <td class="text-right no-wrap">
-                            <form method="POST" action="{{ route($routes['destroy'], [$data['page']->id, $value['id']]) }}">
-                                {!! csrf_field() !!}
-                                <input type="hidden" name="_method" value="DELETE">
-                                <button type="submit" class="tiny" data-role="destroy"><i class="fa fa-trash-o"></i> Delete</button>
-                            </form>
+                        <td class="text-right">
+                            @include('metrique-building::partial.button-destroy', [
+                                'route'=>route($routes['destroy'], [$data['page']->id, $value->id]),
+                            ])
                         </td>
                     </tr>
                 @endforeach

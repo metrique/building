@@ -4,9 +4,12 @@ namespace Metrique\Building\Eloquent\Page;
 
 use Illuminate\Database\Eloquent\Model;
 use Metrique\Building\Eloquent\Page\Group;
+use Metrique\Building\Eloquent\Traits\CommonAttributes;
 
 class Content extends Model
 {
+    use CommonAttributes;
+
     protected $fillable = [
         'params',
         'content',
