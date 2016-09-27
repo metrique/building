@@ -18,11 +18,10 @@
                         <th>Order</th>
                         <th>Type</th>
                         <th></th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($data as $key=>$value)
+                    @foreach($data['structure'] as $key=>$value)
                     <tr>
                         <td>
                             <a href="{{ route($routes['edit'], [$data['block']->id, $value->id]) }}">{{ $value->title }}</a>
@@ -33,11 +32,6 @@
                         </td>
                         <td>
                             {{ $value->type->title }}
-                        </td>
-                        <td class="text-right">
-                            <a href="{{ route($routes['index'], [$data['block']->id, $value->id]) }}" class="btn btn-default">
-                                <i class="fa fa-pencil"></i> Edit structure
-                            </a>
                         </td>
                         <td class="text-right">
                             @include('metrique-building::partial.button-destroy', [

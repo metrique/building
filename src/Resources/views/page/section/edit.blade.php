@@ -2,11 +2,11 @@
 
 @section('content')
     @include('metrique-building::partial.header', [
-        'heading'=>'Block structure',
+        'heading'=>'Page sections',
     ])
 
-    @include('metrique-building::block.structure.form', [
-        'action' => route($routes['update'], [$data['block']->id, $data['structure']->id]),
+    @include('metrique-building::page.section.form', [
+        'action' => route($routes['update'], [$data['page']->id, $data['section']->id]),
         'edit' => true,
         'data' => $data
     ])

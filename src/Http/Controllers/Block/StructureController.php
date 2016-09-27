@@ -7,6 +7,7 @@ use Metrique\Building\Contracts\BlockRepositoryInterface as BlockRepository;
 use Metrique\Building\Contracts\Block\StructureRepositoryInterface as StructureRepository;
 use Metrique\Building\Contracts\Block\TypeRepositoryInterface as TypeRepository;
 use Metrique\Building\Http\Controllers\PageController;
+use Metrique\Building\Http\Requests\StructureRequest;
 use Metrique\Plonk\Http\Controller;
 
 class StructureController extends Controller
@@ -66,7 +67,7 @@ class StructureController extends Controller
                 'types' => $type->formBuilderSelect(),
             ]
         ]);
-
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -74,11 +75,11 @@ class StructureController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(StructureRequest $request, BlockRepository $block)
+    public function store($id, StructureRequest $request, StructureRepository $structure)
     {
-        $block->createWithRequest();
+        $structure->createWithRequest();
 
-        return redirect()->route($this->routes['index']);
+        return redirect()->route($this->routes['index'], $id);
     }
 
     /**
@@ -98,11 +99,15 @@ class StructureController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id, BlockRepository $block)
+    public function edit($id, $structureId, BlockRepository $block, StructureRepository $structure, TypeRepository $type)
     {
         return view($this->views['edit'])->with([
             'routes' => $this->routes,
-            'data' => $block->find($id),
+            'data' => [
+                'block' => $block->find($id),
+                'structure' => $structure->find($structureId),
+                'types' => $type->formBuilderSelect(),
+            ],
         ]);
     }
 
@@ -113,11 +118,11 @@ class StructureController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(BlockRequest $request, $id, BlockRepository $block)
+    public function update(StructureRequest $request, $id, $structureId, StructureRepository $structure)
     {
-        $block->updateWithRequest($id);
+        $structure->updateWithRequest($structureId);
 
-        return redirect()->route($this->routes['index']);
+        return redirect()->route($this->routes['index'], $id);
     }
 
     /**
@@ -126,16 +131,10 @@ class StructureController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id, BlockRepository $block)
+    public function destroy($id, $structureId, StructureRepository $structure)
     {
-        try {
-            $block->destroy($id);
-        } catch (\Exception $e) {
-            flash()->error(trans('error.general'));
-            return redirect()->back();
-        }
+        $structure->destroy($structureId);
 
-        flash()->success(trans('common.success'));
-        return redirect()->route('cms.block.index');
+        return redirect()->route($this->routes['index'], $id);
     }
 }

@@ -2,7 +2,7 @@
 
 <form action="{{ $action }}" method="POST">
     {!! csrf_field() !!}
-    <input type="hidden" name="building_block_id" value="{{ $data['block']->id }}">
+    <input type="hidden" name="building_blocks_id" value="{{ $data['block']->id }}">
 
     <fieldset class="panel panel-default">
         <div class="panel-body">
@@ -21,26 +21,13 @@
 
             <div class="form-group col-xs-12">
                 <label for="type">Type</label>
-                {!! $form->select('building_block_types_id', $data['types'], $edit ? $data['blocks']->building_block_types_id : null, ['class'=>'form-control', 'placeholder'=>'Select a block item type...']) !!}
+                {!! $form->select('building_block_types_id', $data['types'], $edit ? $data['structure']->building_block_types_id : null, ['class'=>'form-control', 'placeholder'=>'Select a block item type...']) !!}
             </div>
 
             <div class="form-group col-xs-12">
                 <label for="meta">Order</label>
                 <input class="form-control" type="text" name="order" placeholder="Larger numbers take priority." value="{{ $edit ? $data['block']->order : old('order') }}">
             </div>
-            {{--
-            <div class="form-group col-xs-12">
-                <label for="slug">Slug</label>
-                <input class="form-control" type="text" name="slug" placeholder="a-z, 0-9, -, _" value="{{ $edit ? $data['section']->slug : old('slug') }}">
-            </div>
-
-            <div class="form-group col-xs-12">
-                <label for="params">Params</label>
-                <input class="form-control" type="text" name="params" placeholder="Valid JSON only." value="{{ $edit ? $data['section']->params : old('params') }}">
-            </div>
-
-
-            --}}
         </div>
 
         {{-- Form --}}
