@@ -16,7 +16,6 @@ class CreateBuildingPageContents extends Migration
             $table->timestamps();
             $table->increments('id');
             $table->text('content');
-            $table->text('params');
         });
     }
 

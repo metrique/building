@@ -24,6 +24,12 @@ interface ContentRepositoryInterface
     public function groupBySectionId($id);
 
     /**
+     * Store content to the database. Populates and updates based on ID's given.
+     * @return mixed
+     */
+    public function persistWithRequest($pageId, $sectionId);
+
+    /**
      * Creates a unique identifier to use on all inputs.
      * The final format is StructureId::GroupId::ContentId
      *
@@ -34,7 +40,25 @@ interface ContentRepositoryInterface
     public function inputName(array $params);
 
     /**
-     * Creates the markup for relevant input type.
+     * Parses an input name back into an array.
+     * The format should be StructureId::GroupId::ContentId
+     *
+     * @param  string $name
+     * @return array $params
+     */
+    public function parseInputName(string $name);
+
+    /**
+     * Generates the markup for label tags.
+     *
+     * @param  string $name
+     * @param  string $label
+     * @return string
+     */
+    public function label($name, $label);
+
+    /**
+     * Generates the markup for relevant input types.
      * Accepted params are classes, type, name, label and value.
      *
      * @param  array  $params

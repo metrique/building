@@ -8,19 +8,37 @@
 		'icon'=>'fa-plus'
 	])
 
-	{{-- No structure... --}}
 	@if($data['section']->block->structure->count() < 1)
 		<p>Whoops! <a href="{{ route('block.structure.index', $data['section']->block->id) }}">{{ $data['section']->block->title }}</a> has no structure.</p>
-	@endif
+    @endif
 
-	{{-- No content yet... --}}
+    {{-- Single Item --}}
     @if($data['section']->block->single_item)
-        strooc
-    @else
+        @if($data['content']->count() < 1)
+            @include($views['create'], [
+                'routes' => $routes,
+                'views' => $views,
+                'data' => $data,
+            ])
+        @else
+            @include($views['edit'], [
+                'routes' => $routes,
+                'views' => $views,
+                'data' => $data,
+            ])
+        @endif
+    @endif
+
+    {{-- Multi Item --}}
+    @if(!$data['section']->block->single_item)
         @if($data['content']->count() < 1)
             <p>No content exists.</p>
         @else
-            @include($views['edit'])
+            @include($views['edit'], [
+                'routes' => $routes,
+                'views' => $views,
+                'data' => $data,
+            ])
         @endif
     @endif
 @endsection

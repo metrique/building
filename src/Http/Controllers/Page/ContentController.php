@@ -54,44 +54,14 @@ class ContentController extends Controller
         $data = [
             'routes' => $this->routes,
             'views' => $this->views,
+            'content' => $this->content,
             'data' => [
                 'content' => $this->content->groupBySectionId($sectionId),
                 'section' => $this->section->findWithStructure($sectionId),
             ]
         ];
 
-        // dd($data);
-
         return view($this->views['index'])->with($data);
-        /*
-        // General content pulling stuff.
-        $section = $this->section->findWithAll($sectionId);
-        $content = $this->content->groupBySectionId($sectionId);
-
-        $structure = $section['block']['structure'];
-        $singleItem = $section['block']['single_item'] ? true : false;
-
-        // Data/View binding
-        $this->data = array_merge($this->data, [
-            'content' => $content,
-            'counter' => 0,
-            'pageId' => $pageId,
-            'section' => $section,
-            'sectionId' => $sectionId,
-            'singleItem' => $singleItem,
-            'structure' => $structure,
-            'routes' => $this->routes,
-            'views' => $this->views,
-        ]);
-
-        // Please move this to somewhere else...
-        if($singleItem)
-        {
-            return view($this->views['single.index'])->with($this->data);
-        }
-
-        return view($this->views['multi.index'])->with($this->data);
-        */
     }
 
     /**
@@ -111,29 +81,7 @@ class ContentController extends Controller
             ]
         ];
 
-        // dd($data);
-
         return view($this->views['create'])->with($data);
-        /*
-        // General content pulling stuff.
-        $section = $this->section->findWithAll($sectionId);
-        $content = $this->content->groupBySectionId($sectionId);
-        $structure = $section['block']['structure'];
-        $singleItem = $section['block']['single_item'] ? true : false;
-
-        // Data/View binding
-        $data = [
-            'content' => $content,
-            'pageId' => $pageId,
-            'section' => $section,
-            'sectionId' => $sectionId,
-            'singleItem' => $singleItem,
-            'structure' => $structure,
-            'routes' => $this->routes,
-        ];
-
-        return view($this->views['create'])->with($data);
-        */
     }
 
     /**
@@ -142,14 +90,9 @@ class ContentController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request, $pageId, $sectionId)
+    public function store(Request $request, $id, $sectionId)
     {
-        try {
-            $this->content->store($request, $pageId, $sectionId);
-            // flash()->success(trans('common.success'));
-        } catch (Exception $e) {
-            // flash()->error(trans('error.general'));
-        }
+        $this->content->persistWithRequest($id, $sectionId);
 
         return redirect()->back();
     }
@@ -171,7 +114,7 @@ class ContentController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($pageId, $sectionId)
+    public function edit($id, $sectionId)
     {
         abort('404');
     }
@@ -183,14 +126,9 @@ class ContentController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($pageId, $sectionId, Request $request)
+    public function update(Request $request, $id, $sectionId)
     {
-        try {
-            $this->content->store($request, $pageId, $sectionId);
-            // flash()->success(trans('common.success'));
-        } catch (\Exception $e) {
-            // flash()->error(trans('error.general'));
-        }
+        $this->content->persistWithRequest($id, $sectionId);
 
         return redirect()->back();
     }
@@ -201,7 +139,7 @@ class ContentController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($pageId, $sectionId, $groupId, GroupRepository $group)
+    public function destroy($id, $sectionId, $groupId, GroupRepository $group)
     {
         try {
             $group->destroy($groupId);

@@ -17,7 +17,6 @@ class CreateBuildingPageGroups extends Migration
             $table->increments('id');
             $table->boolean('published');
             $table->integer('order')->unsigned()->default(0);
-            $table->text('params');
         });
     }
 

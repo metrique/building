@@ -26,7 +26,7 @@
 
             <div class="form-group col-xs-12">
                 <label for="meta">Order</label>
-                <input class="form-control" type="text" name="order" placeholder="Larger numbers take priority." value="{{ $edit ? $data['block']->order : old('order') }}">
+                <input class="form-control" type="text" name="order" placeholder="Larger numbers take priority." value="{{ $edit ? $data['structure']->order : old('order') }}">
             </div>
         </div>
 

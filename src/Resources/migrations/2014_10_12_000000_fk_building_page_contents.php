@@ -13,7 +13,6 @@ class FkBuildingPageContents extends Migration
     public function up()
     {
         Schema::table('building_page_contents', function (Blueprint $table) {
-
             $table->integer('building_pages_id')
                 ->unsigned();
 
@@ -44,14 +43,6 @@ class FkBuildingPageContents extends Migration
             $table->foreign('building_block_structures_id')
                 ->references('id')
                 ->on('building_block_structures')
-                ->onDelete('cascade');
-
-            $table->integer('building_block_types_id')
-                ->unsigned();
-
-            $table->foreign('building_block_types_id')
-                ->references('id')
-                ->on('building_block_types')
                 ->onDelete('cascade');
         });
     }

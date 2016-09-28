@@ -12,13 +12,14 @@
                     <h3>Create content</h3>
                 @endif
             </div>
+
+            @if($data['section']->block->single_item)
+                @include($views['single.form'])
+            @else
+                @include($views['multi.form'])
+            @endif
         </div>
 
-        @if($data['section']->block->single_item)
-            @include($views['single.form'])
-        @else
-            @include($views['multi.form'])
-        @endif
     </fieldset>
 
     <div class="row text-center">

@@ -7,7 +7,7 @@ use Metrique\Building\Abstracts\EloquentRepositoryAbstract;
 use Metrique\Building\Contracts\Page\ContentRepositoryInterface;
 use Stringy\Stringy;
 
-class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements ContentRepositoryInterface
+class OMG--ContentRepositoryEloquent extends EloquentRepositoryAbstract implements ContentRepositoryInterface
 {
     protected $modelClassName = 'Metrique\Building\Eloquent\Page\Content';
 
@@ -101,7 +101,7 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
      */
     public function store(Request $request, $pageId, $sectionId)
     {
-        $content = $this->parseRequest($request, $map = ['group_id', 'structure_id', 'content_id']);
+        $content = $this->parseRequest($request, ['group_id', 'structure_id', 'content_id']);
         $content = $this->groupParseRequest($content, ['page_id'=>$pageId, 'section_id'=>$sectionId]);
 
         switch ($request->input('type')) {
@@ -126,7 +126,7 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
     {
         return $this->model->where('building_page_sections_id', $id)->delete();
     }
-    
+
     private function storeSingle(Request $request, array $content)
     {
         foreach ($content as $key => $value) {
