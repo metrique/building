@@ -17,6 +17,14 @@ interface SectionRepositoryInterface
     public function find($id);
 
     /**
+    * Finds a section by id, and includes page details and structure.
+    *
+    * @param  int $id
+    * @return array
+    */
+    public function findWithStructure($id);
+
+    /**
      * Finds section regarding the section by page id.
      *
      * @param  int $id
@@ -24,13 +32,6 @@ interface SectionRepositoryInterface
      */
     public function byPageId($id, $order = ['order' => 'desc']);
 
-    /**
-     * Finds all information regarding the section by section id, including page details and structure.
-     *
-     * @param  int $id
-     * @return array
-     */
-    public function findWithAll($id);
 
     /**
      * Create a section from an array.

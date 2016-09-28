@@ -43,6 +43,7 @@ class SectionController extends Controller
         'edit' => 'page.section.edit',
         'update' => 'page.section.update',
         'destroy' => 'page.section.destroy',
+        'content.index' => 'page.section.content.index',
     ];
 
     /**

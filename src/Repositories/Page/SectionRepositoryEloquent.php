@@ -25,6 +25,16 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
     }
 
     /**
+    * {@inheritdocs}
+    */
+    public function findWithStructure($id)
+    {
+        return Section::with(['page', 'block.structure.type', 'block.structure' => function ($query) {
+            $query->orderBy('order', 'desc');
+        }])->where('id', $id)->first();
+    }
+
+    /**
      * {@inheritdocs}
      */
     public function byPageId($id, $order = ['order' => 'desc'])
@@ -34,17 +44,6 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
         ])->get();
     }
 
-    /**
-     * {@inheritdocs}
-     */
-    public function findWithAll($id)
-    {
-        $this->make();
-
-        return $this->model->with(['page', 'block.structure' => function ($query) {
-            $query->orderBy('order', 'desc');
-        }, 'block.structure.type'])->where('id', $id)->first()->toArray();
-    }
 
     /**
      * {@inheritdoc}

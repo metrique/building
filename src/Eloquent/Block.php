@@ -8,7 +8,11 @@ use Metrique\Building\Eloquent\Block\Structure;
 class Block extends Model
 {
     use Traits\CommonAttributes;
-    
+
+    protected $casts = [
+        'single_item' => 'boolean',
+    ];
+
     protected $fillable = [
         'title',
         'slug',

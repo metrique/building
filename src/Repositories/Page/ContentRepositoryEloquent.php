@@ -3,26 +3,24 @@
 namespace Metrique\Building\Repositories\Page;
 
 use Illuminate\Http\Request;
-use Metrique\Building\Abstracts\EloquentRepositoryAbstract;
 use Metrique\Building\Contracts\Page\ContentRepositoryInterface;
+use Metrique\Building\Eloquent\Page\Content;
 use Stringy\Stringy;
 
-class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements ContentRepositoryInterface
+class ContentRepositoryEloquent implements ContentRepositoryInterface
 {
-    protected $modelClassName = 'Metrique\Building\Eloquent\Page\Content';
-    
     /**
      * {@inheritdoc}
      */
     public function bySectionId($id)
     {
-        return $this->model
-            ->join('building_page_groups as group', 'group.id', '=', 'building_page_groups_id')
+        $content = Content::join('building_page_groups as group', 'group.id', '=', 'building_page_groups_id')
             ->select('building_page_contents.*', 'group.order', 'group.published')
             ->where(['building_page_sections_id' => $id])
             ->orderBy('group.order', 'desc')
-            ->get()
-            ->toArray();
+            ->get();
+
+        return $content;
     }
 
     /**
@@ -30,17 +28,20 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
      */
     public function groupBySectionId($id)
     {
-        $groups = [];
+        $groups = $this->bySectionId($id)->map(function ($item, $key) {
+            // $groupId =
+        });
 
-        foreach($this->bySectionId($id) as $key => $value)
-        {
+
+        // $groups = [];
+
+        foreach ($this->bySectionId($id) as $key => $value) {
             $content = [];
 
             // Create group
             $groupId = $value['building_page_groups_id'];
 
-            if(!array_key_exists($groupId, $groups))
-            {
+            if (!array_key_exists($groupId, $groups)) {
                 $groups[$groupId] = [];
             }
 
@@ -48,196 +49,68 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
             $groups[$groupId][$value['building_block_structures_id']] = $value;
         }
 
+        // dd($groups);
         return $groups;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function parseRequest(Request $request, array $map = [], $delimiter = '::')
+    public function inputName(array $params)
     {
-        $data = [];
+        $defaults = [
+            'structure' => '',
+            'group' => 0,
+            'content' => 0,
+        ];
 
-        foreach($request->all() as $key => $content)
-        {
-            if(!$keys = $this->requestKeyIsValid($key, $delimiter))
-            {
-                continue;
-            }
-
-            $keys = $this->mapParseRequest($keys, $map, isset($content) ? $content : '');
-            $data[] = $keys;
-        }
-        
-        return $data;
+        return implode('::', array_merge($defaults, $params));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function groupParseRequest(array $parseRequestData, array $include = [])
+    public function label($name, $label)
     {
-        $group = [];
-        
-        foreach($parseRequestData as $key => $value)
-        {
-            // If the item has a group_id
-            if(!array_key_exists('group_id', $value))
-            {
-                continue;
-            }
-
-            // If group doesn't exist then create!
-            if(!array_key_exists($value['group_id'], $group))
-            {
-                $group[$value['group_id']] = [];
-            }
-
-            // Add includes...
-            $value = array_merge($value, $include);
-
-            // Add the item to its respective group...
-            $group[$value['group_id']][] = $value;
-        }
-        
-        return $group;
+        return sprintf('<label for="%s">%s</label>', $name, $label);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function store(Request $request, $pageId, $sectionId)
+    public function input(array $params)
     {
-        $content = $this->parseRequest($request, $map = ['group_id', 'structure_id', 'content_id']);
-        $content = $this->groupParseRequest($content, ['page_id'=>$pageId, 'section_id'=>$sectionId]);
+        $defaults = [
+            'classes' => [],
+            'label' => '',
+            'name' => '',
+            'type' => 'text',
+            'value' => '',
+        ];
 
-        switch ($request->input('type')) {
-            case 'single':
-                return $this->storeSingle($request, $content);
-            break;
-            
-            case 'multi':
-                return $this->storeMulti($request, $content);
-            break;
+        $params = array_merge($defaults, $params);
+        $class = sprintf(' class="%s"', implode(' ', $params['classes']));
+        $label = $this->label($params['name'], $params['label']);
+
+        switch ($params['type']) {
+            case 'text-area':
+                return $label . sprintf(
+                    '<textarea %s name="%s">%s</textarea>',
+                    count($params['classes']) > 0 ? $class : '',
+                    $params['name'],
+                    $params['value']
+                );
+                break;
 
             default:
-                Throw new \Exception('Building request type was not valid.');
-            break;
+                return $label . sprintf(
+                    '<input %s name="%s" type="%s" value="%s">',
+                    count($params['classes']) > 0 ? $class : '',
+                    $params['name'],
+                    $params['type'],
+                    $params['value']
+                );
+                break;
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function destroyBySectionId($id)
-    {
-        return $this->model->where('building_page_sections_id', $id)->delete();
-    }
-
-    private function storeSingle(Request $request, array $content)
-    {
-        foreach ($content as $key => $value) {
-
-            // Get group key...
-            $groupId = $key;
-
-            // dd($request->all());
-            // Create a new group + new content.
-            if($groupId === 0)
-            {
-                \DB::transaction(function() use($value, $groupId, $request) {
-
-                    $groupId = $this->app->make('Metrique\Building\Contracts\Page\GroupRepositoryInterface')->create([
-                        'order' => $request->get('order-'.$groupId, 0),
-                        'published' => in_array(0, $request->get('published', []))
-                    ])->id;
-
-                    foreach($value as $key => $content)
-                    {
-                        // dump($key);
-                        $content['group_id'] = $groupId;
-
-                        $this->create([
-                            'content' => $content['_content'],
-                            'building_pages_id' => $content['page_id'],
-                            'building_page_sections_id' => $content['section_id'],
-                            'building_page_groups_id' => $content['group_id'],
-                            'building_block_structures_id' => $content['structure_id'],
-                            'building_block_types_id' => 1, // Do we even need this?
-                        ]);
-                    }
-                });
-    
-                continue;
-            }
-
-            // Existing group, or update!
-            \DB::transaction(function() use($value, $groupId, $request) {
-
-                $group = $this->app->make('Metrique\Building\Contracts\Page\GroupRepositoryInterface')->update($groupId, [
-                    'order' => $request->get('order-'.$groupId),
-                    'published' => in_array($groupId, $request->get('published', [])),
-                ]);
-
-                foreach($value as $key => $content)
-                {
-                    $this->update($content['content_id'], [
-                        'content' => $content['_content'],
-                    ]);
-                }
-            });
-        }
-
-        return true;
-    }
-
-    private function storeMulti(Request $request, array $content)
-    {
-        $this->storeSingle($request, $content);
-    }
-
-    /**
-     * Helper to validate that the request name is valid.
-     * @param  string $key
-     * @param  string $delimiter
-     * @return mixed
-     */
-    private function requestKeyIsValid($key, $delimiter)
-    {
-        $keys = explode($delimiter, $key);
-
-        if(!($keys & Stringy::create($key)->contains($delimiter)))
-        {
-            return false;
-        }
-
-        return $keys;
-    }
-
-    /**
-     * Help to maps the keys to an associative array.
-     * @param  $keys
-     * @param  array $map
-     * @param  string $content
-     * @return array
-     */
-    private function mapParseRequest($keys, $map, $content)
-    {
-        // Add content to array.
-        $keys['_content'] = $content;
-
-        // Shout this be mapped?
-        $shouldMap = count($map) > 0 ? true : false;
-
-        foreach($map as $key => $value)
-        {
-            if(array_key_exists($key, $keys))
-            {
-                $keys[$value] = $keys[$key];
-                unset($keys[$key]);
-            }
-        }
-
-        return $keys;
     }
 }

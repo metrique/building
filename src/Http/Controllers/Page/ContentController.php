@@ -12,35 +12,30 @@ use Metrique\Building\Http\Requests\PageRequest;
 class ContentController extends Controller
 {
     /**
-     * Holder for view data
-     * 
-     * @var array
-     */
-    protected $data = [];
-
-    /**
-     * List of views used.
-     * 
-     * @var array
-     */
-    protected $views = [
-        'single.index' => 'metrique-building::page.content.single.index',
-        'multi.index' => 'metrique-building::page.content.multi.index',
-        'create' => 'metrique-building::page.content.create',
-        'edit' => 'metrique-building::page.content.edit',
+    * List of routes used
+    * @var array
+    */
+    protected $routes = [
+        'index' => 'page.section.content.index',
+        'create' => 'page.section.content.create',
+        'store' => 'page.section.content.store',
+        'edit' => 'page.section.content.edit',
+        'update' => 'page.section.content.update',
+        'destroy' => 'page.section.content.destroy',
     ];
 
     /**
-     * List of routes used
-     * @var [type]
+     * List of views used.
+     *
+     * @var array
      */
-    protected $routes = [
-        'index' => 'cms.page.section.content.index',
-        'create' => 'cms.page.section.content.create',
-        'store' => 'cms.page.section.content.store',
-        'edit' => 'cms.page.section.content.edit',
-        'update' => 'cms.page.section.content.update',
-        'destroy' => 'cms.page.section.content.destroy',
+    protected $views = [
+        'index' => 'metrique-building::page.content.index',
+        'single.form' => 'metrique-building::page.content.single.form',
+        'multi.form' => 'metrique-building::page.content.multi.form',
+        'create' => 'metrique-building::page.content.create',
+        'edit' => 'metrique-building::page.content.edit',
+        'form' => 'metrique-building::page.content.form',
     ];
 
     public function __construct(SectionRepository $section, ContentRepository $content)
@@ -54,8 +49,21 @@ class ContentController extends Controller
      *
      * @return Response
      */
-    public function index($pageId, $sectionId)
+    public function index($id, $sectionId)
     {
+        $data = [
+            'routes' => $this->routes,
+            'views' => $this->views,
+            'data' => [
+                'content' => $this->content->groupBySectionId($sectionId),
+                'section' => $this->section->findWithStructure($sectionId),
+            ]
+        ];
+
+        // dd($data);
+
+        return view($this->views['index'])->with($data);
+        /*
         // General content pulling stuff.
         $section = $this->section->findWithAll($sectionId);
         $content = $this->content->groupBySectionId($sectionId);
@@ -83,6 +91,7 @@ class ContentController extends Controller
         }
 
         return view($this->views['multi.index'])->with($this->data);
+        */
     }
 
     /**
@@ -90,8 +99,22 @@ class ContentController extends Controller
      *
      * @return Response
      */
-    public function create($pageId, $sectionId)
+    public function create($id, $sectionId)
     {
+        $data = [
+            'routes' => $this->routes,
+            'views' => $this->views,
+            'content' => $this->content,
+            'data' => [
+                'content' => $this->content->groupBySectionId($sectionId),
+                'section' => $this->section->findWithStructure($sectionId),
+            ]
+        ];
+
+        // dd($data);
+
+        return view($this->views['create'])->with($data);
+        /*
         // General content pulling stuff.
         $section = $this->section->findWithAll($sectionId);
         $content = $this->content->groupBySectionId($sectionId);
@@ -110,6 +133,7 @@ class ContentController extends Controller
         ];
 
         return view($this->views['create'])->with($data);
+        */
     }
 
     /**
