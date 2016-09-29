@@ -1,9 +1,9 @@
-    <?php
+<?php
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBuildingPageSections extends Migration
+class CreatePages extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,14 @@ class CreateBuildingPageSections extends Migration
      */
     public function up()
     {
-        Schema::create('building_page_sections', function (Blueprint $table) {
+        Schema::create('pages', function (Blueprint $table) {
             $table->timestamps();
             $table->increments('id');
             $table->string('title', 255);
             $table->string('slug', 255)->unique();
-            $table->integer('order')->unsigned()->default(0);
             $table->text('params');
+            $table->text('meta');
+            $table->boolean('published')->default(0);
         });
     }
 
@@ -29,6 +30,6 @@ class CreateBuildingPageSections extends Migration
      */
     public function down()
     {
-        Schema::drop('building_page_sections');
+        Schema::drop('pages');
     }
 }

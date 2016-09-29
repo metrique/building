@@ -13,11 +13,11 @@ class Content extends Model
     protected $fillable = [
         'params',
         'content',
-        'building_pages_id',
-        'building_page_sections_id',
-        'building_page_groups_id',
-        'building_component_structures_id',
-        'building_component_types_id'
+        'pages_id',
+        'page_sections_id',
+        'page_groups_id',
+        'component_structures_id',
+        'component_types_id'
     ];
 
     /**
@@ -25,10 +25,10 @@ class Content extends Model
      *
      * @var string
      */
-    protected $table = 'building_page_contents';
+    protected $table = 'page_contents';
 
     public function group()
     {
-        return $this->belongsTo(Group::class, 'building_page_groups_id');
+        return $this->belongsTo(Group::class, 'page_groups_id');
     }
 }

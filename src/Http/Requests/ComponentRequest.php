@@ -24,7 +24,7 @@ class ComponentRequest extends Request
     public function rules()
     {
         return [
-            'title'=>'required|string|unique:building_components,id,'.$this->get('id'),
+            'title'=>'required|string|unique:components,id,'.$this->get('id'),
             'slug'=>'nullable|string',
             'params'=>'json',
             'single_item'=>'boolean',

@@ -2,7 +2,7 @@
 
 @section('content')
     @include('metrique-building::partial.header', [
-        'heading'=>'Page sections',
+        'heading'=>'Page content',
     ])
 
     @include($views['form'], [

@@ -4,7 +4,7 @@ namespace Metrique\Building\Database\Seeds;
 
 use Illuminate\Database\Seeder;
 
-class BuildingComponentTypesSeeder extends Seeder
+class ComponentTypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +13,7 @@ class BuildingComponentTypesSeeder extends Seeder
      */
     public function run()
     {
-        $blockTypes = [
+        $componentTypes = [
         [
                 // 1
                 'title'=>'Text',
@@ -29,11 +29,16 @@ class BuildingComponentTypesSeeder extends Seeder
                 'title'=>'File',
                 'slug'=>'file',
                 'params'=>'{}',
+            ],[
+                // 4
+                'title'=>'Widget',
+                'slug'=>'widget',
+                'params'=>'{}',
             ]
         ];
 
-        foreach ($blockTypes as $key => $value) {
-            \DB::table('building_block_types')->insert($value);
+        foreach ($componentTypes as $key => $value) {
+            \DB::table('component_types')->insert($value);
         }
     }
 }

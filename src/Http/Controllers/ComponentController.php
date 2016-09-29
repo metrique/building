@@ -8,7 +8,7 @@ use Metrique\Building\Http\Controllers\PageController;
 use Metrique\Building\Http\Requests\ComponentRequest;
 use Metrique\Plonk\Http\Controller;
 
-class BlockController extends Controller
+class ComponentController extends Controller
 {
     /**
      * List of views used.

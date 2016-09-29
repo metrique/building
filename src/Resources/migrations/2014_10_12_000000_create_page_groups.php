@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBuildingComponents extends Migration
+class CreatePageGroups extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,11 @@ class CreateBuildingComponents extends Migration
      */
     public function up()
     {
-        Schema::create('building_components', function (Blueprint $table) {
+        Schema::create('page_groups', function (Blueprint $table) {
             $table->timestamps();
             $table->increments('id');
-            $table->string('title', 255);
-            $table->string('slug', 255)->unique();
-            $table->boolean('single_item')->default(0);
-            $table->text('params');
+            $table->boolean('published');
+            $table->integer('order')->unsigned()->default(0);
         });
     }
 
@@ -29,6 +27,6 @@ class CreateBuildingComponents extends Migration
      */
     public function down()
     {
-        Schema::drop('building_components');
+        Schema::drop('page_groups');
     }
 }

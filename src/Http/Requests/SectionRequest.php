@@ -24,12 +24,12 @@ class SectionRequest extends Request
     public function rules()
     {
         return [
-            'title'=>'required|string|unique:building_page_sections,id,'.$this->get('id'),
+            'title'=>'required|string|unique:page_sections,id,'.$this->get('id'),
             'slug'=>'nullable|string',
             'order'=>'integer',
             'params'=>'json',
-            'building_pages_id'=>'required|exists:building_pages,id',
-            'building_components_id'=>'required|exists:building_components,id',
+            'pages_id'=>'required|exists:pages,id',
+            'components_id'=>'required|exists:components,id',
         ];
     }
 }

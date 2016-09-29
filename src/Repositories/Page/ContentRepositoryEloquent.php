@@ -23,9 +23,9 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
      */
     public function bySectionId($id)
     {
-        return Content::join('building_page_groups as group', 'group.id', '=', 'building_page_groups_id')
-            ->select('building_page_contents.*', 'group.order', 'group.published')
-            ->where(['building_page_sections_id' => $id])
+        return Content::join('page_groups as group', 'group.id', '=', 'page_groups_id')
+            ->select('page_contents.*', 'group.order', 'group.published')
+            ->where(['page_sections_id' => $id])
             ->orderBy('group.order', 'desc')
             ->get();
     }
@@ -35,26 +35,13 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
      */
     public function groupBySectionId($id)
     {
-        return $this->bySectionId($id)->groupBy('building_page_groups_id');
+        return $this->bySectionId($id)->groupBy('page_groups_id');
     }
 
     public function persistWithRequest($pageId, $sectionId)
     {
         $content = $this->parseRequest();
-
-        switch (request('type')) {
-            case 'single':
-                $this->persistSingle($content, $pageId, $sectionId);
-                break;
-
-            case 'multi':
-                $this->persistMulti($content, $pageId, $sectionId);
-                break;
-
-            default:
-                throw new \Exception('metrique\laravel-building: Persist type is not valid.');
-                break;
-        }
+        $this->persist($content, $pageId, $sectionId);
     }
 
     /**
@@ -82,7 +69,7 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
      *
      * @return bool
      */
-    protected function persistSingle(Collection $content, $pageId, $sectionId)
+    protected function persist(Collection $content, $pageId, $sectionId)
     {
         \DB::transaction(function () use ($content, $pageId, $sectionId) {
             $content->each(function ($item, $key) use ($pageId, $sectionId) {
@@ -98,10 +85,10 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
                     $item->each(function ($item, $key) use ($groupId, $pageId, $sectionId) {
                         Content::create([
                             'content' => $item['content'],
-                            'building_pages_id' => $pageId,
-                            'building_page_sections_id' => $sectionId,
-                            'building_page_groups_id' => $groupId,
-                            'building_component_structures_id' => $item['structure_id'],
+                            'pages_id' => $pageId,
+                            'page_sections_id' => $sectionId,
+                            'page_groups_id' => $groupId,
+                            'component_structures_id' => $item['structure_id'],
                         ]);
                     });
 
@@ -109,9 +96,9 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
                 }
 
                 // Update!
-                $group = Group::find($groupId)->update([
-                    'order' => request(sprintf('order-%s', 0), 0),
-                    'published' => in_array(0, request('published', [])),
+                Group::find($groupId)->update([
+                    'order' => request(sprintf('order-%s', $groupId), 0),
+                    'published' => in_array($groupId, request('published', [])),
                 ]);
 
                 $item->each(function ($item, $key) {
@@ -123,11 +110,6 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
                 return true;
             });
         });
-    }
-
-    protected function persistMulti(Collection $content, $pageId, $sectionId)
-    {
-        $this->persistSingle($content, $pageId, $sectionId);
     }
 
     /**
@@ -157,7 +139,7 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
      */
     public function fromGroupByStructure($group, $structureId)
     {
-        return $group->where('building_component_structures_id', $structureId)->first();
+        return $group->where('component_structures_id', $structureId)->first();
     }
 
     /**

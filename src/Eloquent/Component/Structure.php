@@ -11,8 +11,8 @@ class Structure extends Model
     protected $fillable = [
         'title',
         'order',
-        'building_components_id',
-        'building_component_types_id'
+        'components_id',
+        'component_types_id'
     ];
 
     /**
@@ -20,15 +20,15 @@ class Structure extends Model
      *
      * @var string
      */
-    protected $table = 'building_component_structures';
+    protected $table = 'component_structures';
 
     public function component()
     {
-        return $this->belongsTo(Component::class, 'building_components_id');
+        return $this->belongsTo(Component::class, 'components_id');
     }
 
     public function type()
     {
-        return $this->belongsTo(Type::class, 'building_component_types_id');
+        return $this->belongsTo(Type::class, 'component_types_id');
     }
 }

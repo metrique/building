@@ -40,7 +40,7 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
     public function byPageId($id, $order = ['order' => 'desc'])
     {
         return Section::orderBy('order', 'desc')->where([
-            'building_pages_id' => $id
+            'pages_id' => $id
         ])->get();
     }
 
@@ -66,8 +66,8 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
             'slug',
             'order',
             'params',
-            'building_pages_id',
-            'building_components_id',
+            'pages_id',
+            'components_id',
         ]));
     }
 
@@ -100,8 +100,8 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
             'slug',
             'order',
             'params',
-            'building_pages_id',
-            'building_components_id',
+            'pages_id',
+            'components_id',
         ]));
     }
 }

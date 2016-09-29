@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBuildingComponentTypes extends Migration
+class CreateComponents extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,12 @@ class CreateBuildingComponentTypes extends Migration
      */
     public function up()
     {
-        Schema::create('building_component_types', function (Blueprint $table) {
+        Schema::create('components', function (Blueprint $table) {
             $table->timestamps();
             $table->increments('id');
             $table->string('title', 255);
             $table->string('slug', 255)->unique();
+            $table->boolean('single_item')->default(0);
             $table->text('params');
         });
     }
@@ -28,6 +29,6 @@ class CreateBuildingComponentTypes extends Migration
      */
     public function down()
     {
-        Schema::drop('building_index_component_types');
+        Schema::drop('components');
     }
 }

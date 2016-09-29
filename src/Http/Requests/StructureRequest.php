@@ -26,8 +26,8 @@ class StructureRequest extends Request
         return [
             'title'=>'required|string',
             'order'=>'integer',
-            'building_components_id'=>'required|exists:building_components,id',
-            'building_component_types_id'=>'required|exists:building_component_types,id',
+            'components_id'=>'required|exists:components,id',
+            'component_types_id'=>'required|exists:component_types,id',
         ];
     }
 }

@@ -5,12 +5,12 @@ namespace Metrique\Building;
 use Collective\Html\HtmlServiceProvider;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\ServiceProvider;
-use Metrique\Building\Contracts\BlockRepositoryInterface;
-use Metrique\Building\Repositories\BlockRepositoryEloquent;
-use Metrique\Building\Contracts\Block\StructureRepositoryInterface;
-use Metrique\Building\Repositories\Block\StructureRepositoryEloquent;
-use Metrique\Building\Contracts\Block\TypeRepositoryInterface;
-use Metrique\Building\Repositories\Block\TypeRepositoryEloquent;
+use Metrique\Building\Contracts\ComponentRepositoryInterface;
+use Metrique\Building\Repositories\ComponentRepositoryEloquent;
+use Metrique\Building\Contracts\Component\StructureRepositoryInterface;
+use Metrique\Building\Repositories\Component\StructureRepositoryEloquent;
+use Metrique\Building\Contracts\Component\TypeRepositoryInterface;
+use Metrique\Building\Repositories\Component\TypeRepositoryEloquent;
 use Metrique\Building\Contracts\PageRepositoryInterface;
 use Metrique\Building\Repositories\PageRepositoryEloquent;
 use Metrique\Building\Contracts\Page\ContentRepositoryInterface;
@@ -70,7 +70,7 @@ class BuildingServiceProvider extends ServiceProvider
         $this->registerBuildingFacade();
 
         // Repositories
-        $this->registerBlocks();
+        $this->registerComponents();
         $this->registerPages();
 
         // Commands
@@ -90,21 +90,21 @@ class BuildingServiceProvider extends ServiceProvider
         });
     }
 
-    private function registerBlocks()
+    private function registerComponents()
     {
-        // Block
+        // Component
         $this->app->bind(
-            BlockRepositoryInterface::class,
-            BlockRepositoryEloquent::class
+            ComponentRepositoryInterface::class,
+            ComponentRepositoryEloquent::class
         );
 
-        // Block type
+        // Component type
         $this->app->bind(
             TypeRepositoryInterface::class,
             TypeRepositoryEloquent::class
         );
 
-        // Block structure
+        // Component structure
         $this->app->bind(
             StructureRepositoryInterface::class,
             StructureRepositoryEloquent::class
@@ -156,8 +156,8 @@ class BuildingServiceProvider extends ServiceProvider
     public function provides()
     {
         return [
-            // 'Metrique\Building\Contracts\BlockTypeRepositoryInterface',
-            // 'Metrique\Building\Repositories\BlockTypeRepositoryEloquent'
+            // 'Metrique\Building\Contracts\ComponentTypeRepositoryInterface',
+            // 'Metrique\Building\Repositories\ComponentTypeRepositoryEloquent'
         ];
     }
 }

@@ -130,7 +130,7 @@ class SectionController extends Controller
     public function update(SectionRequest $request, $id, $sectionId, SectionRepository $section, ContentRepository $content)
     {
         // Should this be move to section->update?
-        // if ($section->find($sectionId)->building_components_id != $request->input('building_components_id')) {
+        // if ($section->find($sectionId)->components_id != $request->input('components_id')) {
         //     $content->destroyBySectionId($sectionId);
         // }
         $section->updateWithRequest($sectionId);

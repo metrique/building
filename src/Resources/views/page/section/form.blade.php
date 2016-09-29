@@ -2,7 +2,7 @@
 
 <form action="{{ $action }}" method="POST">
     {!! csrf_field() !!}
-    <input type="hidden" name="building_pages_id" value="{{ $data['page']->id }}">
+    <input type="hidden" name="pages_id" value="{{ $data['page']->id }}">
 
     <fieldset class="panel panel-default">
         <div class="panel-body">
@@ -31,7 +31,7 @@
 
             <div class="form-group col-xs-12">
                 <label for="type">Component</label>
-                {!! $form->select('building_components_id', $data['components'], $edit ? $data['section']->building_components_id : null, ['class'=>'form-control', 'placeholder'=>'Select a component type...']) !!}
+                {!! $form->select('components_id', $data['components'], $edit ? $data['section']->components_id : null, ['class'=>'form-control', 'placeholder'=>'Select a component type...']) !!}
             </div>
 
             <div class="form-group col-xs-12">

@@ -17,10 +17,5 @@ class Type extends Model
      *
      * @var string
      */
-    protected $table = 'building_block_types';
-
-    // public function structure()
-    // {
-        // return $this->belongsTo('Metrique\Building\Eloquent\ComponentStructure', 'building_block_structure');
-    // }
+    protected $table = 'component_types';
 }

@@ -11,7 +11,7 @@ class StructureRepositoryEloquent implements StructureRepositoryInterface
 
     public function byComponentId($id)
     {
-        return Structure::orderBy('order', 'desc')->where('building_components_id', $id)->get();
+        return Structure::orderBy('order', 'desc')->where('components_id', $id)->get();
     }
 
     /**
@@ -40,8 +40,8 @@ class StructureRepositoryEloquent implements StructureRepositoryInterface
         return $this->create(request()->only([
             'title',
             'order',
-            'building_components_id',
-            'building_component_types_id',
+            'components_id',
+            'component_types_id',
         ]));
     }
 
@@ -71,8 +71,8 @@ class StructureRepositoryEloquent implements StructureRepositoryInterface
         return $this->update($id, request()->only([
             'title',
             'order',
-            'building_components_id',
-            'building_component_types_id',
+            'components_id',
+            'component_types_id',
         ]));
     }
 }

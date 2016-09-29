@@ -26,7 +26,7 @@ class Page extends Model
      *
      * @var string
      */
-    protected $table = 'building_pages';
+    protected $table = 'pages';
 
     public function __construct(array $attributes = [])
     {

@@ -25,10 +25,10 @@ class Component extends Model
      *
      * @var string
      */
-    protected $table = 'building_components';
+    protected $table = 'components';
 
     public function structure()
     {
-        return $this->hasMany(Structure::class, 'building_components_id');
+        return $this->hasMany(Structure::class, 'components_id');
     }
 }

@@ -20,5 +20,5 @@ class Group extends Model
      *
      * @var string
      */
-    protected $table = 'building_page_groups';
+    protected $table = 'page_groups';
 }

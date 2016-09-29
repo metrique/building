@@ -2,9 +2,9 @@
 
 @section('content')
     @include('metrique-building::partial.header', [
-        'heading'=>'Page sections',
+        'heading'=>'Page content',
     ])
-    
+
     @include($views['form'], [
         'action' => route($routes['update'], [$data['section']->page->id, $data['section']->id, 0]),
         'edit' => true,
