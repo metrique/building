@@ -1,6 +1,6 @@
 <form action="{{ $action }}" method="POST">
     {!! csrf_field() !!}
-    <input type="hidden" name="type" value="{{ $data['section']->block->single_item ? 'single' : 'multi' }}">
+    <input type="hidden" name="type" value="{{ $data['section']->component->single_item ? 'single' : 'multi' }}">
 
     <fieldset class="panel panel-default">
         <div class="panel-body">
@@ -13,7 +13,7 @@
                 @endif
             </div>
 
-            @if($data['section']->block->single_item)
+            @if($data['section']->component->single_item)
                 @include($views['single.form'])
             @else
                 @include($views['multi.form'])

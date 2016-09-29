@@ -4,7 +4,7 @@ namespace Metrique\Building\Commands;
 
 use Illuminate\Console\Command;
 use Metrique\Building\Traits\BuildingCommandOutputTrait;
-use Metrique\Building\Database\Seeds\BuildingBlockTypesSeeder;
+use Metrique\Building\Database\Seeds\BuildingComponentTypesSeeder;
 
 class BuildingSeedsCommand extends Command
 {
@@ -35,7 +35,7 @@ class BuildingSeedsCommand extends Command
      * @var array
      */
     protected $seeds = [
-        '\Metrique\Building\Database\Seeds\BuildingBlockTypesSeeder'
+        '\Metrique\Building\Database\Seeds\BuildingComponentTypesSeeder'
     ];
 
     /**

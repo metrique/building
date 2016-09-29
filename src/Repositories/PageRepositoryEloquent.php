@@ -73,7 +73,7 @@ class PageRepositoryEloquent implements PageRepositoryInterface
     public function update($id, array $data)
     {
         $data['slug'] = $data['slug'] ?: $data['title'];
-        
+
         return Page::find($id)->update($data);
     }
 
@@ -125,7 +125,7 @@ class PageRepositoryEloquent implements PageRepositoryInterface
             $value['params'] = json_decode($value['params'], true);
 
             // Widget rendering.
-            if ($value['block']['slug'] == 'widget') {
+            if ($value['component']['slug'] == 'widget') {
                 $value['_contents'] = array_pluck($content->bySectionId($value['id']), 'content');
                 $value['_contents'] = $this->app->make($value['_contents'][0])->render($value['_contents'][1], $this->app);
             } else {

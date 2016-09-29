@@ -4,7 +4,7 @@ namespace Metrique\Building\Http\Requests;
 
 use Metrique\Building\Http\Requests\Request;
 
-class StructureRequest extends Request
+class ComponentRequest extends Request
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,10 @@ class StructureRequest extends Request
     public function rules()
     {
         return [
-            'title'=>'required|string',
-            'order'=>'integer',
-            'building_components_id'=>'required|exists:building_components,id',
-            'building_component_types_id'=>'required|exists:building_component_types,id',
+            'title'=>'required|string|unique:building_components,id,'.$this->get('id'),
+            'slug'=>'nullable|string',
+            'params'=>'json',
+            'single_item'=>'boolean',
         ];
     }
 }

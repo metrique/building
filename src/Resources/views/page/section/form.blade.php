@@ -30,8 +30,8 @@
             </div>
 
             <div class="form-group col-xs-12">
-                <label for="type">Block</label>
-                {!! $form->select('building_blocks_id', $data['blocks'], $edit ? $data['section']->building_blocks_id : null, ['class'=>'form-control', 'placeholder'=>'Select a block type...']) !!}
+                <label for="type">Component</label>
+                {!! $form->select('building_components_id', $data['components'], $edit ? $data['section']->building_components_id : null, ['class'=>'form-control', 'placeholder'=>'Select a component type...']) !!}
             </div>
 
             <div class="form-group col-xs-12">

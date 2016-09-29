@@ -3,7 +3,7 @@
 namespace Metrique\Building\Http\Controllers\Page;
 
 use Illuminate\Http\Request;
-use Metrique\Building\Contracts\BlockRepositoryInterface as BlockRepository;
+use Metrique\Building\Contracts\ComponentRepositoryInterface as ComponentRepository;
 use Metrique\Building\Contracts\Page\ContentRepositoryInterface as ContentRepository;
 use Metrique\Building\Contracts\PageRepositoryInterface as PageRepository;
 use Metrique\Building\Contracts\Page\SectionRepositoryInterface as SectionRepository;
@@ -67,13 +67,13 @@ class SectionController extends Controller
      *
      * @return Response
      */
-    public function create($id, PageRepository $page, BlockRepository $block)
+    public function create($id, PageRepository $page, ComponentRepository $component)
     {
         return view($this->views['create'])->with([
             'routes' => $this->routes,
             'data' => [
                 'page' => $page->find($id),
-                'blocks' => $block->formBuilderSelect()
+                'components' => $component->formBuilderSelect()
             ]
         ]);
     }
@@ -108,14 +108,14 @@ class SectionController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id, $sectionId, PageRepository $page, SectionRepository $section, BlockRepository $block)
+    public function edit($id, $sectionId, PageRepository $page, SectionRepository $section, ComponentRepository $component)
     {
         return view($this->views['edit'])->with([
             'routes' => $this->routes,
             'data' => [
                 'page' => $page->find($id),
                 'section' => $section->find($sectionId),
-                'blocks' => $block->formBuilderSelect(),
+                'components' => $component->formBuilderSelect(),
             ],
         ]);
     }
@@ -130,7 +130,7 @@ class SectionController extends Controller
     public function update(SectionRequest $request, $id, $sectionId, SectionRepository $section, ContentRepository $content)
     {
         // Should this be move to section->update?
-        // if ($section->find($sectionId)->building_blocks_id != $request->input('building_blocks_id')) {
+        // if ($section->find($sectionId)->building_components_id != $request->input('building_components_id')) {
         //     $content->destroyBySectionId($sectionId);
         // }
         $section->updateWithRequest($sectionId);

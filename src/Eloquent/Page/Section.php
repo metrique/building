@@ -17,7 +17,7 @@ class Section extends Model
         'order',
         'params',
         'building_pages_id',
-        'building_blocks_id'
+        'building_components_id'
     ];
 
     /**
@@ -32,8 +32,8 @@ class Section extends Model
         return $this->belongsTo(Page::class, 'building_pages_id');
     }
 
-    public function block()
+    public function component()
     {
-        return $this->belongsTo(Block::class, 'building_blocks_id');
+        return $this->belongsTo(Block::class, 'building_components_id');
     }
 }

@@ -16,8 +16,8 @@ class Content extends Model
         'building_pages_id',
         'building_page_sections_id',
         'building_page_groups_id',
-        'building_block_structures_id',
-        'building_block_types_id'
+        'building_component_structures_id',
+        'building_component_types_id'
     ];
 
     /**

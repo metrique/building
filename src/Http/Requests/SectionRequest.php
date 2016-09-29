@@ -29,7 +29,7 @@ class SectionRequest extends Request
             'order'=>'integer',
             'params'=>'json',
             'building_pages_id'=>'required|exists:building_pages,id',
-            'building_blocks_id'=>'required|exists:building_blocks,id',
+            'building_components_id'=>'required|exists:building_components,id',
         ];
     }
 }

@@ -16,7 +16,7 @@ interface ContentRepositoryInterface
 
     /**
      * Returns grouped content belonging to a Section.
-     * The contents of the groups will conform to the block structure.
+     * The contents of the groups will conform to the component structure.
      *
      * @param  int $id
      * @return array

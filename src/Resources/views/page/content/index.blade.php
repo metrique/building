@@ -8,12 +8,12 @@
         'icon'=>'fa-plus'
     ])
 
-    @if($data['section']->block->structure->count() < 1)
-        <p>Whoops! <a href="{{ route('block.structure.index', $data['section']->block->id) }}">{{ $data['section']->block->title }}</a> has no structure.</p>
+    @if($data['section']->component->structure->count() < 1)
+        <p>Whoops! <a href="{{ route('component.structure.index', $data['section']->component->id) }}">{{ $data['section']->component->title }}</a> has no structure.</p>
     @endif
 
     {{-- Single Item --}}
-    @if($data['section']->block->single_item)
+    @if($data['section']->component->single_item)
         @if($data['content']->count() < 1)
             @include($views['create'], [
                 'routes' => $routes,
@@ -30,7 +30,7 @@
     @endif
 
     {{-- Multi Item --}}
-    @if(!$data['section']->block->single_item)
+    @if(!$data['section']->component->single_item)
         @if($data['content']->count() < 1)
             <p>No content exists.</p>
         @else

@@ -29,7 +29,7 @@
                                 <a href="{{ route('page.index') }}">Pages</a>
                             </li>
                             <li>
-                                <a href="{{ route('block.index') }}">Blocks</a>
+                                <a href="{{ route('component.index') }}">Components</a>
                             </li>
                     </div>
                 </div>

@@ -37,12 +37,12 @@ class FkBuildingPageContents extends Migration
                 ->on('building_page_groups')
                 ->onDelete('cascade');
 
-            $table->integer('building_block_structures_id')
+            $table->integer('building_component_structures_id')
                 ->unsigned();
 
-            $table->foreign('building_block_structures_id')
+            $table->foreign('building_component_structures_id')
                 ->references('id')
-                ->on('building_block_structures')
+                ->on('building_component_structures')
                 ->onDelete('cascade');
         });
     }
@@ -58,8 +58,8 @@ class FkBuildingPageContents extends Migration
             $table->dropForeign('building_pages_id');
             $table->dropForeign('building_page_sections_id');
             $table->dropForeign('building_page_groups_id');
-            $table->dropForeign('building_block_structures_id');
-            $table->dropForeign('building_block_types_id');
+            $table->dropForeign('building_component_structures_id');
+            $table->dropForeign('building_component_types_id');
         });
     }
 }

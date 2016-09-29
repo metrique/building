@@ -36,25 +36,6 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
     public function groupBySectionId($id)
     {
         return $this->bySectionId($id)->groupBy('building_page_groups_id');
-
-        /* Temp..
-        $groups = [];
-        foreach ($this->bySectionId($id) as $key => $value) {
-            $content = [];
-
-            // Create group
-            $groupId = $value['building_page_groups_id'];
-
-            if (!array_key_exists($groupId, $groups)) {
-                $groups[$groupId] = [];
-            }
-
-            // Re map content, groupId -> sectionId -> content
-            $groups[$groupId][$value['building_block_structures_id']] = $value;
-        }
-
-        return $groups;
-        */
     }
 
     public function persistWithRequest($pageId, $sectionId)
@@ -120,7 +101,7 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
                             'building_pages_id' => $pageId,
                             'building_page_sections_id' => $sectionId,
                             'building_page_groups_id' => $groupId,
-                            'building_block_structures_id' => $item['structure_id'],
+                            'building_component_structures_id' => $item['structure_id'],
                         ]);
                     });
 
@@ -176,7 +157,7 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
      */
     public function fromGroupByStructure($group, $structureId)
     {
-        return $group->where('building_block_structures_id', $structureId)->first();
+        return $group->where('building_component_structures_id', $structureId)->first();
     }
 
     /**

@@ -29,7 +29,7 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
     */
     public function findWithStructure($id)
     {
-        return Section::with(['page', 'block.structure.type', 'block.structure' => function ($query) {
+        return Section::with(['page', 'component.structure.type', 'component.structure' => function ($query) {
             $query->orderBy('order', 'desc');
         }])->where('id', $id)->first();
     }
@@ -67,7 +67,7 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
             'order',
             'params',
             'building_pages_id',
-            'building_blocks_id',
+            'building_components_id',
         ]));
     }
 
@@ -101,7 +101,7 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
             'order',
             'params',
             'building_pages_id',
-            'building_blocks_id',
+            'building_components_id',
         ]));
     }
 }

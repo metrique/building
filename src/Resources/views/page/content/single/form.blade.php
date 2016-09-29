@@ -1,6 +1,6 @@
 {{-- Create form --}}
 @if(!$edit)
-    @foreach($data['section']->block->structure as $structure)
+    @foreach($data['section']->component->structure as $structure)
         <div class="form-group col-xs-12">
             {!!
                 $content->input([
@@ -25,7 +25,7 @@
 {{-- Edit form}} --}}
 @if($edit)
     @foreach($data['content'] as $groupId => $group)
-        @foreach($data['section']->block->structure as $structure)
+        @foreach($data['section']->component->structure as $structure)
             <div class="form-group col-xs-12">
                 {!!
                     $content->input([
