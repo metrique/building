@@ -57,10 +57,6 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
         */
     }
 
-    public function create(array $data)
-    {
-    }
-
     public function persistWithRequest($pageId, $sectionId)
     {
         $content = $this->parseRequest();
@@ -101,12 +97,13 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
 
     /**
      * Persist single component item to database.
+     *
      * @return bool
      */
     protected function persistSingle(Collection $content, $pageId, $sectionId)
     {
-        \DB::transaction(function () use ($content) {
-            $content->each(function ($item, $key) {
+        \DB::transaction(function () use ($content, $pageId, $sectionId) {
+            $content->each(function ($item, $key) use ($pageId, $sectionId) {
                 $groupId = $key;
 
                 // Create
@@ -130,9 +127,9 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
                 }
 
                 // Update!
-                $group = Group::update($groupId, [
-                    'order' => request(sprintf('order-%s', $groupId), 0),
-                    'published' => in_array($groupId, request('published', [])),
+                $group = Group::find($groupId)->update([
+                    'order' => request(sprintf('order-%s', 0), 0),
+                    'published' => in_array(0, request('published', [])),
                 ]);
 
                 $item->each(function ($item, $key) {
@@ -166,6 +163,14 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
         }
 
         return collect($this->defaultInputName)->keys()->combine($params);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fromGroupByStructure($group, $structureId)
+    {
+        return $group->where('building_block_structures_id', $structureId)->first();
     }
 
     /**

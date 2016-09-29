@@ -44,9 +44,15 @@ interface ContentRepositoryInterface
      * The format should be StructureId::GroupId::ContentId
      *
      * @param  string $name
-     * @return array $params
+     * @return array
      */
     public function parseInputName(string $name);
+
+    /**
+     * Helper method to extract content from a group according to its structure id.
+     * @return array
+     */
+    public function fromGroupByStructure($group, $structureId);
 
     /**
      * Generates the markup for label tags.

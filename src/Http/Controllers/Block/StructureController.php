@@ -114,8 +114,8 @@ class StructureController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  int  $id
+     * @param  Request $request
+     * @param  int $id
      * @return Response
      */
     public function update(StructureRequest $request, $id, $structureId, StructureRepository $structure)
