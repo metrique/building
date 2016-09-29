@@ -67,6 +67,7 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
                 break;
 
             case 'multi':
+                $this->persistMulti($content, $pageId, $sectionId);
                 break;
 
             default:
@@ -141,6 +142,11 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
                 return true;
             });
         });
+    }
+
+    protected function persistMulti(Collection $content, $pageId, $sectionId)
+    {
+        $this->persistSingle($content, $pageId, $sectionId);
     }
 
     /**
