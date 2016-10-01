@@ -34,6 +34,11 @@ class BuildingServiceProvider extends ServiceProvider
     {
         parent::__construct($app);
 
+        // Register Routes
+        if (! $this->app->routesAreCached()) {
+            require __DIR__.'/Routes/web.php';
+        }
+
         // Register other packages.
         $this->html = new HtmlServiceProvider($app);
     }
