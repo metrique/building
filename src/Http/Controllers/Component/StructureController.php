@@ -44,13 +44,14 @@ class StructureController extends Controller
      */
     public function index($id, Component $component, Structure $structure)
     {
-        return view($this->views['index'])->with([
-            'routes' => $this->routes,
+        $this->mergeViewData([
             'data' => [
                 'component' => $component->find($id),
                 'structure' => $structure->byComponentId($id),
-            ],
+            ]
         ]);
+
+        return $this->viewWithData($this->views['index']);
     }
 
     /**
@@ -60,13 +61,14 @@ class StructureController extends Controller
      */
     public function create($id, Component $component, Type $type)
     {
-        return view($this->views['create'])->with([
-            'routes' => $this->routes,
+        $this->mergeViewData([
             'data' => [
                 'component' => $component->find($id),
                 'types' => $type->formBuilderSelect(),
             ]
         ]);
+
+        return $this->viewWithData($this->views['create']);
     }
 
     /**
@@ -101,14 +103,15 @@ class StructureController extends Controller
      */
     public function edit($id, $structureId, Component $component, Structure $structure, Type $type)
     {
-        return view($this->views['edit'])->with([
-            'routes' => $this->routes,
+        $this->mergeViewData([
             'data' => [
                 'component' => $component->find($id),
                 'structure' => $structure->find($structureId),
                 'types' => $type->formBuilderSelect(),
-            ],
+            ]
         ]);
+
+        return $this->viewWithData($this->views['edit']);
     }
 
     /**

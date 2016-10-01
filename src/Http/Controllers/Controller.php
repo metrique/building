@@ -48,4 +48,12 @@ class Controller extends BaseController
     {
         return $this->viewData = array_merge($this->viewData, $data);
     }
+
+    /**
+     * Helper to include view data.
+     */
+    protected viewWithData($view)
+    {
+        return view($view)->with($this->viewData);
+    }
 }

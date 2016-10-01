@@ -60,7 +60,7 @@ class SectionController extends Controller
             ]
         ]);
 
-        return view($this->views['index'])->with($this->viewData);
+        return $this->viewWithData($this->views['index']);
     }
 
     /**
@@ -77,7 +77,7 @@ class SectionController extends Controller
             ]
         ]);
 
-        return view($this->views['create'])->with($this->viewData);
+        return $this->viewWithData($this->views['create']);
     }
 
     /**
@@ -120,7 +120,7 @@ class SectionController extends Controller
             ],
         ]);
 
-        return view($this->views['edit'])->with($this->viewData);
+        return $this->viewWithData($this->views['edit']);
     }
 
     /**

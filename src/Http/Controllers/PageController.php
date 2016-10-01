@@ -45,7 +45,7 @@ class PageController extends Controller
             'data' => $page->all(),
         ]);
 
-        return view($this->views['index'])->with($this->viewData);
+        return $this->viewWithData($this->views['index']);
     }
 
     /**
@@ -55,7 +55,7 @@ class PageController extends Controller
      */
     public function create()
     {
-        return view($this->views['create'])->with($this->viewData);
+        return $this->viewWithData($this->views['create']);
     }
 
     /**
@@ -94,7 +94,7 @@ class PageController extends Controller
             'data' => $page->find($id),
         ]);
 
-        return view($this->views['edit'])->with($this->viewData);
+        return $this->viewWithData($this->views['edit']);
     }
 
     /**

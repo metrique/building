@@ -61,7 +61,7 @@ class ContentController extends Controller
             ]
         ]);
 
-        return view($this->views['index'])->with($this->viewData);
+        return $this->viewWithData($this->views['index']);
     }
 
     /**
@@ -79,7 +79,7 @@ class ContentController extends Controller
             ]
         ]);
 
-        return view($this->views['create'])->with($this->viewData);
+        return $this->viewWithData($this->views['create']);
     }
 
     /**
@@ -140,7 +140,7 @@ class ContentController extends Controller
     public function destroy($id, $sectionId, $groupId, Group $group)
     {
         $group->destroy($groupId);
-        
+
         return redirect()->back();
     }
 }
