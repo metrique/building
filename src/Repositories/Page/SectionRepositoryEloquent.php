@@ -76,6 +76,7 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
      */
     public function destroy($id)
     {
+        // TODO: Destroy any related groups...
         return Section::destroy($id);
     }
 

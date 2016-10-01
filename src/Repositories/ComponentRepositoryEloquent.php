@@ -52,7 +52,7 @@ class ComponentRepositoryEloquent implements ComponentRepositoryInterface
      */
     public function destroy($id)
     {
-        return Page::destroy($id);
+        return Component::destroy($id);
     }
 
     /**
