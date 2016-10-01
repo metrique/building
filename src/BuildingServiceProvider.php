@@ -34,11 +34,6 @@ class BuildingServiceProvider extends ServiceProvider
     {
         parent::__construct($app);
 
-        // Register Routes
-        if (! $this->app->routesAreCached()) {
-            require __DIR__.'/Routes/web.php';
-        }
-
         // Register other packages.
         $this->html = new HtmlServiceProvider($app);
     }
@@ -53,8 +48,18 @@ class BuildingServiceProvider extends ServiceProvider
 
         // Config
         $this->publishes([
-            __DIR__.'/Resources/config/metrique-building.php' => config_path('metrique-building.php')
-        ], 'metrique-building');
+            __DIR__.'/Resources/config/building.php' => config_path('building.php')
+        ], 'building-config');
+
+        $this->mergeConfigFrom(
+            __DIR__.'/Resources/config/building.php', 'building'
+        );
+
+        // Register Routes
+        if (! $this->app->routesAreCached()) {
+            require __DIR__.'/Routes/api.php';
+            require __DIR__.'/Routes/web.php';
+        }
 
         // Migrations
         $this->loadMigrationsFrom(__DIR__.'/Resources/migrations');
@@ -151,18 +156,5 @@ class BuildingServiceProvider extends ServiceProvider
         $this->app->singleton('command.metrique.building-seed', function ($app) {
             return new BuildingSeedsCommand();
         });
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [
-            // 'Metrique\Building\Contracts\ComponentTypeRepositoryInterface',
-            // 'Metrique\Building\Repositories\ComponentTypeRepositoryEloquent'
-        ];
     }
 }
