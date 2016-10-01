@@ -3,10 +3,9 @@
 namespace Metrique\Building\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Metrique\Building\Contracts\ComponentRepositoryInterface as ComponentRepository;
+use Metrique\Building\Contracts\ComponentRepositoryInterface as Component;
 use Metrique\Building\Http\Controllers\PageController;
 use Metrique\Building\Http\Requests\ComponentRequest;
-use Metrique\Plonk\Http\Controller;
 
 class ComponentController extends Controller
 {
@@ -40,12 +39,13 @@ class ComponentController extends Controller
      *
      * @return Response
      */
-    public function index(ComponentRepository $components)
+    public function index(Component $component)
     {
-        return view($this->views['index'])->with([
-            'data' => $components->all(),
-            'routes' => $this->routes,
+        $this->mergeViewData([
+            'data' => $component->all(),
         ]);
+
+        return view($this->views['index'])->with($this->viewData);
     }
 
     /**
@@ -55,9 +55,7 @@ class ComponentController extends Controller
      */
     public function create()
     {
-        return view($this->views['create'])->with([
-            'routes' => $this->routes,
-        ]);
+        return view($this->views['create'])->with($this->viewData);
     }
 
     /**
@@ -66,7 +64,7 @@ class ComponentController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(ComponentRequest $request, ComponentRepository $component)
+    public function store(ComponentRequest $request, Component $component)
     {
         $component->createWithRequest();
 
@@ -90,12 +88,13 @@ class ComponentController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id, ComponentRepository $component)
+    public function edit($id, Component $component)
     {
-        return view($this->views['edit'])->with([
-            'routes' => $this->routes,
+        $this->mergeViewData([
             'data' => $component->find($id),
         ]);
+
+        return view($this->views['edit'])->with($this->viewData);
     }
 
     /**
@@ -105,7 +104,7 @@ class ComponentController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(ComponentRequest $request, $id, ComponentRepository $component)
+    public function update(ComponentRequest $request, $id, Component $component)
     {
         $component->updateWithRequest($id);
 
@@ -118,7 +117,7 @@ class ComponentController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id, ComponentRepository $component)
+    public function destroy($id, Component $component)
     {
         $component->destroy($id);
 

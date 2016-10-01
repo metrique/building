@@ -3,9 +3,9 @@
 namespace Metrique\Building\Http\Controllers\Component;
 
 use Illuminate\Http\Request;
-use Metrique\Building\Contracts\ComponentRepositoryInterface as ComponentRepository;
-use Metrique\Building\Contracts\Component\StructureRepositoryInterface as StructureRepository;
-use Metrique\Building\Contracts\Component\TypeRepositoryInterface as TypeRepository;
+use Metrique\Building\Contracts\ComponentRepositoryInterface as Component;
+use Metrique\Building\Contracts\Component\StructureRepositoryInterface as Structure;
+use Metrique\Building\Contracts\Component\TypeRepositoryInterface as Type;
 use Metrique\Building\Http\Controllers\PageController;
 use Metrique\Building\Http\Requests\StructureRequest;
 use Metrique\Plonk\Http\Controller;
@@ -42,12 +42,12 @@ class StructureController extends Controller
      *
      * @return Response
      */
-    public function index($id, ComponentRepository $components, StructureRepository $structure)
+    public function index($id, Component $component, Structure $structure)
     {
         return view($this->views['index'])->with([
             'routes' => $this->routes,
             'data' => [
-                'component' => $components->find($id),
+                'component' => $component->find($id),
                 'structure' => $structure->byComponentId($id),
             ],
         ]);
@@ -58,12 +58,12 @@ class StructureController extends Controller
      *
      * @return Response
      */
-    public function create($id, ComponentRepository $components, TypeRepository $type)
+    public function create($id, Component $component, Type $type)
     {
         return view($this->views['create'])->with([
             'routes' => $this->routes,
             'data' => [
-                'component' => $components->find($id),
+                'component' => $component->find($id),
                 'types' => $type->formBuilderSelect(),
             ]
         ]);
@@ -75,7 +75,7 @@ class StructureController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store($id, StructureRequest $request, StructureRepository $structure)
+    public function store($id, StructureRequest $request, Structure $structure)
     {
         $structure->createWithRequest();
 
@@ -99,7 +99,7 @@ class StructureController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id, $structureId, ComponentRepository $component, StructureRepository $structure, TypeRepository $type)
+    public function edit($id, $structureId, Component $component, Structure $structure, Type $type)
     {
         return view($this->views['edit'])->with([
             'routes' => $this->routes,
@@ -118,7 +118,7 @@ class StructureController extends Controller
      * @param  int $id
      * @return Response
      */
-    public function update(StructureRequest $request, $id, $structureId, StructureRepository $structure)
+    public function update(StructureRequest $request, $id, $structureId, Structure $structure)
     {
         $structure->updateWithRequest($structureId);
 
@@ -131,7 +131,7 @@ class StructureController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id, $structureId, StructureRepository $structure)
+    public function destroy($id, $structureId, Structure $structure)
     {
         $structure->destroy($structureId);
 

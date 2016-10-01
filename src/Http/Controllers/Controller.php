@@ -10,4 +10,42 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    /**
+     * Data for views.
+     * @var array
+     */
+    protected $viewData = [];
+
+    /**
+     * List of views used.
+     *
+     * @var array
+     */
+    protected $views = [];
+
+    /**
+     * List of routes used
+     * @var array
+     */
+    protected $routes = [];
+
+    public function __construct()
+    {
+        $this->viewData = [
+            'routes' => $this->routes,
+            'views' => $this->views,
+            'data' => [],
+        ];
+    }
+
+    /**
+     * Merges default view data with new view data.
+     * @param  array $data
+     * @return array
+     */
+    protected function mergeViewData($data)
+    {
+        return $this->viewData = array_merge($this->viewData, $data);
+    }
 }

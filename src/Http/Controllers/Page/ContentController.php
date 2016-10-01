@@ -3,9 +3,9 @@
 namespace Metrique\Building\Http\Controllers\Page;
 
 use Illuminate\Http\Request;
-use Metrique\Building\Contracts\Page\ContentRepositoryInterface as ContentRepository;
-use Metrique\Building\Contracts\Page\GroupRepositoryInterface as GroupRepository;
-use Metrique\Building\Contracts\Page\SectionRepositoryInterface as SectionRepository;
+use Metrique\Building\Contracts\Page\ContentRepositoryInterface as Content;
+use Metrique\Building\Contracts\Page\GroupRepositoryInterface as Group;
+use Metrique\Building\Contracts\Page\SectionRepositoryInterface as Section;
 use Metrique\Building\Http\Controllers\Controller;
 use Metrique\Building\Http\Requests\PageRequest;
 
@@ -38,8 +38,10 @@ class ContentController extends Controller
         'form' => 'metrique-building::page.content.form',
     ];
 
-    public function __construct(SectionRepository $section, ContentRepository $content)
+    public function __construct(Section $section, Content $content)
     {
+        parent::__construct();
+
         $this->section = $section;
         $this->content = $content;
     }
@@ -51,17 +53,15 @@ class ContentController extends Controller
      */
     public function index($id, $sectionId)
     {
-        $data = [
-            'routes' => $this->routes,
-            'views' => $this->views,
+        $this->mergeViewData([
             'content' => $this->content,
             'data' => [
                 'content' => $this->content->groupBySectionId($sectionId),
                 'section' => $this->section->findWithStructure($sectionId),
             ]
-        ];
+        ]);
 
-        return view($this->views['index'])->with($data);
+        return view($this->views['index'])->with($this->viewData);
     }
 
     /**
@@ -71,17 +71,15 @@ class ContentController extends Controller
      */
     public function create($id, $sectionId)
     {
-        $data = [
-            'routes' => $this->routes,
-            'views' => $this->views,
+        $this->mergeViewData([
             'content' => $this->content,
             'data' => [
                 'content' => $this->content->groupBySectionId($sectionId),
                 'section' => $this->section->findWithStructure($sectionId),
             ]
-        ];
+        ]);
 
-        return view($this->views['create'])->with($data);
+        return view($this->views['create'])->with($this->viewData);
     }
 
     /**
@@ -139,14 +137,10 @@ class ContentController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id, $sectionId, $groupId, GroupRepository $group)
+    public function destroy($id, $sectionId, $groupId, Group $group)
     {
-        try {
-            $group->destroy($groupId);
-            // flash()->success(trans('common.success'));
-        } catch (\Exception $e) {
-            // flash()->error(trans('error.general'));
-        }
+        $group->destroy($groupId);
+        
         return redirect()->back();
     }
 }

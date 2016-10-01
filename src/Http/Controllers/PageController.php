@@ -3,19 +3,12 @@
 namespace Metrique\Building\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Metrique\Building\Contracts\PageRepositoryInterface as PageRepository;
+use Metrique\Building\Contracts\PageRepositoryInterface as Page;
 use Metrique\Building\Http\Controllers\Controller;
 use Metrique\Building\Http\Requests\PageRequest;
 
 class PageController extends Controller
 {
-    /**
-     * Holder for view data
-     *
-     * @var array
-     */
-    protected $data = [];
-
     /**
      * List of views used.
      *
@@ -29,7 +22,7 @@ class PageController extends Controller
 
     /**
      * List of routes used
-     * @var [type]
+     * @var array
      */
     protected $routes = [
         'index' => 'page.index',
@@ -46,12 +39,13 @@ class PageController extends Controller
      *
      * @return Response
      */
-    public function index(PageRepository $page)
+    public function index(Page $page)
     {
-        return view($this->views['index'])->with([
+        $this->mergeViewData([
             'data' => $page->all(),
-            'routes' => $this->routes,
         ]);
+
+        return view($this->views['index'])->with($this->viewData);
     }
 
     /**
@@ -61,9 +55,7 @@ class PageController extends Controller
      */
     public function create()
     {
-        return view($this->views['create'])->with([
-            'routes' => $this->routes,
-        ]);
+        return view($this->views['create'])->with($this->viewData);
     }
 
     /**
@@ -72,7 +64,7 @@ class PageController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(PageRequest $request, PageRepository $page)
+    public function store(PageRequest $request, Page $page)
     {
         $page->createWithRequest();
 
@@ -96,12 +88,13 @@ class PageController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id, PageRepository $page)
+    public function edit($id, Page $page)
     {
-        return view($this->views['edit'])->with([
+        $this->mergeViewData([
             'data' => $page->find($id),
-            'routes' => $this->routes,
         ]);
+
+        return view($this->views['edit'])->with($this->viewData);
     }
 
     /**
@@ -111,7 +104,7 @@ class PageController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(PageRequest $request, $id, PageRepository $page)
+    public function update(PageRequest $request, $id, Page $page)
     {
         $page->updateWithRequest($id);
 
@@ -124,7 +117,7 @@ class PageController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id, PageRepository $page)
+    public function destroy($id, Page $page)
     {
         $page->destroy($id);
 

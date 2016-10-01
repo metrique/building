@@ -3,7 +3,7 @@
 namespace Metrique\Building\Http\Controllers\Component;
 
 use Illuminate\Http\Request;
-use Metrique\Building\Contracts\Component\TypeRepositoryInterface as TypeRepository;
+use Metrique\Building\Contracts\Component\TypeRepositoryInterface as Type;
 use Metrique\Building\Http\Controllers\Controller;
 
 class TypeController extends Controller
@@ -13,7 +13,7 @@ class TypeController extends Controller
      *
      * @return Response
      */
-    public function index(TypeRepository $type)
+    public function index(Type $type)
     {
         $data = [
             'types' => $type->all(['title', 'slug', 'params', 'input_type'], ['slug' => 'ASC'])
@@ -41,7 +41,7 @@ class TypeController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(ComponentTypeRequest $request, TypeRepository $type)
+    public function store(ComponentTypeRequest $request, Type $type)
     {
         $type->create([
                 'title' => $request->input('title'),
@@ -68,7 +68,7 @@ class TypeController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id, TypeRepository $type)
+    public function edit($id, Type $type)
     {
         $type = $type->find($id);
 
@@ -86,7 +86,7 @@ class TypeController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(ComponentTypeRequest $request, $id, TypeRepository $type)
+    public function update(ComponentTypeRequest $request, $id, Type $type)
     {
         //
             $type->update($id, [
@@ -103,7 +103,7 @@ class TypeController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id, TypeRepository $type)
+    public function destroy($id, Type $type)
     {
         $type->destroy($id);
 

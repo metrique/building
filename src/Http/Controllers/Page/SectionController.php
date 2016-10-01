@@ -3,10 +3,10 @@
 namespace Metrique\Building\Http\Controllers\Page;
 
 use Illuminate\Http\Request;
-use Metrique\Building\Contracts\ComponentRepositoryInterface as ComponentRepository;
-use Metrique\Building\Contracts\Page\ContentRepositoryInterface as ContentRepository;
-use Metrique\Building\Contracts\PageRepositoryInterface as PageRepository;
-use Metrique\Building\Contracts\Page\SectionRepositoryInterface as SectionRepository;
+use Metrique\Building\Contracts\ComponentRepositoryInterface as Component;
+use Metrique\Building\Contracts\Page\ContentRepositoryInterface as Content;
+use Metrique\Building\Contracts\PageRepositoryInterface as Page;
+use Metrique\Building\Contracts\Page\SectionRepositoryInterface as Section;
 use Metrique\Building\Http\Controllers\Controller;
 use Metrique\Building\Http\Requests\PageRequest;
 use Metrique\Building\Http\Requests\SectionRequest;
@@ -51,15 +51,16 @@ class SectionController extends Controller
      *
      * @return Response
      */
-    public function index($id, PageRepository $page, SectionRepository $section)
+    public function index($id, Page $page, Section $section)
     {
-        return view($this->views['index'])->with([
-            'routes' => $this->routes,
+        $this->mergeViewData([
             'data' => [
                 'page' => $page->find($id),
                 'section' => $section->byPageId($id),
             ]
         ]);
+
+        return view($this->views['index'])->with($this->viewData);
     }
 
     /**
@@ -67,15 +68,16 @@ class SectionController extends Controller
      *
      * @return Response
      */
-    public function create($id, PageRepository $page, ComponentRepository $component)
+    public function create($id, Page $page, Component $component)
     {
-        return view($this->views['create'])->with([
-            'routes' => $this->routes,
+        $this->mergeViewData([
             'data' => [
                 'page' => $page->find($id),
                 'components' => $component->formBuilderSelect()
             ]
         ]);
+
+        return view($this->views['create'])->with($this->viewData);
     }
 
     /**
@@ -84,7 +86,7 @@ class SectionController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store($id, SectionRequest $request, SectionRepository $section)
+    public function store($id, SectionRequest $request, Section $section)
     {
         $section->createWithRequest();
 
@@ -108,16 +110,17 @@ class SectionController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id, $sectionId, PageRepository $page, SectionRepository $section, ComponentRepository $component)
+    public function edit($id, $sectionId, Page $page, Section $section, Component $component)
     {
-        return view($this->views['edit'])->with([
-            'routes' => $this->routes,
+        $this->mergeViewData([
             'data' => [
                 'page' => $page->find($id),
                 'section' => $section->find($sectionId),
                 'components' => $component->formBuilderSelect(),
             ],
         ]);
+
+        return view($this->views['edit'])->with($this->viewData);
     }
 
     /**
@@ -127,9 +130,9 @@ class SectionController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(SectionRequest $request, $id, $sectionId, SectionRepository $section, ContentRepository $content)
+    public function update(SectionRequest $request, $id, $sectionId, Section $section, Content $content)
     {
-        // Should this be move to section->update?
+        // TODO: hould this be moved to section->update?
         // if ($section->find($sectionId)->components_id != $request->input('components_id')) {
         //     $content->destroyBySectionId($sectionId);
         // }
@@ -144,7 +147,7 @@ class SectionController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id, $sectionId, SectionRepository $section)
+    public function destroy($id, $sectionId, Section $section)
     {
         $section->destroy($sectionId);
 
