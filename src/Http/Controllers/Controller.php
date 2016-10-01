@@ -52,7 +52,7 @@ class Controller extends BaseController
     /**
      * Helper to include view data.
      */
-    protected viewWithData($view)
+    protected function viewWithData($view)
     {
         return view($view)->with($this->viewData);
     }
