@@ -2,7 +2,7 @@
 
 @section('content')
     @include('metrique-building::partial.header', [
-        'heading'=>'Page content',
+        'heading'=>'Page contents',
         'link'=>route($routes['create'], [$data['section']->page->id, $data['section']->id]),
         'title'=>'New content',
         'icon'=>'fa-plus'

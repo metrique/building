@@ -22,7 +22,7 @@
     </div>
 @endif
 
-{{-- Edit form}} --}}
+{{-- Edit form --}}
 @if($edit)
     @foreach($data['content'] as $groupId => $group)
         @foreach($data['section']->component->structure as $structure)

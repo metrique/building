@@ -3,6 +3,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <title>Building</title>
         <style media="screen">
 
             form {
@@ -23,7 +24,7 @@
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="github.com/metrique/laravel-building">Laravel Building</a>
+                        <a class="navbar-brand" href="github.com/metrique/laravel-building"><i class="fa fa-lg fa-building-o" aria-hidden="true"></i> Building</a>
                         <ul class="nav navbar-nav">
                             <li>
                                 <a href="{{ route('page.index') }}">Pages</a>

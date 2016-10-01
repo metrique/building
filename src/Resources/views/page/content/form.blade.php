@@ -16,7 +16,9 @@
             @if($data['section']->component->single_item)
                 @include($views['single.form'])
             @else
-                @include($views['multi.form'])
+                @include($views['multi.form'], [
+                    'counter' => 0
+                ])
             @endif
         </div>
 

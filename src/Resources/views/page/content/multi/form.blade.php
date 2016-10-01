@@ -27,11 +27,21 @@
     </div>
 @endif
 
-{{-- Edit form}} --}}
+{{-- Edit form --}}
 @if($edit)
     @foreach($data['content'] as $groupId => $group)
         <fieldset class="panel panel-default">
             <div class="panel-body">
+                    <div class="col-xs-6">
+                        <h3>Item {{ ++$counter }}</h3>
+                    </div>
+                    <div class="col-xs-6 text-right">
+                        <br>
+                        <button type="submit" class="btn btn-danger" data-role="destroy" data-route="{{ route($routes['destroy'], ['', '', $groupId]) }}"><i class="fa fa-trash-o"></i> Delete</button>
+                    </div>
+                    <div class="col-xs-12">
+                        <hr>
+                    </div>
                 @foreach($data['section']->component->structure as $structure)
                     <div class="form-group col-xs-12">
                         {!!
