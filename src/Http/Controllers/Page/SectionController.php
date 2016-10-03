@@ -132,10 +132,6 @@ class SectionController extends Controller
      */
     public function update(SectionRequest $request, $id, $sectionId, Section $section, Content $content)
     {
-        // TODO: hould this be moved to section->update?
-        // if ($section->find($sectionId)->components_id != $request->input('components_id')) {
-        //     $content->destroyBySectionId($sectionId);
-        // }
         $section->updateWithRequest($sectionId);
 
         return redirect()->route($this->routes['index'], $id);

@@ -9,7 +9,7 @@
                 <div class="col-xs-12">
                     <h3>Create content</h3>
                 </div>
-                
+
                 @foreach($data['section']->component->structure as $structure)
                     <div class="form-group col-xs-12">
                         {!!
@@ -35,12 +35,12 @@
                     <input type="checkbox" id="published-0" name="published[]" value="0">
                     <label for="published-0">Publish</label>
                 </div>
-
-                <div class="row text-center">
-                    <div class="col-sm-12">
-                        @include('metrique-building::partial.button-save')
-                    </div>
-                </div>
+            </div>
+        </fieldset>
+        
+        <div class="row text-center">
+            <div class="col-sm-12">
+                @include('metrique-building::partial.button-save')
             </div>
         </div>
     @endif

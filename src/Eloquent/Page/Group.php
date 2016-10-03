@@ -12,7 +12,8 @@ class Group extends Model
     protected $fillable = [
         'order',
         'params',
-        'published'
+        'published',
+        'page_contents_id',
     ];
 
     /**
