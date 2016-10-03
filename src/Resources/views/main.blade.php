@@ -48,24 +48,56 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <script>
-        // Required for some destroy/delete functionality.
-        $('[data-role="destroy"]').on('click', (event) => {
+        /**
+         * Required for destroy/delete functionality.
+         * Attaches an event listener and triggers a warning before deleting content.
+         *
+         * Usage: Add data-role="destroy" and optionally data-route="http://new-route"
+         *
+         * data-role: Specifies that the element is to be used for destroying data.
+         * data-route: Updates the form action attribute
+         */
 
-            var result = window.confirm('Are you sure you want to delete this?');
+        var destroy = document.querySelectorAll('[data-role="destroy"]');
 
-            if(!result)
-            {
-                return event.preventDefault();
-            }
+        for(var i = 0; i < destroy.length; i++) {
 
-            // Update the form _method to DELETE
-            var deleteInput = '<input type="hidden" name="_method" value="DELETE">';
+            destroy[i].addEventListener('click', function(event) {
 
-            // Update the form action and submit it.
-            var destroyRoute = $(event.target).data('route');
-            var form = $(event.target).parents('form:first');
-            return $(form).prepend(deleteInput).attr('action', destroyRoute);
+                if(!window.confirm('Are you sure you want to delete this?')) {
+                    return event.preventDefault();
+                }
 
-        });
+                // Search for hidden '_method' input.
+                var method = document.querySelector('input[name="_method"]');
+
+                if(method == null) {
+                    // Create and add '_method' input to form.
+                    method = document.createElement(
+                        'input'
+                    ).setAttribute(
+                        'type', 'hidden'
+                    ).setAttribute(
+                        'name', '_method'
+                    ).setAttribute(
+                        'value', 'DELETE'
+                    );
+
+                    event.target.form.appendChild(method);
+                } else {
+                    // Update '_method' input to be 'DELETE'.
+                    method.setAttribute('value', 'DELETE');
+                }
+
+                // Update form action if data-route is given.
+                var route = event.target.getAttribute('data-route');
+                
+                if(route !== null) {
+                    event.target.form.setAttribute('action', route);
+                }
+
+                return true;
+            });
+        }
     </script>
 </html>
