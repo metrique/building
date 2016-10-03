@@ -10,31 +10,15 @@
 
     @if($data['section']->component->structure->count() < 1)
         <p>Whoops! <a href="{{ route('component.structure.index', $data['section']->component->id) }}">{{ $data['section']->component->title }}</a> has no structure.</p>
-    @endif
-
-    {{-- Single Item --}}
-    @if($data['section']->component->single_item)
+    @else
         @if($data['content']->count() < 1)
-            @include($views['create'], [
+            @include($views['single.create'], [
                 'routes' => $routes,
                 'views' => $views,
                 'data' => $data,
             ])
         @else
-            @include($views['edit'], [
-                'routes' => $routes,
-                'views' => $views,
-                'data' => $data,
-            ])
-        @endif
-    @endif
-
-    {{-- Multi Item --}}
-    @if(!$data['section']->component->single_item)
-        @if($data['content']->count() < 1)
-            <p>No content exists.</p>
-        @else
-            @include($views['edit'], [
+            @include($views['single.edit'], [
                 'routes' => $routes,
                 'views' => $views,
                 'data' => $data,

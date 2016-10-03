@@ -9,7 +9,7 @@
             <div class="col-xs-12">
                 @if($edit)
                     <h3>Edit component item.</h3>
-                    <input type="hidden" name="_method" value="PATCH">
+                    {{ method_field('PATCH') }}
                 @else
                     <h3>New component item.</h3>
                 @endif

@@ -30,12 +30,16 @@ class ContentController extends Controller
      * @var array
      */
     protected $views = [
-        'index' => 'metrique-building::page.content.index',
+        'single.index' => 'metrique-building::page.content.single.index',
+        'multi.index' => 'metrique-building::page.content.multi.index',
         'single.form' => 'metrique-building::page.content.single.form',
         'multi.form' => 'metrique-building::page.content.multi.form',
-        'create' => 'metrique-building::page.content.create',
-        'edit' => 'metrique-building::page.content.edit',
-        'form' => 'metrique-building::page.content.form',
+        'single.create' => 'metrique-building::page.content.single.create',
+        'multi.create' => 'metrique-building::page.content.multi.create',
+        'single.edit' => 'metrique-building::page.content.single.edit',
+        'multi.edit' => 'metrique-building::page.content.multi.edit',
+        'single.form' => 'metrique-building::page.content.single.form',
+        'multi.form' => 'metrique-building::page.content.multi.form',
     ];
 
     public function __construct(Section $section, Content $content)
@@ -61,7 +65,11 @@ class ContentController extends Controller
             ]
         ]);
 
-        return $this->viewWithData($this->views['index']);
+        if ($this->viewData['data']['section']->component->single_item) {
+            return $this->viewWithData($this->views['single.index']);
+        }
+
+        return $this->viewWithData($this->views['multi.index']);
     }
 
     /**
@@ -79,7 +87,11 @@ class ContentController extends Controller
             ]
         ]);
 
-        return $this->viewWithData($this->views['create']);
+        if ($this->viewData['data']['section']->component->single_item) {
+            return $this->viewWithData($this->views['single.create']);
+        }
+
+        return $this->viewWithData($this->views['multi.create']);
     }
 
     /**
@@ -92,7 +104,7 @@ class ContentController extends Controller
     {
         $this->content->persistWithRequest($id, $sectionId);
 
-        return redirect()->back();
+        return redirect()->route($this->routes['index'], [$id, $sectionId]);
     }
 
     /**
@@ -128,7 +140,7 @@ class ContentController extends Controller
     {
         $this->content->persistWithRequest($id, $sectionId);
 
-        return redirect()->back();
+        return redirect()->route($this->routes['index'], [$id, $sectionId]);
     }
 
     /**

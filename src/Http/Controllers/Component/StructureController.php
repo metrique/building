@@ -6,9 +6,8 @@ use Illuminate\Http\Request;
 use Metrique\Building\Contracts\ComponentRepositoryInterface as Component;
 use Metrique\Building\Contracts\Component\StructureRepositoryInterface as Structure;
 use Metrique\Building\Contracts\Component\TypeRepositoryInterface as Type;
-use Metrique\Building\Http\Controllers\PageController;
+use Metrique\Building\Http\Controllers\Controller;
 use Metrique\Building\Http\Requests\StructureRequest;
-use Metrique\Plonk\Http\Controller;
 
 class StructureController extends Controller
 {

@@ -8,7 +8,7 @@
             <div class="col-xs-12">
                 @if($edit)
                     <h3>Edit page</h3>
-                    <input type="hidden" name="_method" value="PATCH">
+                    {{ method_field('PATCH') }}
                 @else
                     <h3>Create page</h3>
                 @endif
@@ -38,12 +38,12 @@
                 <input id="published" type="checkbox" name="published" value="1" {{ $edit ? $building->checked($data->published) : '' }}>
                 <label for="published">Published</label>
             </div>
-
-            <div class="row text-center">
-                <div class="col-sm-12">
-                    @include('metrique-building::partial.button-save')
-                </div>
-            </div>
         </div>
     </fieldset>
+
+    <div class="row text-center">
+        <div class="col-sm-12">
+            @include('metrique-building::partial.button-save')
+        </div>
+    </div>
 </form>
