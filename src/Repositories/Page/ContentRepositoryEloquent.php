@@ -177,7 +177,7 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
                     '<textarea %s name="%s">%s</textarea>',
                     count($params['classes']) > 0 ? $class : '',
                     $params['name'],
-                    $params['value']
+                    htmlspecialchars($params['value'])
                 );
                 break;
 
@@ -187,7 +187,7 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
                     count($params['classes']) > 0 ? $class : '',
                     $params['name'],
                     $params['type'],
-                    $params['value']
+                    htmlspecialchars($params['value'])
                 );
                 break;
         }
