@@ -26,7 +26,6 @@
                         <td>
                             <a href="{{ route($routes['edit'], [$data['component']->id, $value->id]) }}">{{ $value->title }}</a>
                         </td>
-                        <td>{{ $value->slug }}</td>
                         <td>
                             {{ $value->order }}
                         </td>
