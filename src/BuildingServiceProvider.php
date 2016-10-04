@@ -21,6 +21,7 @@ use Metrique\Building\Contracts\Page\SectionRepositoryInterface;
 use Metrique\Building\Repositories\Page\SectionRepositoryEloquent;
 use Metrique\Building\Http\Composers\BuildingViewComposer;
 use Metrique\Building\Commands\BuildingSeedsCommand;
+use DH\Eloquent\Page;
 
 class BuildingServiceProvider extends ServiceProvider
 {
@@ -80,8 +81,14 @@ class BuildingServiceProvider extends ServiceProvider
         $this->registerBuildingFacade();
 
         // Repositories
-        $this->registerComponents();
-        $this->registerPages();
+        $this->registerComponent();
+        $this->registerComponentType();
+        $this->registerComponentStructure();
+
+        $this->registerPage();
+        $this->registerPageContent();
+        $this->registerPageSection();
+        $this->registerPageGroup();
 
         // Commands
         $this->registerCommands();
@@ -93,55 +100,60 @@ class BuildingServiceProvider extends ServiceProvider
     /**
      * Register the Building Facade.
      */
-    private function registerBuildingFacade()
+    protected function registerBuildingFacade()
     {
         $this->app->bind('\Metrique\Building\Building', function () {
             return new Building($this->app);
         });
     }
 
-    private function registerComponents()
+    protected function registerComponent()
     {
-        // Component
         $this->app->bind(
             ComponentRepositoryInterface::class,
             ComponentRepositoryEloquent::class
         );
+    }
 
-        // Component type
+    protected function registerComponentType()
+    {
         $this->app->bind(
             TypeRepositoryInterface::class,
             TypeRepositoryEloquent::class
         );
+    }
 
-        // Component structure
+    protected function registerComponentStructure()
+    {
         $this->app->bind(
             StructureRepositoryInterface::class,
             StructureRepositoryEloquent::class
         );
     }
 
-    private function registerPages()
+    protected function registerPage()
     {
-        // Page
         $this->app->bind(
             PageRepositoryInterface::class,
             PageRepositoryEloquent::class
         );
-
-        // Page contents
+    }
+    protected function registerPageContent()
+    {
         $this->app->bind(
             ContentRepositoryInterface::class,
             ContentRepositoryEloquent::class
         );
-
-        // Page sections
+    }
+    protected function registerPageSection()
+    {
         $this->app->bind(
             SectionRepositoryInterface::class,
             SectionRepositoryEloquent::class
         );
-
-        // Page sections
+    }
+    protected function registerPageGroup()
+    {
         $this->app->bind(
             GroupRepositoryInterface::class,
             GroupRepositoryEloquent::class
@@ -151,7 +163,7 @@ class BuildingServiceProvider extends ServiceProvider
     /**
      * Register the artisan commands.
      */
-    private function registerCommands()
+    protected function registerCommands()
     {
         $this->app->singleton('command.metrique.building-seed', function ($app) {
             return new BuildingSeedsCommand();
