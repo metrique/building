@@ -11,13 +11,12 @@ class Content extends Model
     use CommonAttributes;
 
     protected $fillable = [
-        'params',
+        'id',
         'content',
         'pages_id',
         'page_sections_id',
         'page_groups_id',
         'component_structures_id',
-        'component_types_id'
     ];
 
     /**

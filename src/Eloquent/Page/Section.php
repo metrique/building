@@ -12,6 +12,7 @@ class Section extends Model
     use CommonAttributes;
 
     protected $fillable = [
+        'id',
         'title',
         'slug',
         'order',

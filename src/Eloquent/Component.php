@@ -14,6 +14,7 @@ class Component extends Model
     ];
 
     protected $fillable = [
+        'id',
         'title',
         'slug',
         'single_item',

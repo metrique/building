@@ -10,6 +10,7 @@ class Group extends Model
     use CommonAttributes;
 
     protected $fillable = [
+        'id',
         'order',
         'params',
         'published',

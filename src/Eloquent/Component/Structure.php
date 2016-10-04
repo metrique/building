@@ -9,6 +9,7 @@ use Metrique\Building\Eloquent\Component\Type;
 class Structure extends Model
 {
     protected $fillable = [
+        'id',
         'title',
         'order',
         'components_id',
