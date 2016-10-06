@@ -13,6 +13,7 @@ return [
     ],
     'component' => [
         'view_path' => 'components.',
+        'widget_path' => 'components.widgets',
     ],
     'prefix' => [
         'api' => 'building/api',
