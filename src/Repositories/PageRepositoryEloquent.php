@@ -2,22 +2,19 @@
 
 namespace Metrique\Building\Repositories;
 
+use Stringy\Stringy;
 use Metrique\Building\Contracts\PageRepositoryInterface;
+use Metrique\Building\Contracts\Page\ContentRepositoryInterface as ContentRepository;
+use Metrique\Building\Contracts\Page\SectionRepositoryInterface as SectionRepository;
 use Metrique\Building\Eloquent\Page;
 
 class PageRepositoryEloquent implements PageRepositoryInterface
 {
-    /**
-     * The last collected page.
-     * @var Illuminate\Database\Eloquent\Builder
-     */
-    protected $page;
-
-    /**
-     * Collection of meta tags from last retrieved page.
-     * @var array
-     */
-    protected $meta = [];
+    public function __construct(ContentRepository $content, SectionRepository $section)
+    {
+        $this->content = $content;
+        $this->section = $section;
+    }
 
     /**
      * {@inheritdoc}
@@ -96,19 +93,7 @@ class PageRepositoryEloquent implements PageRepositoryInterface
      */
     public function bySlug($slug)
     {
-        $this->page = Page::where(['slug' => $slug, 'published' => 1]);
-
-        if ($this->page->count() != 1) {
-            throw new \Exception("Page with slug `$slug` doesn't exist.");
-        }
-
-        // Store page
-        $this->page = $this->page->first();
-
-        // Store meta...
-        $this->meta = json_decode($this->page->meta, true);
-
-        return $this->page;
+        return Page::where(['slug' => $slug, 'published' => 1])->first();
     }
 
     /**
@@ -116,6 +101,20 @@ class PageRepositoryEloquent implements PageRepositoryInterface
      */
     public function contentBySlug($slug)
     {
+        return $this->section->byPageId($this->bySlug($slug)->id)->map(function ($item, $key) {
+            if ($item->component->slug == 'widget') {
+                // Widget rendering goes here...
+            }
+
+            $item->content = $this->content->groupBySectionId($item->id);
+
+            return $item;
+        });
+        // $content = $this->app->make(ContentRepositoryInterface::class);
+        // $section = $this->app->make(SectionRepositoryInterface::class);
+
+        // dd($section->byPageId($this->bySlug($slug)->id));
+        /*
         $content = $this->app->make('Metrique\Building\Contracts\Page\ContentRepositoryInterface');
         $section = $this->app->make('Metrique\Building\Contracts\Page\SectionRepositoryInterface');
 
@@ -136,25 +135,41 @@ class PageRepositoryEloquent implements PageRepositoryInterface
         }
 
         return $contents;
+        */
     }
 
     /**
      * {@inheritdoc}
      */
-    public function get()
+    public function slugify($string, $delimiter = '-', $directorySeperator = '_')
     {
-        return $this->page;
+        // Allowed character list
+        $allowed = "/[^a-zA-Z\d\s-_\/" . preg_quote($delimiter) . "]/u";
+
+        // Convert to closest ASCII
+        $string = Stringy::create($string)->toAscii();
+
+        // Remove non allowed characters
+        $string = preg_replace($allowed, '', $string);
+
+        // Lowercase, delimit and trim!
+        $string = Stringy::create($string)
+            ->toLowerCase()
+            ->delimit($delimiter)
+            ->removeLeft($delimiter)
+            ->removeRight($delimiter);
+
+        // Convert path seperators to underscores.
+        $string = str_replace('/', '_', $string);
+
+        return $string;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getMeta($key)
+    public function unslugify($string, $directorySeperator = '_')
     {
-        if (!array_key_exists($key, $this->meta)) {
-            return '';
-        }
-
-        return $this->meta[$key];
+        return str_replace($directorySeperator, '/', $string);
     }
 }
