@@ -136,7 +136,7 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
     {
         $params = explode($this->delimiter, $name);
 
-        if (!($params & strpos($name, $this->delimiter))) {
+        if (!strpos($name, $this->delimiter)) {
             return false;
         }
 

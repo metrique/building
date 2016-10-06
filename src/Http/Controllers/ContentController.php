@@ -13,22 +13,28 @@ class ContentController extends Controller
         'index' => 'metrique-building::content.index',
     ];
 
+    public function __construct(Page $page, Content $content)
+    {
+        parent::__construct();
+
+        $this->page = $page;
+        $this->content = $content;
+    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Page $page, Content $content)
+    public function index()
     {
-        $slug = $page->slugify(request()->path());
+        $slug = $this->page->slugify(request()->path());
 
         $this->mergeViewData([
-            'contents' => $page->publishedContentBySlug($slug),
-            'page' => $page->bySlug($slug),
+            'contents' => $this->page->publishedContentBySlug($slug),
+            'page' => $this->page->bySlug($slug),
             'slug' => $slug,
         ]);
 
-        // dd($this->viewData);
         return $this->viewWithData($this->views['index']);
     }
 
