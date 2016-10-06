@@ -44,32 +44,11 @@ class BuildingServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Commands
-        $this->commands('command.metrique.building-seed');
-
-        // Config
-        $this->publishes([
-            __DIR__.'/Resources/config/building.php' => config_path('building.php')
-        ], 'building-config');
-
-        $this->mergeConfigFrom(
-            __DIR__.'/Resources/config/building.php', 'building'
-        );
-
-        // Register Routes
-        if (! $this->app->routesAreCached()) {
-            require __DIR__.'/Routes/api.php';
-            require __DIR__.'/Routes/web.php';
-        }
-
-        // Migrations
-        $this->loadMigrationsFrom(__DIR__.'/Resources/migrations');
-
-        // Views
-        $views = __DIR__ . '/Resources/views/';
-        $this->loadViewsFrom($views, 'metrique-building');
-
-        view()->composer('*', BuildingViewComposer::class);
+        $this->bootCommands();
+        $this->bootConfig();
+        $this->bootMigrations();
+        $this->bootRoutes();
+        $this->bootViews();
     }
 
     /**
@@ -84,7 +63,6 @@ class BuildingServiceProvider extends ServiceProvider
         $this->registerComponent();
         $this->registerComponentType();
         $this->registerComponentStructure();
-
         $this->registerPage();
         $this->registerPageContent();
         $this->registerPageSection();
@@ -97,9 +75,44 @@ class BuildingServiceProvider extends ServiceProvider
         $this->html->register();
     }
 
-    /**
-     * Register the Building Facade.
-     */
+    public function bootCommands()
+    {
+        $this->commands('command.metrique.building-seed');
+    }
+
+    public function bootConfig()
+    {
+        $this->publishes([
+            __DIR__.'/Resources/config/building.php' => config_path('building.php')
+        ], 'building-config');
+
+        $this->mergeConfigFrom(
+            __DIR__.'/Resources/config/building.php',
+            'building'
+        );
+    }
+
+    public function bootMigrations()
+    {
+        $this->loadMigrationsFrom(__DIR__.'/Resources/migrations');
+    }
+
+    public function bootRoutes()
+    {
+        if (! $this->app->routesAreCached()) {
+            require __DIR__.'/Routes/api.php';
+            require __DIR__.'/Routes/web.php';
+        }
+    }
+
+    public function bootViews()
+    {
+        $views = __DIR__ . '/Resources/views/';
+        $this->loadViewsFrom($views, 'metrique-building');
+
+        view()->composer('*', BuildingViewComposer::class);
+    }
+
     protected function registerBuildingFacade()
     {
         $this->app->bind('\Metrique\Building\Building', function () {
