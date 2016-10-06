@@ -56,9 +56,6 @@ class BuildingServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Facade
-        $this->registerBuildingFacade();
-
         // Repositories
         $this->registerComponent();
         $this->registerComponentType();
@@ -111,13 +108,6 @@ class BuildingServiceProvider extends ServiceProvider
         $this->loadViewsFrom($views, 'metrique-building');
 
         view()->composer('*', BuildingViewComposer::class);
-    }
-
-    protected function registerBuildingFacade()
-    {
-        $this->app->bind('\Metrique\Building\Building', function () {
-            return new Building($this->app);
-        });
     }
 
     protected function registerComponent()
