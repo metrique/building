@@ -24,6 +24,15 @@ interface ContentRepositoryInterface
     public function groupBySectionId($id);
 
     /**
+     * Returns grouped content belonging to a Section where the group is published.
+     * The contents of the groups will conform to the component structure.
+     *
+     * @param  int $id
+     * @return array
+     */
+    public function groupPublishedBySectionId($id);
+
+    /**
      * Store content to the database. Populates and updates based on ID's given.
      * @return mixed
      */

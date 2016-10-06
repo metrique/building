@@ -96,6 +96,18 @@ class PageRepositoryEloquent implements PageRepositoryInterface
         return Page::where(['slug' => $slug, 'published' => 1])->first();
     }
 
+    public function publishedContentBySlug($slug)
+    {
+        return $this->section->byPageId($this->bySlug($slug)->id)->map(function ($item, $key) {
+            if ($item->component->slug == 'widget') {
+                // Widget rendering goes here...
+            }
+            
+            $item->content = $this->content->groupPublishedBySectionId($item->id);
+
+            return $item;
+        });
+    }
     /**
      * {@inheritdoc}
      */

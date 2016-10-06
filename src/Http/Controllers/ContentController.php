@@ -23,7 +23,7 @@ class ContentController extends Controller
         $slug = $page->slugify(request()->path());
 
         $this->mergeViewData([
-            'contents' => $page->contentBySlug($slug),
+            'contents' => $page->publishedContentBySlug($slug),
             'page' => $page->bySlug($slug),
             'slug' => $slug,
         ]);

@@ -38,6 +38,11 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
         return $this->bySectionId($id)->groupBy('page_groups_id');
     }
 
+    public function groupPublishedBySectionId($id)
+    {
+        return $this->bySectionId($id)->where('published', 1)->groupBy('page_groups_id');
+    }
+
     public function persistWithRequest($pageId, $sectionId)
     {
         $content = $this->parseRequest();
