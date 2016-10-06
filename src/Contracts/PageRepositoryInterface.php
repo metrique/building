@@ -62,12 +62,22 @@ interface PageRepositoryInterface
     public function contentBySlug($slug);
 
     /**
-     * Get meta data from page meta json.
-     * For this to be populated the bySlug($slug) method should be called first.
-     * By default this will return a blank string.
+     * Converts a string to slug/url format.
+     * Underscore represents a path separator.
+     * Dash is used as a word separator.
      *
-     * @param  string
+     * @param  $string
+     * @param  string $delimiter
+     * @param  string $directorySeparator
      * @return string
      */
-    public function getMeta($key);
+    public function slugify($string, $delimiter = '-', $directorySeparator = '_');
+
+    /**
+     * Converts a slug back to a path.
+     *
+     * @param  string $string
+     * @return string
+     */
+    public function unslugify($string, $directorySeparator = '_');
 }
