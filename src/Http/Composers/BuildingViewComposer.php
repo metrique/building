@@ -4,7 +4,6 @@ namespace Metrique\Building\Http\Composers;
 
 use Collective\Html\FormBuilder;
 use Illuminate\View\View;
-use Metrique\Building\Building;
 
 class BuildingViewComposer
 {
@@ -26,9 +25,8 @@ class BuildingViewComposer
      * @param  Building  $building
      * @return void
      */
-    public function __construct(Building $building, FormBuilder $form)
+    public function __construct(FormBuilder $form)
     {
-        $this->building = $building;
         $this->form = $form;
     }
 
@@ -40,7 +38,6 @@ class BuildingViewComposer
      */
     public function compose(View $view)
     {
-        $view->with('building', $this->building);
         $view->with('form', $this->form);
     }
 }
