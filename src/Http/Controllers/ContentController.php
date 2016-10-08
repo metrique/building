@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Metrique\Building\Http\Controllers\Controller;
 use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface as Content;
 use Metrique\Building\Repositories\Contracts\PageRepositoryInterface as Page;
+use Metrique\Building\Support\Slug;
 
 class ContentController extends Controller
 {
@@ -27,7 +28,7 @@ class ContentController extends Controller
      */
     public function index()
     {
-        $slug = $this->page->slugify(request()->path());
+        $slug = Slug::slugify(request()->path());
 
         $this->mergeViewData([
             'contents' => $this->page->publishedContentBySlug($slug),

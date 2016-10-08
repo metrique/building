@@ -2,13 +2,13 @@
 
 namespace Metrique\Building\Eloquent\Traits;
 
-use Metrique\Building\Building;
+use Metrique\Building\Support\Slug;
 
 trait CommonAttributes
 {
     public function setSlugAttribute($value)
     {
-        $this->attributes['slug'] = app(Building::class)->slugify($value);
+        $this->attributes['slug'] = Slug::slugify($value);
     }
 
     public function setPublishedAttribute($value)

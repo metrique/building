@@ -2,7 +2,6 @@
 
 namespace Metrique\Building\Repositories;
 
-use Stringy\Stringy;
 use Metrique\Building\Repositories\Contracts\PageRepositoryInterface;
 use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface as ContentRepository;
 use Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface as SectionRepository;
@@ -10,9 +9,9 @@ use Metrique\Building\Eloquent\Page;
 
 class PageRepositoryEloquent implements PageRepositoryInterface
 {
-    public function __construct(SectionRepository $section)
+    public function __construct(ContentRepository $content, SectionRepository $section)
     {
-        // $this->content = $content;
+        $this->content = $content;
         $this->section = $section;
     }
 
@@ -148,40 +147,5 @@ class PageRepositoryEloquent implements PageRepositoryInterface
 
         return $contents;
         */
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function slugify($string, $delimiter = '-', $directorySeperator = '_')
-    {
-        // Allowed character list
-        $allowed = "/[^a-zA-Z\d\s-_\/" . preg_quote($delimiter) . "]/u";
-
-        // Convert to closest ASCII
-        $string = Stringy::create($string)->toAscii();
-
-        // Remove non allowed characters
-        $string = preg_replace($allowed, '', $string);
-
-        // Lowercase, delimit and trim!
-        $string = Stringy::create($string)
-            ->toLowerCase()
-            ->delimit($delimiter)
-            ->removeLeft($delimiter)
-            ->removeRight($delimiter);
-
-        // Convert path seperators to underscores.
-        $string = str_replace('/', '_', $string);
-
-        return $string;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function unslugify($string, $directorySeperator = '_')
-    {
-        return str_replace($directorySeperator, '/', $string);
     }
 }

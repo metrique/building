@@ -60,24 +60,4 @@ interface PageRepositoryInterface
      * @return $mixed
      */
     public function contentBySlug($slug);
-
-    /**
-     * Converts a string to slug/url format.
-     * Underscore represents a path separator.
-     * Dash is used as a word separator.
-     *
-     * @param  $string
-     * @param  string $delimiter
-     * @param  string $directorySeparator
-     * @return string
-     */
-    public function slugify($string, $delimiter = '-', $directorySeparator = '_');
-
-    /**
-     * Converts a slug back to a path.
-     *
-     * @param  string $string
-     * @return string
-     */
-    public function unslugify($string, $directorySeparator = '_');
 }
