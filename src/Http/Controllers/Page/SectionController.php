@@ -3,10 +3,10 @@
 namespace Metrique\Building\Http\Controllers\Page;
 
 use Illuminate\Http\Request;
-use Metrique\Building\Contracts\ComponentRepositoryInterface as Component;
-use Metrique\Building\Contracts\Page\ContentRepositoryInterface as Content;
-use Metrique\Building\Contracts\PageRepositoryInterface as Page;
-use Metrique\Building\Contracts\Page\SectionRepositoryInterface as Section;
+use Metrique\Building\Repositories\Contracts\ComponentRepositoryInterface as Component;
+use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface as Content;
+use Metrique\Building\Repositories\Contracts\PageRepositoryInterface as Page;
+use Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface as Section;
 use Metrique\Building\Http\Controllers\Controller;
 use Metrique\Building\Http\Requests\PageRequest;
 use Metrique\Building\Http\Requests\SectionRequest;

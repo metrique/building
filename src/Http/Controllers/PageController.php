@@ -3,7 +3,7 @@
 namespace Metrique\Building\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Metrique\Building\Contracts\PageRepositoryInterface as Page;
+use Metrique\Building\Repositories\Contracts\PageRepositoryInterface as Page;
 use Metrique\Building\Http\Controllers\Controller;
 use Metrique\Building\Http\Requests\PageRequest;
 

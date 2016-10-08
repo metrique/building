@@ -5,19 +5,19 @@ namespace Metrique\Building;
 use Collective\Html\HtmlServiceProvider;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\ServiceProvider;
-use Metrique\Building\Contracts\ComponentRepositoryInterface;
+use Metrique\Building\Repositories\Contracts\ComponentRepositoryInterface;
 use Metrique\Building\Repositories\ComponentRepositoryEloquent;
-use Metrique\Building\Contracts\Component\StructureRepositoryInterface;
+use Metrique\Building\Repositories\Contracts\Component\StructureRepositoryInterface;
 use Metrique\Building\Repositories\Component\StructureRepositoryEloquent;
-use Metrique\Building\Contracts\Component\TypeRepositoryInterface;
+use Metrique\Building\Repositories\Contracts\Component\TypeRepositoryInterface;
 use Metrique\Building\Repositories\Component\TypeRepositoryEloquent;
-use Metrique\Building\Contracts\PageRepositoryInterface;
+use Metrique\Building\Repositories\Contracts\PageRepositoryInterface;
 use Metrique\Building\Repositories\PageRepositoryEloquent;
-use Metrique\Building\Contracts\Page\ContentRepositoryInterface;
+use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface;
 use Metrique\Building\Repositories\Page\ContentRepositoryEloquent;
-use Metrique\Building\Contracts\Page\GroupRepositoryInterface;
+use Metrique\Building\Repositories\Contracts\Page\GroupRepositoryInterface;
 use Metrique\Building\Repositories\Page\GroupRepositoryEloquent;
-use Metrique\Building\Contracts\Page\SectionRepositoryInterface;
+use Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface;
 use Metrique\Building\Repositories\Page\SectionRepositoryEloquent;
 use Metrique\Building\Http\Composers\BuildingViewComposer;
 use Metrique\Building\Commands\BuildingSeedsCommand;
@@ -91,7 +91,7 @@ class BuildingServiceProvider extends ServiceProvider
 
     public function bootMigrations()
     {
-        $this->loadMigrationsFrom(__DIR__.'/Resources/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/Database/migrations');
     }
 
     public function bootRoutes()

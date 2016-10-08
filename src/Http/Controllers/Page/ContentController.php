@@ -3,9 +3,9 @@
 namespace Metrique\Building\Http\Controllers\Page;
 
 use Illuminate\Http\Request;
-use Metrique\Building\Contracts\Page\ContentRepositoryInterface as Content;
-use Metrique\Building\Contracts\Page\GroupRepositoryInterface as Group;
-use Metrique\Building\Contracts\Page\SectionRepositoryInterface as Section;
+use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface as Content;
+use Metrique\Building\Repositories\Contracts\Page\GroupRepositoryInterface as Group;
+use Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface as Section;
 use Metrique\Building\Http\Controllers\Controller;
 use Metrique\Building\Http\Requests\PageRequest;
 

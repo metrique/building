@@ -4,8 +4,8 @@ namespace Metrique\Building\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Metrique\Building\Http\Controllers\Controller;
-use Metrique\Building\Contracts\Page\ContentRepositoryInterface as Content;
-use Metrique\Building\Contracts\PageRepositoryInterface as Page;
+use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface as Content;
+use Metrique\Building\Repositories\Contracts\PageRepositoryInterface as Page;
 
 class ContentController extends Controller
 {

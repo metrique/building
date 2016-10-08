@@ -3,7 +3,7 @@
 namespace Metrique\Building\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
-use Metrique\Building\Contracts\BuildingInterface;
+use Metrique\Building\Repositories\Contracts\BuildingInterface;
 
 class Page extends Model
 {

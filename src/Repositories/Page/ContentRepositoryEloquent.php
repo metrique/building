@@ -4,7 +4,7 @@ namespace Metrique\Building\Repositories\Page;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Metrique\Building\Contracts\Page\ContentRepositoryInterface;
+use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface;
 use Metrique\Building\Eloquent\Page\Group;
 use Metrique\Building\Eloquent\Page\Content;
 use Stringy\Stringy;

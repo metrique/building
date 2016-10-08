@@ -1,6 +1,6 @@
 <?php
 
-namespace Metrique\Building\Contracts;
+namespace Metrique\Building\Repositories\Contracts;
 
 interface PageRepositoryInterface
 {

@@ -2,7 +2,7 @@
 
 namespace Metrique\Building\Repositories\Component;
 
-use Metrique\Building\Contracts\Component\StructureRepositoryInterface;
+use Metrique\Building\Repositories\Contracts\Component\StructureRepositoryInterface;
 use Metrique\Building\Eloquent\Component\Structure;
 
 class StructureRepositoryEloquent implements StructureRepositoryInterface

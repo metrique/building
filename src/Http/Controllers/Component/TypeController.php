@@ -3,7 +3,7 @@
 namespace Metrique\Building\Http\Controllers\Component;
 
 use Illuminate\Http\Request;
-use Metrique\Building\Contracts\Component\TypeRepositoryInterface as Type;
+use Metrique\Building\Repositories\Contracts\Component\TypeRepositoryInterface as Type;
 use Metrique\Building\Http\Controllers\Controller;
 
 class TypeController extends Controller

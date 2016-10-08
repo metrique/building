@@ -3,16 +3,16 @@
 namespace Metrique\Building\Repositories;
 
 use Stringy\Stringy;
-use Metrique\Building\Contracts\PageRepositoryInterface;
-use Metrique\Building\Contracts\Page\ContentRepositoryInterface as ContentRepository;
-use Metrique\Building\Contracts\Page\SectionRepositoryInterface as SectionRepository;
+use Metrique\Building\Repositories\Contracts\PageRepositoryInterface;
+use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface as ContentRepository;
+use Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface as SectionRepository;
 use Metrique\Building\Eloquent\Page;
 
 class PageRepositoryEloquent implements PageRepositoryInterface
 {
-    public function __construct(ContentRepository $content, SectionRepository $section)
+    public function __construct(SectionRepository $section)
     {
-        $this->content = $content;
+        // $this->content = $content;
         $this->section = $section;
     }
 
@@ -102,7 +102,7 @@ class PageRepositoryEloquent implements PageRepositoryInterface
             if ($item->component->slug == 'widget') {
                 // Widget rendering goes here...
             }
-            
+
             $item->content = $this->content->groupPublishedBySectionId($item->id);
 
             return $item;
@@ -127,8 +127,8 @@ class PageRepositoryEloquent implements PageRepositoryInterface
 
         // dd($section->byPageId($this->bySlug($slug)->id));
         /*
-        $content = $this->app->make('Metrique\Building\Contracts\Page\ContentRepositoryInterface');
-        $section = $this->app->make('Metrique\Building\Contracts\Page\SectionRepositoryInterface');
+        $content = $this->app->make('Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface');
+        $section = $this->app->make('Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface');
 
         $contents = [];
 

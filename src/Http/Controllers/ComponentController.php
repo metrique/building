@@ -3,7 +3,7 @@
 namespace Metrique\Building\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Metrique\Building\Contracts\ComponentRepositoryInterface as Component;
+use Metrique\Building\Repositories\Contracts\ComponentRepositoryInterface as Component;
 use Metrique\Building\Http\Controllers\PageController;
 use Metrique\Building\Http\Requests\ComponentRequest;
 

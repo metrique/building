@@ -1,19 +1,20 @@
 <?php
 
-namespace Metrique\Building\Contracts;
+namespace Metrique\Building\Repositories\Contracts\Component;
 
 use Illuminate\Support\Collection;
 
-interface ComponentRepositoryInterface
+interface StructureRepositoryInterface
 {
     /**
-     * Get all components.
-     * @return Illuminate\Support\Collection
+     * Get structure relating to a component
+     * @param  int $id
+     * @return Collection
      */
-    public function all();
+    public function byComponentId($id);
 
     /**
-     * Find a component.
+     * Find a structure.
      * @return mixed
      */
     public function find($id);
@@ -48,10 +49,4 @@ interface ComponentRepositoryInterface
      * @return mixed
      */
     public function updateWithRequest($id);
-
-    /**
-     * Get list of all components, formatted for form builder.
-     * @return Illuminate\Support\Collection
-     */
-    public function formBuilderSelect();
 }
