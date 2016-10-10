@@ -69,7 +69,7 @@
 
     <div class="row text-center">
         <div class="col-sm-12">
-            @include('metrique-building::partial.button-save')
+            @include('laravel-building::partial.button-save')
         </div>
     </div>
 </form>

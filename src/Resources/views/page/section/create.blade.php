@@ -1,11 +1,11 @@
-@extends('metrique-building::main')
+@extends('laravel-building::main')
 
 @section('content')
-    @include('metrique-building::partial.header', [
+    @include('laravel-building::partial.header', [
         'heading'=>'Page sections',
     ])
 
-    @include('metrique-building::page.section.form', [
+    @include('laravel-building::page.section.form', [
         'action' => route($routes['store'], $data['page']->id),
         'edit' => false,
         'data' => $data

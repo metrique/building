@@ -26,9 +26,9 @@ class SectionController extends BuildingController
      * @var array
      */
     protected $views = [
-        'index' => 'metrique-building::page.section.index',
-        'create' => 'metrique-building::page.section.create',
-        'edit' => 'metrique-building::page.section.edit',
+        'index' => 'laravel-building::page.section.index',
+        'create' => 'laravel-building::page.section.create',
+        'edit' => 'laravel-building::page.section.edit',
     ];
 
     /**

@@ -1,10 +1,10 @@
-@extends('metrique-building::main')
+@extends('laravel-building::main')
 
 @section('content')
-    @include('metrique-building::partial.header', [
+    @include('laravel-building::partial.header', [
         'heading'=>'Components',
     ])
-    @include('metrique-building::component.form', [
+    @include('laravel-building::component.form', [
         'action' => route($routes['update'], $data->id),
         'edit' => true,
     ])

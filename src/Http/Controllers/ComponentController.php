@@ -15,9 +15,9 @@ class ComponentController extends BuildingController
      * @var array
      */
     protected $views = [
-        'index' => 'metrique-building::component.index',
-        'create' => 'metrique-building::component.create',
-        'edit' => 'metrique-building::component.edit',
+        'index' => 'laravel-building::component.index',
+        'create' => 'laravel-building::component.create',
+        'edit' => 'laravel-building::component.edit',
     ];
 
     /**

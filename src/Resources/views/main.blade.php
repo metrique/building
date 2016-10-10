@@ -38,7 +38,7 @@
         </div>
 
         <div class="container">
-            @include('metrique-building::partial.message')
+            @include('laravel-building::partial.message')
         </div>
         <div class="container">
             @yield('content')

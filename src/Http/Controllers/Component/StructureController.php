@@ -17,9 +17,9 @@ class StructureController extends BuildingController
      * @var array
      */
     protected $views = [
-        'index' => 'metrique-building::component.structure.index',
-        'create' => 'metrique-building::component.structure.create',
-        'edit' => 'metrique-building::component.structure.edit',
+        'index' => 'laravel-building::component.structure.index',
+        'create' => 'laravel-building::component.structure.create',
+        'edit' => 'laravel-building::component.structure.edit',
     ];
 
     /**

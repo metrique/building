@@ -15,9 +15,9 @@ class PageController extends BuildingController
      * @var array
      */
     protected $views = [
-        'index' => 'metrique-building::page.index',
-        'create' => 'metrique-building::page.create',
-        'edit' => 'metrique-building::page.edit',
+        'index' => 'laravel-building::page.index',
+        'create' => 'laravel-building::page.create',
+        'edit' => 'laravel-building::page.edit',
     ];
 
     /**

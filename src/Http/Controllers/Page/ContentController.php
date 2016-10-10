@@ -30,16 +30,16 @@ class ContentController extends BuildingController
      * @var array
      */
     protected $views = [
-        'single.index' => 'metrique-building::page.content.single.index',
-        'multi.index' => 'metrique-building::page.content.multi.index',
-        'single.form' => 'metrique-building::page.content.single.form',
-        'multi.form' => 'metrique-building::page.content.multi.form',
-        'single.create' => 'metrique-building::page.content.single.create',
-        'multi.create' => 'metrique-building::page.content.multi.create',
-        'single.edit' => 'metrique-building::page.content.single.edit',
-        'multi.edit' => 'metrique-building::page.content.multi.edit',
-        'single.form' => 'metrique-building::page.content.single.form',
-        'multi.form' => 'metrique-building::page.content.multi.form',
+        'single.index' => 'laravel-building::page.content.single.index',
+        'multi.index' => 'laravel-building::page.content.multi.index',
+        'single.form' => 'laravel-building::page.content.single.form',
+        'multi.form' => 'laravel-building::page.content.multi.form',
+        'single.create' => 'laravel-building::page.content.single.create',
+        'multi.create' => 'laravel-building::page.content.multi.create',
+        'single.edit' => 'laravel-building::page.content.single.edit',
+        'multi.edit' => 'laravel-building::page.content.multi.edit',
+        'single.form' => 'laravel-building::page.content.single.form',
+        'multi.form' => 'laravel-building::page.content.multi.form',
     ];
 
     public function __construct(Section $section, Content $content)

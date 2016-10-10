@@ -11,7 +11,7 @@ use Metrique\Building\Support\Slug;
 class ContentController extends BuildingController
 {
     protected $views = [
-        'index' => 'metrique-building::content.index',
+        'index' => 'laravel-building::content.index',
     ];
 
     public function __construct(Page $page, Content $content)

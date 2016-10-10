@@ -1,4 +1,4 @@
-@include('metrique-building::partial.errors')
+@include('laravel-building::partial.errors')
 
 <form action="{{ $action }}" method="POST">
     {!! csrf_field() !!}
@@ -39,7 +39,7 @@
 
     <div class="row text-center">
         <div class="col-sm-12">
-            @include('metrique-building::partial.button-save')
+            @include('laravel-building::partial.button-save')
         </div>
     </div>
 </form>

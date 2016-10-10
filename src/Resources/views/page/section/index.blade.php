@@ -1,7 +1,7 @@
-@extends('metrique-building::main')
+@extends('laravel-building::main')
 
 @section('content')
-    @include('metrique-building::partial.header', [
+    @include('laravel-building::partial.header', [
         'heading'=>'Page sections',
         'link'=>route($routes['create'], $data['page']->id),
         'title'=>'New section.',
@@ -41,7 +41,7 @@
                         </td>
 
                         <td class="text-right">
-                            @include('metrique-building::partial.button-destroy', [
+                            @include('laravel-building::partial.button-destroy', [
                                 'route'=>route($routes['destroy'], [$data['page']->id, $value->id]),
                             ])
                         </td>

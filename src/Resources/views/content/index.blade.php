@@ -1,4 +1,4 @@
-@extends('metrique-building::main')
+@extends('laravel-building::main')
 
 @section('content')
     @foreach($contents as $section)

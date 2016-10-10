@@ -105,7 +105,7 @@ class BuildingServiceProvider extends ServiceProvider
     protected function bootViews()
     {
         $views = __DIR__ . '/Resources/views/';
-        $this->loadViewsFrom($views, 'metrique-building');
+        $this->loadViewsFrom($views, 'laravel-building');
 
         $this->publishes([
             __DIR__.'/Resources/views' => resource_path('views/vendor/building'),
