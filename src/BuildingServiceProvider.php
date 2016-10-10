@@ -81,7 +81,7 @@ class BuildingServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__.'/Resources/config/building.php' => config_path('building.php')
-        ], 'building-config');
+        ], 'laravel-building');
 
         $this->mergeConfigFrom(
             __DIR__.'/Resources/config/building.php',
@@ -106,6 +106,10 @@ class BuildingServiceProvider extends ServiceProvider
     {
         $views = __DIR__ . '/Resources/views/';
         $this->loadViewsFrom($views, 'metrique-building');
+
+        $this->publishes([
+            __DIR__.'/Resources/views' => resource_path('views/vendor/building'),
+        ], 'laravel-building');
 
         view()->composer('*', BuildingViewComposer::class);
     }
