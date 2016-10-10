@@ -24,7 +24,7 @@
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="github.com/metrique/laravel-building"><i class="fa fa-lg fa-building-o" aria-hidden="true"></i> Building</a>
+                        <a class="navbar-brand" href="https://github.com/metrique/laravel-building"><i class="fa fa-lg fa-building-o" aria-hidden="true"></i> Building</a>
                         <ul class="nav navbar-nav">
                             <li>
                                 <a href="{{ route('page.index') }}">Pages</a>
@@ -91,7 +91,7 @@
 
                 // Update form action if data-route is given.
                 var route = event.target.getAttribute('data-route');
-                
+
                 if(route !== null) {
                     event.target.form.setAttribute('action', route);
                 }
