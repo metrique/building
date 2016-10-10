@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface as Content;
 use Metrique\Building\Repositories\Contracts\Page\GroupRepositoryInterface as Group;
 use Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface as Section;
-use Metrique\Building\Http\Controllers\Controller;
+use Metrique\Building\Http\Controllers\BuildingController;
 use Metrique\Building\Http\Requests\PageRequest;
 
-class ContentController extends Controller
+class ContentController extends BuildingController
 {
     /**
     * List of routes used

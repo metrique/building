@@ -7,11 +7,11 @@ use Metrique\Building\Repositories\Contracts\ComponentRepositoryInterface as Com
 use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface as Content;
 use Metrique\Building\Repositories\Contracts\PageRepositoryInterface as Page;
 use Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface as Section;
-use Metrique\Building\Http\Controllers\Controller;
+use Metrique\Building\Http\Controllers\BuildingController;
 use Metrique\Building\Http\Requests\PageRequest;
 use Metrique\Building\Http\Requests\SectionRequest;
 
-class SectionController extends Controller
+class SectionController extends BuildingController
 {
     /**
      * Holder for view data

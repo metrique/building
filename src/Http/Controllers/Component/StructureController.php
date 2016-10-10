@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use Metrique\Building\Repositories\Contracts\ComponentRepositoryInterface as Component;
 use Metrique\Building\Repositories\Contracts\Component\StructureRepositoryInterface as Structure;
 use Metrique\Building\Repositories\Contracts\Component\TypeRepositoryInterface as Type;
-use Metrique\Building\Http\Controllers\Controller;
+use Metrique\Building\Http\Controllers\BuildingController;
 use Metrique\Building\Http\Requests\StructureRequest;
 
-class StructureController extends Controller
+class StructureController extends BuildingController
 {
     /**
      * List of views used.

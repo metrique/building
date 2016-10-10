@@ -4,9 +4,9 @@ namespace Metrique\Building\Http\Controllers\Component;
 
 use Illuminate\Http\Request;
 use Metrique\Building\Repositories\Contracts\Component\TypeRepositoryInterface as Type;
-use Metrique\Building\Http\Controllers\Controller;
+use Metrique\Building\Http\Controllers\BuildingController;
 
-class TypeController extends Controller
+class TypeController extends BuildingController
 {
     /**
      * Display a listing of the resource.

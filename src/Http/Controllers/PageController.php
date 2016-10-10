@@ -4,10 +4,10 @@ namespace Metrique\Building\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Metrique\Building\Repositories\Contracts\PageRepositoryInterface as Page;
-use Metrique\Building\Http\Controllers\Controller;
+use Metrique\Building\Http\Controllers\BuildingController;
 use Metrique\Building\Http\Requests\PageRequest;
 
-class PageController extends Controller
+class PageController extends BuildingController
 {
     /**
      * List of views used.

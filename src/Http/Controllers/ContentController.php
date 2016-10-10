@@ -3,12 +3,12 @@
 namespace Metrique\Building\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Metrique\Building\Http\Controllers\Controller;
+use Metrique\Building\Http\Controllers\BuildingController;
 use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface as Content;
 use Metrique\Building\Repositories\Contracts\PageRepositoryInterface as Page;
 use Metrique\Building\Support\Slug;
 
-class ContentController extends Controller
+class ContentController extends BuildingController
 {
     protected $views = [
         'index' => 'metrique-building::content.index',
