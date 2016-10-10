@@ -33,9 +33,8 @@
                 <label for="meta">Meta</label>
                 <input class="form-control" type="text" name="meta" placeholder="Valid JSON." value="{{ $edit ? $data->meta : old('meta')}}">
             </div>
-
             <div class="col-xs-12">
-                <input id="published" type="checkbox" name="published" value="1" {{ $edit ? $building->checked($data->published) : '' }}>
+                <input id="published" type="checkbox" name="published" value="1" {{ $edit ? $data->published ? 'checked' : '' : '' }}>
                 <label for="published">Published</label>
             </div>
         </div>

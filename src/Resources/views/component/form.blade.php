@@ -29,8 +29,9 @@
                 <input class="form-control" type="text" name="params" placeholder="Valid JSON." value="{{ $edit ? $data->params : old('params') }}">
             </div>
 
+            $bool ? 'checked' : '';
             <div class="col-xs-12">
-                <input id="single_item" type="checkbox" name="single_item" value="1" {{ $edit ? $building->checked($data->single_item) : '' }}>
+                <input id="single_item" type="checkbox" name="single_item" value="1" {{ $edit ? $data->single_item ? 'checked' : '' : '' }}>
                 <label for="single_item">Single item</label>
             </div>
         </div>
