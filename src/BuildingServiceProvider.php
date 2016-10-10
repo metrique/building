@@ -72,12 +72,12 @@ class BuildingServiceProvider extends ServiceProvider
         $this->html->register();
     }
 
-    public function bootCommands()
+    protected function bootCommands()
     {
         $this->commands('command.metrique.building-seed');
     }
 
-    public function bootConfig()
+    protected function bootConfig()
     {
         $this->publishes([
             __DIR__.'/Resources/config/building.php' => config_path('building.php')
@@ -89,12 +89,12 @@ class BuildingServiceProvider extends ServiceProvider
         );
     }
 
-    public function bootMigrations()
+    protected function bootMigrations()
     {
         $this->loadMigrationsFrom(__DIR__.'/Database/migrations');
     }
 
-    public function bootRoutes()
+    protected function bootRoutes()
     {
         if (! $this->app->routesAreCached()) {
             require __DIR__.'/Routes/api.php';
@@ -102,7 +102,7 @@ class BuildingServiceProvider extends ServiceProvider
         }
     }
 
-    public function bootViews()
+    protected function bootViews()
     {
         $views = __DIR__ . '/Resources/views/';
         $this->loadViewsFrom($views, 'metrique-building');
