@@ -22,12 +22,17 @@ Add the following to the `repositories` section of your composer.json
 5. `php artisan metrique:building-seed`.
 
 ### Config
-You can publish the `config/metrique-building.php` config file to your application config directory by running `php artisan vendor:publish --tag="metrique-building"`
+You can publish the `config/building.php` config file to your application config directory by running `php artisan vendor:publish --tag="laravel-building"`
 
 ### Views
-You can create your own views instead of using the laravel-building defaults by overriding the `$views` property in any controller.
+You can create your own views instead of using the laravel-building defaults by overriding the `$views` property in any controller or by publishing the view files to your own application with `php artisan vendor:publish --tag="laravel-building"`
 
 ### Migrations
 laravel-building migrations will be automatically run when the `php artisan migrate` command is executed.
+
+### Routes
+laravel-building ships with a default set of resource controllers of which you can easily adjust the 'prefix' in via config file.
+
+If you prefer more fine grained control then you may extend the `BuildingServiceProvider.php` file into your own application, and override the `bootRoutes` method.
 
 - To do.

@@ -10,7 +10,7 @@
 
     <div class="row">
         <div class="col-sm-12">
-            @if(count($data) > 0)
+            @if(count($data['pages']) > 0)
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -22,7 +22,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($data as $key=>$value)
+                        @foreach ($data['pages'] as $key=>$value)
                             <tr>
                                 <td>
                                     <a href="{{ route($routes['edit'], $value->id) }}">{{ $value->title }}</a>

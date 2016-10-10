@@ -12,6 +12,7 @@ use Metrique\Building\Repositories\Component\StructureRepositoryEloquent;
 use Metrique\Building\Repositories\Contracts\Component\TypeRepositoryInterface;
 use Metrique\Building\Repositories\Component\TypeRepositoryEloquent;
 use Metrique\Building\Repositories\Contracts\PageRepositoryInterface;
+use Metrique\Building\Repositories\Contracts\HookRepositoryInterface;
 use Metrique\Building\Repositories\PageRepositoryEloquent;
 use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface;
 use Metrique\Building\Repositories\Page\ContentRepositoryEloquent;
@@ -19,6 +20,7 @@ use Metrique\Building\Repositories\Contracts\Page\GroupRepositoryInterface;
 use Metrique\Building\Repositories\Page\GroupRepositoryEloquent;
 use Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface;
 use Metrique\Building\Repositories\Page\SectionRepositoryEloquent;
+use Metrique\Building\Repositories\HookRepository;
 use Metrique\Building\Http\Composers\BuildingViewComposer;
 use Metrique\Building\Commands\BuildingSeedsCommand;
 use DH\Eloquent\Page;
@@ -30,6 +32,7 @@ class BuildingServiceProvider extends ServiceProvider
      *
      * @var bool
      */
+    protected $defer = false;
 
     public function __construct($app)
     {
@@ -57,6 +60,7 @@ class BuildingServiceProvider extends ServiceProvider
     public function register()
     {
         // Repositories
+        $this->registerHook();
         $this->registerComponent();
         $this->registerComponentType();
         $this->registerComponentStructure();
@@ -108,10 +112,18 @@ class BuildingServiceProvider extends ServiceProvider
         $this->loadViewsFrom($views, 'laravel-building');
 
         $this->publishes([
-            __DIR__.'/Resources/views' => resource_path('views/vendor/building'),
+            __DIR__.'/Resources/views' => resource_path('views/vendor/laravel-building'),
         ], 'laravel-building');
 
         view()->composer('*', BuildingViewComposer::class);
+    }
+
+    protected function registerHook()
+    {
+        $this->app->bind(
+            HookRepositoryInterface::class,
+            HookRepository::class
+        );
     }
 
     protected function registerComponent()

@@ -6,6 +6,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Metrique\Building\Repositories\Contracts\HookRepositoryInterface as Hook;
 
 class BuildingController extends BaseController
 {
@@ -30,13 +31,17 @@ class BuildingController extends BaseController
      */
     protected $routes = [];
 
-    public function __construct()
+    public function __construct(Hook $hook)
     {
         $this->viewData = [
             'routes' => $this->routes,
             'views' => $this->views,
             'data' => [],
         ];
+
+        $hook->hook($this);
+
+        dd($this->viewData);
     }
 
     /**
@@ -44,7 +49,7 @@ class BuildingController extends BaseController
      * @param  array $data
      * @return array
      */
-    protected function mergeViewData($data)
+    public function mergeViewData($data)
     {
         return $this->viewData = array_merge($this->viewData, $data);
     }
@@ -52,7 +57,7 @@ class BuildingController extends BaseController
     /**
      * Helper to include view data.
      */
-    protected function viewWithData($view)
+    public function viewWithData($view)
     {
         return view($view)->with($this->viewData);
     }

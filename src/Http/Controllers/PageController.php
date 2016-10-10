@@ -42,7 +42,9 @@ class PageController extends BuildingController
     public function index(Page $page)
     {
         $this->mergeViewData([
-            'data' => $page->all(),
+            'data' => [
+                'pages' => $page->all(),
+            ]
         ]);
 
         return $this->viewWithData($this->views['index']);
