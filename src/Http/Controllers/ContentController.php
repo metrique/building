@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Metrique\Building\Http\Controllers\BuildingController;
 use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface as Content;
 use Metrique\Building\Repositories\Contracts\PageRepositoryInterface as Page;
+use Metrique\Building\Repositories\Contracts\HookRepositoryInterface as Hook;
 use Metrique\Building\Support\Slug;
 
 class ContentController extends BuildingController
@@ -14,9 +15,9 @@ class ContentController extends BuildingController
         'index' => 'laravel-building::content.index',
     ];
 
-    public function __construct(Page $page, Content $content)
+    public function __construct(Hook $hook, Page $page, Content $content)
     {
-        parent::__construct();
+        parent::__construct($hook);
 
         $this->page = $page;
         $this->content = $content;

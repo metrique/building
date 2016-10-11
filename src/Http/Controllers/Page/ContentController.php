@@ -5,6 +5,7 @@ namespace Metrique\Building\Http\Controllers\Page;
 use Illuminate\Http\Request;
 use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface as Content;
 use Metrique\Building\Repositories\Contracts\Page\GroupRepositoryInterface as Group;
+use Metrique\Building\Repositories\Contracts\HookRepositoryInterface as Hook;
 use Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface as Section;
 use Metrique\Building\Http\Controllers\BuildingController;
 use Metrique\Building\Http\Requests\PageRequest;
@@ -42,9 +43,9 @@ class ContentController extends BuildingController
         'multi.form' => 'laravel-building::page.content.multi.form',
     ];
 
-    public function __construct(Section $section, Content $content)
+    public function __construct(Hook $hook, Section $section, Content $content)
     {
-        parent::__construct();
+        parent::__construct($hook);
 
         $this->section = $section;
         $this->content = $content;
