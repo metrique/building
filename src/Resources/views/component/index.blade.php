@@ -10,7 +10,7 @@
 
     <div class="row">
         <div class="col-xs-12">
-        @if(count($data) > 0)
+        @if(count($data['components']) > 0)
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -22,7 +22,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($data as $key=>$value)
+                    @foreach($data['components'] as $key=>$value)
                     <tr>
                         <td>
                             <a href="{{ route($routes['edit'], $value->id) }}">{{ $value->title }}</a>
@@ -36,7 +36,6 @@
                                 <i class="fa fa-pencil"></i> Edit structure
                             </a>
                         </td>
-                        <td></td>
                         <td class="text-right">
                             @include('laravel-building::partial.button-destroy', [
                                 'route'=>route($routes['destroy'], $value->id),

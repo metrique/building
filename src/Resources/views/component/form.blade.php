@@ -16,22 +16,21 @@
 
             <div class="form-group col-xs-12">
                 <label for="title">Title</label>
-                <input class="form-control" type="text" name="title" placeholder="My new page title." value="{{ $edit ? $data->title : old('title') }}">
+                <input class="form-control" type="text" name="title" placeholder="My new page title." value="{{ $edit ? $data['component']->title : old('title') }}">
             </div>
 
             <div class="form-group col-xs-12">
                 <label for="slug">Slug</label>
-                <input class="form-control" type="text" name="slug" placeholder="a-z, 0-9, -, _" value="{{ $edit ? $data->slug : old('slug') }}">
+                <input class="form-control" type="text" name="slug" placeholder="a-z, 0-9, -, _" value="{{ $edit ? $data['component']->slug : old('slug') }}">
             </div>
 
             <div class="form-group col-xs-12">
                 <label for="params">Params</label>
-                <input class="form-control" type="text" name="params" placeholder="Valid JSON." value="{{ $edit ? $data->params : old('params') }}">
+                <input class="form-control" type="text" name="params" placeholder="Valid JSON." value="{{ $edit ? $data['component']->params : old('params') }}">
             </div>
 
-            $bool ? 'checked' : '';
             <div class="col-xs-12">
-                <input id="single_item" type="checkbox" name="single_item" value="1" {{ $edit ? $data->single_item ? 'checked' : '' : '' }}>
+                <input id="single_item" type="checkbox" name="single_item" value="1" {{ $edit ? $data['component']->single_item ? 'checked' : '' : '' }}>
                 <label for="single_item">Single item</label>
             </div>
         </div>

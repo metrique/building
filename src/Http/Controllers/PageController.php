@@ -93,7 +93,9 @@ class PageController extends BuildingController
     public function edit($id, Page $page)
     {
         $this->mergeViewData([
-            'data' => $page->find($id),
+            'data' => [
+                'page' => $page->find($id),
+            ],
         ]);
 
         return $this->viewWithData($this->views['edit']);

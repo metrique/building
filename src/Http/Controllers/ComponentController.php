@@ -42,7 +42,9 @@ class ComponentController extends BuildingController
     public function index(Component $component)
     {
         $this->mergeViewData([
-            'data' => $component->all(),
+            'data' => [
+                'components' => $component->all(),
+            ],
         ]);
 
         return $this->viewWithData($this->views['index']);
@@ -91,7 +93,9 @@ class ComponentController extends BuildingController
     public function edit($id, Component $component)
     {
         $this->mergeViewData([
-            'data' => $component->find($id),
+            'data' => [
+                'component' => $component->find($id),
+            ]
         ]);
 
         return $this->viewWithData($this->views['edit']);

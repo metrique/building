@@ -16,25 +16,25 @@
 
             <div class="form-group col-xs-12">
                 <label for="title">Title</label>
-                <input class="form-control" type="text" name="title" placeholder="My new page title." value="{{ $edit ? $data->title : old('title') }}">
+                <input class="form-control" type="text" name="title" placeholder="My new page title." value="{{ $edit ? $data['page']->title : old('title') }}">
             </div>
 
             <div class="form-group col-xs-12">
                 <label for="slug">Slug</label>
-                <input class="form-control" type="text" name="slug" placeholder="a-z, 0-9, -, _" value="{{ $edit ? $data->slug : old('slug') }}">
+                <input class="form-control" type="text" name="slug" placeholder="a-z, 0-9, -, _" value="{{ $edit ? $data['page']->slug : old('slug') }}">
             </div>
 
             <div class="form-group col-xs-12">
                 <label for="params">Params</label>
-                <input class="form-control" type="text" name="params" placeholder="Valid JSON." value="{{ $edit ? $data->params : old('params') }}">
+                <input class="form-control" type="text" name="params" placeholder="Valid JSON." value="{{ $edit ? $data['page']->params : old('params') }}">
             </div>
 
             <div class="form-group col-xs-12">
                 <label for="meta">Meta</label>
-                <input class="form-control" type="text" name="meta" placeholder="Valid JSON." value="{{ $edit ? $data->meta : old('meta')}}">
+                <input class="form-control" type="text" name="meta" placeholder="Valid JSON." value="{{ $edit ? $data['page']->meta : old('meta')}}">
             </div>
             <div class="col-xs-12">
-                <input id="published" type="checkbox" name="published" value="1" {{ $edit ? $data->published ? 'checked' : '' : '' }}>
+                <input id="published" type="checkbox" name="published" value="1" {{ $edit ? $data['page']->published ? 'checked' : '' : '' }}>
                 <label for="published">Published</label>
             </div>
         </div>

@@ -5,7 +5,7 @@
         'heading'=>'Components',
     ])
     @include('laravel-building::component.form', [
-        'action' => route($routes['update'], $data->id),
+        'action' => route($routes['update'], $data['component']->id),
         'edit' => true,
     ])
 @endsection
