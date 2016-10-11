@@ -36,8 +36,6 @@ class PageRepositoryEloquent implements PageRepositoryInterface
      */
     public function create(array $data)
     {
-        $data['slug'] = $data['slug'] ?: $data['title'];
-
         return Page::create($data);
     }
 
@@ -68,8 +66,6 @@ class PageRepositoryEloquent implements PageRepositoryInterface
      */
     public function update($id, array $data)
     {
-        $data['slug'] = $data['slug'] ?: $data['title'];
-
         return Page::find($id)->update($data);
     }
 

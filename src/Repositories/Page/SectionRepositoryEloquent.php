@@ -50,7 +50,6 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
      */
     public function create(array $data)
     {
-        $data['slug'] = $data['slug'] ?: $data['title'];
         $data['order'] = $data['order'] ?: 0;
 
         return Section::create($data);
@@ -84,7 +83,6 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
      */
     public function update($id, array $data)
     {
-        $data['slug'] = $data['slug'] ?: $data['title'];
         $data['order'] = $data['order'] ?: 0;
 
         return Section::find($id)->update($data);

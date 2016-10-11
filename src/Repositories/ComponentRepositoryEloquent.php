@@ -29,8 +29,6 @@ class ComponentRepositoryEloquent implements ComponentRepositoryInterface
      */
     public function create(array $data)
     {
-        $data['slug'] = $data['slug'] ?: $data['title'];
-
         return Component::create($data);
     }
 
