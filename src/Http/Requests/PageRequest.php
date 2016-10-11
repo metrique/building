@@ -3,9 +3,17 @@
 namespace Metrique\Building\Http\Requests;
 
 use Metrique\Building\Http\Requests\Request;
+use Metrique\Building\Http\Requests\Traits\RequestTrait;
 
 class PageRequest extends Request
 {
+    use RequestTrait;
+
+    public function modifyRequest()
+    {
+        return $this->populateSlug();
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,8 +32,8 @@ class PageRequest extends Request
     public function rules()
     {
         return [
-            'title'=>'required|string|unique:pages,id,'.$this->get('id'),
-            'slug'=>'nullable|string',
+            'title'=>'required|unique:pages,title,'.$this->route('page'),
+            'slug'=>'sometimes|unique:pages,slug,'.$this->route('page'),
             'params'=>'json',
             'meta'=>'json',
             'published'=>'boolean',

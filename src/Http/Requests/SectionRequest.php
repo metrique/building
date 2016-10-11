@@ -3,9 +3,17 @@
 namespace Metrique\Building\Http\Requests;
 
 use Metrique\Building\Http\Requests\Request;
+use Metrique\Building\Http\Requests\Traits\RequestTrait;
 
 class SectionRequest extends Request
 {
+    use RequestTrait;
+
+    public function modifyRequest()
+    {
+        return $this->populateSlug();
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,8 +32,8 @@ class SectionRequest extends Request
     public function rules()
     {
         return [
-            'title'=>'required|string|unique:page_sections,id,'.$this->get('id'),
-            'slug'=>'nullable|string',
+            'title'=>'required|string',
+            'slug'=>'required|unique:page_sections,slug,'.$this->route('section'),
             'order'=>'integer',
             'params'=>'json',
             'pages_id'=>'required|exists:pages,id',
