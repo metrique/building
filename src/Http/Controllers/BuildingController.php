@@ -40,8 +40,6 @@ class BuildingController extends BaseController
         ];
 
         $hook->hook($this);
-
-        dd($this->viewData);
     }
 
     /**
@@ -51,7 +49,7 @@ class BuildingController extends BaseController
      */
     public function mergeViewData($data)
     {
-        return $this->viewData = array_merge($this->viewData, $data);
+        return $this->viewData = array_merge_recursive($this->viewData, $data);
     }
 
     /**
