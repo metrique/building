@@ -11,7 +11,7 @@ use Stringy\Stringy;
 
 class ContentRepositoryEloquent implements ContentRepositoryInterface
 {
-    protected $delimiter = '::';
+    protected $delimiter = '--';
     protected $defaultInputName = [
         'structure_id' => '',
         'group_id' => 0,
