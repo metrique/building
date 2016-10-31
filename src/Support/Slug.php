@@ -16,10 +16,10 @@ class Slug
      * @param  string $directorySeparator
      * @return string
      */
-    public static function slugify($string, $delimiter = '-', $directorySeperator = '_')
+    public static function slugify($string, $delimiter = '-', $directorySeparator = '_')
     {
         // Allowed character list
-        $allowed = "/[^a-zA-Z\d\s-_\/" . preg_quote($delimiter) . "]/u";
+        $allowed = "/[^a-zA-Z\d\s" . preg_quote($delimiter) . preg_quote($directorySeparator) . "]/u";
 
         // Convert to closest ASCII
         $string = Stringy::create($string)->toAscii();
@@ -27,14 +27,23 @@ class Slug
         // Remove non allowed characters
         $string = preg_replace($allowed, '', $string);
 
+        // Get directory separators.
+        $string =
+
+        collect(explode($directorySeparator, $string))->reduce(
+            function ($carry, $item) use ($delimiter, $directorySeparator) {
+                return $carry . $directorySeparator . Stringy::create($item)->delimit($delimiter);
+            }
+        );
+
         // Lowercase, delimit and trim!
         $string = Stringy::create($string)
-            ->toLowerCase()
-            ->delimit($delimiter)
             ->removeLeft($delimiter)
-            ->removeRight($delimiter);
+            ->removeLeft($directorySeparator)
+            ->removeRight($delimiter)
+            ->removeRight($directorySeparator);
 
-        // Convert path seperators to underscores.
+        // Convert path separators to underscores.
         $string = str_replace('/', '_', $string);
 
         return $string;
@@ -46,8 +55,8 @@ class Slug
      * @param  string $string
      * @return string
      */
-    public static function unslugify($string, $directorySeperator = '_')
+    public static function unslugify($string, $directorySeparator = '_')
     {
-        return str_replace($directorySeperator, '/', $string);
+        return str_replace($directorySeparator, '/', $string);
     }
 }
