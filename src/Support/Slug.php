@@ -19,7 +19,7 @@ class Slug
     public static function slugify($string, $delimiter = '-', $directorySeparator = '_')
     {
         // Allowed character list
-        $allowed = "/[^a-zA-Z\d\s" . preg_quote($delimiter) . preg_quote($directorySeparator) . "]/u";
+        $allowed = "/[^a-zA-Z\d\s\/" . preg_quote($delimiter) . preg_quote($directorySeparator) . "]/u";
 
         // Convert to closest ASCII
         $string = Stringy::create($string)->toAscii();
