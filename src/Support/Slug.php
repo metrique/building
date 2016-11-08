@@ -37,11 +37,13 @@ class Slug
         );
 
         // Lowercase, delimit and trim!
-        $string = Stringy::create($string)
-            ->removeLeft($delimiter)
-            ->removeLeft($directorySeparator)
-            ->removeRight($delimiter)
-            ->removeRight($directorySeparator);
+        if (strlen($string) > 1) {
+            $string = Stringy::create($string)
+                ->removeLeft($delimiter)
+                ->removeLeft($directorySeparator)
+                ->removeRight($delimiter)
+                ->removeRight($directorySeparator);
+        }
 
         // Convert path separators to underscores.
         $string = str_replace('/', '_', $string);
