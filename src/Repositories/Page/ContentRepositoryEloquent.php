@@ -10,7 +10,7 @@ use Stringy\Stringy;
 class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements ContentRepositoryInterface
 {
     protected $modelClassName = 'Metrique\Building\Eloquent\Page\Content';
-    
+
     /**
      * {@inheritdoc}
      */
@@ -25,6 +25,11 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
             ->toArray();
     }
 
+    public function groupPublishedBySectionId($id)
+    {
+        return collect($this->bySectionId($id))->where('published', 1)->groupBy('building_page_groups_id')->toArray();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -32,15 +37,13 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
     {
         $groups = [];
 
-        foreach($this->bySectionId($id) as $key => $value)
-        {
+        foreach ($this->bySectionId($id) as $key => $value) {
             $content = [];
 
             // Create group
             $groupId = $value['building_page_groups_id'];
 
-            if(!array_key_exists($groupId, $groups))
-            {
+            if (!array_key_exists($groupId, $groups)) {
                 $groups[$groupId] = [];
             }
 
@@ -58,17 +61,15 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
     {
         $data = [];
 
-        foreach($request->all() as $key => $content)
-        {
-            if(!$keys = $this->requestKeyIsValid($key, $delimiter))
-            {
+        foreach ($request->all() as $key => $content) {
+            if (!$keys = $this->requestKeyIsValid($key, $delimiter)) {
                 continue;
             }
 
             $keys = $this->mapParseRequest($keys, $map, isset($content) ? $content : '');
             $data[] = $keys;
         }
-        
+
         return $data;
     }
 
@@ -78,18 +79,15 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
     public function groupParseRequest(array $parseRequestData, array $include = [])
     {
         $group = [];
-        
-        foreach($parseRequestData as $key => $value)
-        {
+
+        foreach ($parseRequestData as $key => $value) {
             // If the item has a group_id
-            if(!array_key_exists('group_id', $value))
-            {
+            if (!array_key_exists('group_id', $value)) {
                 continue;
             }
 
             // If group doesn't exist then create!
-            if(!array_key_exists($value['group_id'], $group))
-            {
+            if (!array_key_exists($value['group_id'], $group)) {
                 $group[$value['group_id']] = [];
             }
 
@@ -99,7 +97,7 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
             // Add the item to its respective group...
             $group[$value['group_id']][] = $value;
         }
-        
+
         return $group;
     }
 
@@ -115,13 +113,13 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
             case 'single':
                 return $this->storeSingle($request, $content);
             break;
-            
+
             case 'multi':
                 return $this->storeMulti($request, $content);
             break;
 
             default:
-                Throw new \Exception('Building request type was not valid.');
+                throw new \Exception('Building request type was not valid.');
             break;
         }
     }
@@ -143,17 +141,14 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
 
             // dd($request->all());
             // Create a new group + new content.
-            if($groupId === 0)
-            {
-                \DB::transaction(function() use($value, $groupId, $request) {
-
+            if ($groupId === 0) {
+                \DB::transaction(function () use ($value, $groupId, $request) {
                     $groupId = $this->app->make('Metrique\Building\Contracts\Page\GroupRepositoryInterface')->create([
                         'order' => $request->get('order-'.$groupId, 0),
                         'published' => in_array(0, $request->get('published', []))
                     ])->id;
 
-                    foreach($value as $key => $content)
-                    {
+                    foreach ($value as $key => $content) {
                         // dump($key);
                         $content['group_id'] = $groupId;
 
@@ -167,20 +162,18 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
                         ]);
                     }
                 });
-    
+
                 continue;
             }
 
             // Existing group, or update!
-            \DB::transaction(function() use($value, $groupId, $request) {
-
+            \DB::transaction(function () use ($value, $groupId, $request) {
                 $group = $this->app->make('Metrique\Building\Contracts\Page\GroupRepositoryInterface')->update($groupId, [
                     'order' => $request->get('order-'.$groupId),
                     'published' => in_array($groupId, $request->get('published', [])),
                 ]);
 
-                foreach($value as $key => $content)
-                {
+                foreach ($value as $key => $content) {
                     $this->update($content['content_id'], [
                         'content' => $content['_content'],
                     ]);
@@ -206,8 +199,7 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
     {
         $keys = explode($delimiter, $key);
 
-        if(!($keys & Stringy::create($key)->contains($delimiter)))
-        {
+        if (!($keys & Stringy::create($key)->contains($delimiter))) {
             return false;
         }
 
@@ -229,10 +221,8 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
         // Shout this be mapped?
         $shouldMap = count($map) > 0 ? true : false;
 
-        foreach($map as $key => $value)
-        {
-            if(array_key_exists($key, $keys))
-            {
+        foreach ($map as $key => $value) {
+            if (array_key_exists($key, $keys)) {
                 $keys[$value] = $keys[$key];
                 unset($keys[$key]);
             }

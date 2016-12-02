@@ -5,7 +5,6 @@ namespace Metrique\Building\Repositories;
 use Metrique\Building\Abstracts\EloquentRepositoryAbstract;
 use Metrique\Building\Contracts\PageRepositoryInterface;
 
-
 class PageRepositoryEloquent extends EloquentRepositoryAbstract implements PageRepositoryInterface
 {
     protected $modelClassName = 'Metrique\Building\Eloquent\Page';
@@ -29,9 +28,8 @@ class PageRepositoryEloquent extends EloquentRepositoryAbstract implements PageR
     {
         $this->page = $this->model->where(['slug' => $slug, 'published' => 1]);
 
-        if($this->page->count() != 1)
-        {
-            Throw new \Exception("Page with slug `$slug` doesn't exist.");
+        if ($this->page->count() != 1) {
+            throw new \Exception("Page with slug `$slug` doesn't exist.");
         }
 
         // Store page
@@ -46,23 +44,25 @@ class PageRepositoryEloquent extends EloquentRepositoryAbstract implements PageR
     /**
      * {@inheritdoc}
      */
-    public function contentsBySlug($slug)
+    public function contentsBySlug($slug, $published = false)
     {
         $content = $this->app->make('Metrique\Building\Contracts\Page\ContentRepositoryInterface');
         $section = $this->app->make('Metrique\Building\Contracts\Page\SectionRepositoryInterface');
         $contents = [];
 
-        foreach($section->byPageId($this->bySlug($slug)->id) as $key => $value)
-        {
+        foreach ($section->byPageId($this->bySlug($slug)->id) as $key => $value) {
             $value['params'] = json_decode($value['params'], true);
-            
+
             // Widget rendering.
-            if($value['block']['slug'] == 'widget')
-            {
+            if ($value['block']['slug'] == 'widget') {
                 $value['_contents'] = array_pluck($content->bySectionId($value['id']), 'content');
                 $value['_contents'] = $this->app->make($value['_contents'][0])->render($value['_contents'][1], $this->app);
             } else {
-                $value['_contents'] = $content->groupBySectionId($value['id']);
+                if ($published) {
+                    $value['_contents'] = $content->groupPublishedBySectionId($value['id']);
+                } else {
+                    $value['_contents'] = $content->groupBySectionId($value['id']);
+                }
             }
 
             // Widget rendering should go here?
@@ -85,8 +85,7 @@ class PageRepositoryEloquent extends EloquentRepositoryAbstract implements PageR
      */
     public function getMeta($key)
     {
-        if(!array_key_exists($key, $this->meta))
-        {
+        if (!array_key_exists($key, $this->meta)) {
             return '';
         }
 
