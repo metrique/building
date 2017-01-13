@@ -31,7 +31,7 @@ You can create your own views instead of using the laravel-building defaults by 
 laravel-building migrations will be automatically run when the `php artisan migrate` command is executed.
 
 ### Routes
-laravel-building ships with a default set of resource controllers of which you can easily adjust the 'prefix' in via config file.
+laravel-building ships with a default set of resource controllers of which you can easily adjust the 'prefix' for via config file.
 
 If you prefer more fine grained control then you may extend the `BuildingServiceProvider.php` file into your own application, and override the `bootRoutes` method.
 
