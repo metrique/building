@@ -11,6 +11,8 @@ class Section extends Model
 {
     use CommonAttributes;
 
+    protected $appends = ['parameters'];
+
     protected $fillable = [
         'id',
         'title',
@@ -36,5 +38,18 @@ class Section extends Model
     public function component()
     {
         return $this->belongsTo(Component::class, 'components_id');
+    }
+
+    public function getParametersAttribute()
+    {
+        $json = json_decode($this->params);
+
+        if (json_last_error() != JSON_ERROR_NONE) {
+            return [
+                'class'=>[]
+            ];
+        }
+
+        return $json;
     }
 }
