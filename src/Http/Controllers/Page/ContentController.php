@@ -17,7 +17,8 @@ class ContentController extends BuildingController
     * @var array
     */
     protected $routes = [
-        'index' => 'page.section.index',
+        'single.index' => 'page.section.index',
+        'multi.index' => 'page.section.content.index',
         'create' => 'page.section.content.create',
         'store' => 'page.section.content.store',
         'edit' => 'page.section.content.edit',
@@ -105,7 +106,11 @@ class ContentController extends BuildingController
     {
         $this->content->persistWithRequest($id, $sectionId);
 
-        return redirect()->route($this->routes['index'], [$id, $sectionId]);
+        if ($request->type == 'single') {
+            return redirect()->route($this->routes['single.index'], $id);
+        }
+
+        return redirect()->route($this->routes['multi.index'], [$id, $sectionId]);
     }
 
     /**
@@ -141,7 +146,11 @@ class ContentController extends BuildingController
     {
         $this->content->persistWithRequest($id, $sectionId);
 
-        return redirect()->route($this->routes['index'], [$id, $sectionId]);
+        if ($request->type == 'single') {
+            return redirect()->route($this->routes['single.index'], [$id]);
+        }
+
+        return redirect()->route($this->routes['multi.index'], [$id, $sectionId]);
     }
 
     /**
