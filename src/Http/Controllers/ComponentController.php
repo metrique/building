@@ -125,6 +125,6 @@ class ComponentController extends BuildingController
     {
         $component->destroy($id);
 
-        return redirect()->route($this->routes['destroy']);
+        return redirect()->route($this->routes['index']);
     }
 }

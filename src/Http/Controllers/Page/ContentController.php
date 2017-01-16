@@ -17,7 +17,7 @@ class ContentController extends BuildingController
     * @var array
     */
     protected $routes = [
-        'index' => 'page.section.content.index',
+        'index' => 'page.section.index',
         'create' => 'page.section.content.create',
         'store' => 'page.section.content.store',
         'edit' => 'page.section.content.edit',
@@ -154,6 +154,6 @@ class ContentController extends BuildingController
     {
         $group->destroy($groupId);
 
-        return redirect()->back();
+        return redirect()->route($this->routes['index'], [$id, $sectionId]);
     }
 }
