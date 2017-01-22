@@ -17,7 +17,7 @@
             <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Slug</th>
+                    <th>Component</th>
                     <th>Order</th>
                     <th></th>
                     <th></th>
@@ -31,7 +31,7 @@
                                 {{ $value['title'] }}
                             </a>
                         </td>
-                        <td>{{ $value['slug'] }}</td>
+                        <td>{{ $value->component->title }}</td>
                         <td>{{ $value['order'] }}</td>
 
                         <td class="text-right">
