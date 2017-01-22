@@ -186,6 +186,14 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
                 );
                 break;
 
+            case 'plonk':
+                return $label . sprintf(
+                    '<plonk name="%s">%s</plonk>',
+                    $params['name'],
+                    htmlspecialchars($params['value'])
+                );
+                break;
+
             default:
                 return $label . sprintf(
                     '<input %s name="%s" type="%s" value="%s">',
