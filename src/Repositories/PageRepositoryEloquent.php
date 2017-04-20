@@ -20,7 +20,7 @@ class PageRepositoryEloquent implements PageRepositoryInterface
      */
     public function all()
     {
-        return Page::orderBy('title', 'asc')->get(['id', 'title', 'slug', 'published']);
+        return Page::orderBy('title', 'asc')->get(['id', 'title', 'description', 'slug', 'published']);
     }
 
     /**
@@ -46,6 +46,7 @@ class PageRepositoryEloquent implements PageRepositoryInterface
     {
         return $this->create(request()->only([
             'title',
+            'description',
             'slug',
             'params',
             'meta',
@@ -76,6 +77,7 @@ class PageRepositoryEloquent implements PageRepositoryInterface
     {
         return $this->update($id, request()->only([
             'title',
+            'description',
             'slug',
             'params',
             'meta',

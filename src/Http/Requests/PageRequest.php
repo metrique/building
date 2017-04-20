@@ -33,6 +33,7 @@ class PageRequest extends Request
     {
         return [
             'title'=>'required|unique:pages,title,'.$this->route('page'),
+            'description' => 'required',
             'slug'=>'sometimes|unique:pages,slug,'.$this->route('page'),
             'params'=>'json',
             'meta'=>'json',
