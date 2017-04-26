@@ -15,8 +15,8 @@ class CreateComponentTypes extends Migration
         Schema::create('component_types', function (Blueprint $table) {
             $table->timestamps();
             $table->increments('id');
-            $table->string('title', 255);
-            $table->string('slug', 255)->unique();
+            $table->string('title', 191);
+            $table->string('slug', 191)->unique();
             $table->text('params');
         });
     }

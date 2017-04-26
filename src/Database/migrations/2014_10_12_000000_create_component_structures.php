@@ -15,7 +15,7 @@ class CreateComponentStructures extends Migration
         Schema::create('component_structures', function (Blueprint $table) {
             $table->timestamps();
             $table->increments('id');
-            $table->string('title', 255);
+            $table->string('title', 191);
             $table->integer('order')->unsigned()->default(0);
         });
     }
