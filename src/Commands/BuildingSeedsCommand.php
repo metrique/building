@@ -36,7 +36,7 @@ class BuildingSeedsCommand extends Command
      * @var array
      */
     protected $seeds = [
-        Metrique\Building\Database\Seeds\ComponentTypesSeeder::class,
+        \Metrique\Building\Database\Seeds\ComponentTypesSeeder::class,
     ];
 
     /**
