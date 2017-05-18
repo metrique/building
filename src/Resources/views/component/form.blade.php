@@ -16,7 +16,7 @@
 
             <div class="form-group col-xs-12">
                 <label for="title">Title</label>
-                <input class="form-control" type="text" name="title" placeholder="My new page title." value="{{ $edit ? $data['component']->title : old('title') }}">
+                <input class="form-control" type="text" name="title" placeholder="My new component title." value="{{ $edit ? $data['component']->title : old('title') }}">
             </div>
 
             <div class="form-group col-xs-12">
