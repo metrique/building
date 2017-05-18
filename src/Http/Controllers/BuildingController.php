@@ -49,7 +49,7 @@ class BuildingController extends BaseController
      */
     public function mergeViewData($data)
     {
-        return $this->viewData = array_merge_recursive($this->viewData, $data);
+        return $this->viewData = $data + $this->viewData;
     }
 
     /**
