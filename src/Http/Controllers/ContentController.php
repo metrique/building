@@ -30,10 +30,15 @@ class ContentController extends BuildingController
     public function index()
     {
         $slug = Slug::slugify(request()->path());
+        $page = $this->page->bySlug($slug);
+        
+        if (is_null($page) {
+            abort(404);
+        }
 
         $this->mergeViewData([
             'contents' => $this->page->publishedContentBySlug($slug),
-            'page' => $this->page->bySlug($slug),
+            'page' => $page,
             'slug' => $slug,
         ]);
 
