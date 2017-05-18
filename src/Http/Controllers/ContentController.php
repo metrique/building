@@ -32,7 +32,7 @@ class ContentController extends BuildingController
         $slug = Slug::slugify(request()->path());
         $page = $this->page->bySlug($slug);
         
-        if (is_null($page) {
+        if (is_null($page)) {
             abort(404);
         }
 
