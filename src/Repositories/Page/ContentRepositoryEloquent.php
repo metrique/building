@@ -112,10 +112,10 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
 
                 $item->each(function ($item, $key) {
                     Content::find($item['content_id'])->update([
-                        'content' => $item['content']
+                        'content' => $item['content'],
                     ]);
                 });
-
+                
                 return true;
             });
         });
