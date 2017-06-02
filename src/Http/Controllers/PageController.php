@@ -81,7 +81,7 @@ class PageController extends BuildingController
      */
     public function show($id)
     {
-        abort('404');
+        abort(404);
     }
 
     /**

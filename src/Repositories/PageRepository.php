@@ -7,7 +7,7 @@ use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface as 
 use Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface as SectionRepository;
 use Metrique\Building\Eloquent\Page;
 
-class PageRepositoryEloquent implements PageRepositoryInterface
+class PageRepository implements PageRepositoryInterface
 {
     public function __construct(ContentRepository $content, SectionRepository $section)
     {

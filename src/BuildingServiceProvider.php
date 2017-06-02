@@ -5,24 +5,8 @@ namespace Metrique\Building;
 use Collective\Html\HtmlServiceProvider;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\ServiceProvider;
-use Metrique\Building\Repositories\Contracts\ComponentRepositoryInterface;
-use Metrique\Building\Repositories\ComponentRepositoryEloquent;
-use Metrique\Building\Repositories\Contracts\Component\StructureRepositoryInterface;
-use Metrique\Building\Repositories\Component\StructureRepositoryEloquent;
-use Metrique\Building\Repositories\Contracts\Component\TypeRepositoryInterface;
-use Metrique\Building\Repositories\Component\TypeRepositoryEloquent;
-use Metrique\Building\Repositories\Contracts\PageRepositoryInterface;
-use Metrique\Building\Repositories\Contracts\HookRepositoryInterface;
-use Metrique\Building\Repositories\PageRepositoryEloquent;
-use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface;
-use Metrique\Building\Repositories\Page\ContentRepositoryEloquent;
-use Metrique\Building\Repositories\Contracts\Page\GroupRepositoryInterface;
-use Metrique\Building\Repositories\Page\GroupRepositoryEloquent;
-use Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface;
-use Metrique\Building\Repositories\Page\SectionRepositoryEloquent;
-use Metrique\Building\Repositories\HookRepository;
-use Metrique\Building\Http\Composers\BuildingViewComposer;
 use Metrique\Building\Commands\BuildingSeedsCommand;
+
 use DH\Eloquent\Page;
 
 class BuildingServiceProvider extends ServiceProvider
@@ -115,67 +99,67 @@ class BuildingServiceProvider extends ServiceProvider
             __DIR__.'/Resources/views' => resource_path('views/vendor/laravel-building'),
         ], 'laravel-building');
 
-        view()->composer('*', BuildingViewComposer::class);
+        view()->composer('*', \Metrique\Building\Http\Composers\BuildingViewComposer::class);
     }
 
     protected function registerHook()
     {
         $this->app->bind(
-            HookRepositoryInterface::class,
-            HookRepository::class
+            \Metrique\Building\Repositories\Contracts\HookRepositoryInterface::class,
+            \Metrique\Building\Repositories\HookRepository::class
         );
     }
 
     protected function registerComponent()
     {
         $this->app->bind(
-            ComponentRepositoryInterface::class,
-            ComponentRepositoryEloquent::class
+            \Metrique\Building\Repositories\Contracts\ComponentRepositoryInterface::class,
+            \Metrique\Building\Repositories\ComponentRepositoryEloquent::class
         );
     }
 
     protected function registerComponentType()
     {
         $this->app->bind(
-            TypeRepositoryInterface::class,
-            TypeRepositoryEloquent::class
+            \Metrique\Building\Repositories\Contracts\Component\TypeRepositoryInterface::class,
+            \Metrique\Building\Repositories\Component\TypeRepositoryEloquent::class
         );
     }
 
     protected function registerComponentStructure()
     {
         $this->app->bind(
-            StructureRepositoryInterface::class,
-            StructureRepositoryEloquent::class
+            \Metrique\Building\Repositories\Contracts\Component\StructureRepositoryInterface::class,
+            \Metrique\Building\Repositories\Component\StructureRepositoryEloquent::class
         );
     }
 
     protected function registerPage()
     {
         $this->app->bind(
-            PageRepositoryInterface::class,
-            PageRepositoryEloquent::class
+            \Metrique\Building\Repositories\Contracts\PageRepositoryInterface::class,
+            \Metrique\Building\Repositories\PageRepository::class
         );
     }
     protected function registerPageContent()
     {
         $this->app->bind(
-            ContentRepositoryInterface::class,
-            ContentRepositoryEloquent::class
+            \Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface::class,
+            \Metrique\Building\Repositories\Page\ContentRepositoryEloquent::class
         );
     }
     protected function registerPageSection()
     {
         $this->app->bind(
-            SectionRepositoryInterface::class,
-            SectionRepositoryEloquent::class
+            \Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface::class,
+            \Metrique\Building\Repositories\Page\SectionRepositoryEloquent::class
         );
     }
     protected function registerPageGroup()
     {
         $this->app->bind(
-            GroupRepositoryInterface::class,
-            GroupRepositoryEloquent::class
+            \Metrique\Building\Repositories\Contracts\Page\GroupRepositoryInterface::class,
+            \Metrique\Building\Repositories\Page\GroupRepositoryEloquent::class
         );
     }
 
@@ -185,7 +169,7 @@ class BuildingServiceProvider extends ServiceProvider
     protected function registerCommands()
     {
         $this->app->singleton('command.metrique.building-seed', function ($app) {
-            return new BuildingSeedsCommand();
+            return new \Metrique\Building\Http\Composers\BuildingSeedsCommand();
         });
     }
 }

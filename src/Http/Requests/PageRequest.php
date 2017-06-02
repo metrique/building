@@ -32,7 +32,7 @@ class PageRequest extends Request
     public function rules()
     {
         return [
-            'title'=>'required|unique:pages,title,'.$this->route('page'),
+            'title'=>'required',
             'description' => 'required',
             'slug'=>'sometimes|unique:pages,slug,'.$this->route('page'),
             'params'=>'json',
