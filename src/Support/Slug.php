@@ -18,6 +18,7 @@ class Slug
      */
     public static function slugify($string, $delimiter = '-', $directorySeparator = '_')
     {
+        
         // Allowed character list
         $allowed = "/[^a-zA-Z\d\s\/" . preg_quote($delimiter) . preg_quote($directorySeparator) . "]/u";
 
@@ -27,10 +28,9 @@ class Slug
         // Remove non allowed characters
         $string = preg_replace($allowed, '', $string);
 
+        
         // Get directory separators.
-        $string =
-
-        collect(explode($directorySeparator, $string))->reduce(
+        $string = collect(explode($directorySeparator, $string))->reduce(
             function ($carry, $item) use ($delimiter, $directorySeparator) {
                 return $carry . $directorySeparator . Stringy::create($item)->delimit($delimiter);
             }
@@ -47,8 +47,8 @@ class Slug
 
         // Convert path separators to underscores.
         $string = str_replace('/', '_', $string);
-
-        return $string;
+        
+        return empty($string) ? '_' : $string;
     }
 
     /**
