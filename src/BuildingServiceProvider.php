@@ -169,7 +169,7 @@ class BuildingServiceProvider extends ServiceProvider
     protected function registerCommands()
     {
         $this->app->singleton('command.metrique.building-seed', function ($app) {
-            return new \Metrique\Building\Http\Composers\BuildingSeedsCommand();
+            return new \Metrique\Building\Commands\BuildingSeedsCommand();
         });
     }
 }
