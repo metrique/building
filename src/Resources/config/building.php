@@ -9,6 +9,7 @@ return [
     |
     */
     'cache' => [
+        'prefix' => 'metrique-building',
         'ttl' => 5,
     ],
     'component' => [
