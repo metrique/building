@@ -109,8 +109,17 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
                     'order' => request(sprintf('order-%s', $groupId), 0),
                     'published' => in_array($groupId, request('published', [])),
                 ]);
-
-                $item->each(function ($item, $key) {
+                
+                $item->each(function ($item, $key) use ($groupId, $pageId, $sectionId) {
+                    if ($item['content_id'] == 0) {
+                        $item['content_id'] = Content::create([
+                            'pages_id' => $pageId,
+                            'page_sections_id' => $sectionId,
+                            'page_groups_id' => $groupId,
+                            'component_structures_id' => $item['structure_id'],
+                        ])->id;
+                    }
+                    
                     Content::find($item['content_id'])->update([
                         'content' => $item['content'],
                     ]);
