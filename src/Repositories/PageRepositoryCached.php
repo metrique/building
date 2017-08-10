@@ -8,6 +8,13 @@ use Metrique\Building\Repositories\PageRepository;
 
 class PageRepositoryCached extends PageRepository implements PageRepositoryInterface
 {
+    public function cacheBust($slug)
+    {
+        $prefix = config('building.cache.prefix');
+        
+        Cache::forget(sprintf('%s-%s', $prefix, $slug));
+    }
+    
     public function publishedContentBySlug($slug)
     {
         $ttl = config('building.cache.ttl');
@@ -16,5 +23,23 @@ class PageRepositoryCached extends PageRepository implements PageRepositoryInter
         return Cache::remember(sprintf('%s-%s', $prefix, $slug), $ttl, function () use ($slug) {
             return parent::publishedContentBySlug($slug);
         });
+    }
+    
+    public function create(array $data)
+    {
+        if (array_key_exists('slug', $data)) {
+            $this->cacheBust($data['slug']);
+        }
+        
+        return parent::create($data);
+    }
+    
+    public function update($id, array $data)
+    {
+        if (array_key_exists('slug', $data)) {
+            $this->cacheBust($data['slug']);
+        }
+        
+        return parent::update($id, $data);
     }
 }
