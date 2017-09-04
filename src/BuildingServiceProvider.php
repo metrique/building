@@ -145,7 +145,7 @@ class BuildingServiceProvider extends ServiceProvider
     {
         $this->app->bind(
             \Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface::class,
-            \Metrique\Building\Repositories\Page\ContentRepositoryEloquent::class
+            \Metrique\Building\Repositories\Page\ContentRepository::class
         );
     }
     protected function registerPageSection()
