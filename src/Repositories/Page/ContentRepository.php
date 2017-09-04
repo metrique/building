@@ -9,7 +9,7 @@ use Metrique\Building\Eloquent\Page\Group;
 use Metrique\Building\Eloquent\Page\Content;
 use Stringy\Stringy;
 
-class ContentRepositoryEloquent implements ContentRepositoryInterface
+class ContentRepository implements ContentRepositoryInterface
 {
     protected $delimiter = '--';
     protected $defaultInputName = [
@@ -76,7 +76,7 @@ class ContentRepositoryEloquent implements ContentRepositoryInterface
      */
     protected function persist(Collection $content, $pageId, $sectionId)
     {
-        \DB::transaction(function () use ($content, $pageId, $sectionId) {
+        return \DB::transaction(function () use ($content, $pageId, $sectionId) {
             $content->each(function ($item, $key) use ($pageId, $sectionId) {
                 $groupId = $key;
 
