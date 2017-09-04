@@ -8,7 +8,7 @@ use Metrique\Building\Eloquent\Page\Group;
 class GroupRepositoryEloquent implements GroupRepositoryInterface
 {
     /**
-     * {@inheritdocs}
+     * {@inheritdoc}
      */
     public function destroy($id)
     {
