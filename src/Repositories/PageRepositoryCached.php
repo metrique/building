@@ -3,17 +3,13 @@
 namespace Metrique\Building\Repositories;
 
 use Cache;
+use Metrique\Building\Repositories\Traits\CacheBust;
 use Metrique\Building\Repositories\Contracts\PageRepositoryInterface;
 use Metrique\Building\Repositories\PageRepository;
 
 class PageRepositoryCached extends PageRepository implements PageRepositoryInterface
 {
-    public function cacheBust($slug)
-    {
-        $prefix = config('building.cache.prefix');
-        
-        Cache::forget(sprintf('%s-%s', $prefix, $slug));
-    }
+    use CacheBust;
     
     public function publishedContentBySlug($slug)
     {
