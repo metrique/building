@@ -20,11 +20,6 @@
             </div>
 
             <div class="form-group col-xs-12">
-                <label for="slug">Slug</label>
-                <input class="form-control" type="text" name="slug" placeholder="a-z, 0-9, -, _" value="{{ $edit ? $data['section']->slug : old('slug') }}">
-            </div>
-
-            <div class="form-group col-xs-12">
                 <label for="params">Params</label>
                 <input class="form-control" type="text" name="params" placeholder="Valid JSON only." value="{{ $edit ? $data['section']->params : old('params') }}">
             </div>

@@ -2,6 +2,7 @@
 
 namespace Metrique\Building\Repositories\Page;
 
+use DB;
 use Metrique\Building\Abstracts\EloquentRepositoryAbstract;
 use Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface;
 use Metrique\Building\Eloquent\Page\Section;
@@ -29,9 +30,13 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
     */
     public function findWithStructure($id)
     {
-        return Section::with(['page', 'component.structure.type', 'component.structure' => function ($query) {
-            $query->orderBy('order', 'desc');
-        }])->where('id', $id)->first();
+        return Section::with([
+            'page',
+            'component.structure.type',
+            'component.structure' => function ($query) {
+                $query->orderBy('order', 'desc');
+            }
+        ])->where('id', $id)->first();
     }
 
     /**
@@ -51,8 +56,12 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
     public function create(array $data)
     {
         $data['order'] = $data['order'] ?: 0;
-
-        return Section::create($data);
+        
+        DB::transaction(function () use ($data) {
+            $section = Section::create($data);
+            $section->slug = md5($section->id);
+            return $section->save();
+        });
     }
 
     /**
@@ -62,7 +71,6 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
     {
         return $this->create(request()->only([
             'title',
-            'slug',
             'order',
             'params',
             'pages_id',
@@ -95,7 +103,6 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
     {
         return $this->update($id, request()->only([
             'title',
-            'slug',
             'order',
             'params',
             'pages_id',

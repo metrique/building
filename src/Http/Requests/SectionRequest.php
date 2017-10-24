@@ -33,7 +33,6 @@ class SectionRequest extends Request
     {
         return [
             'title'=>'required|string',
-            'slug'=>'required|unique:page_sections,slug,'.$this->route('section'),
             'order'=>'integer',
             'params'=>'json',
             'pages_id'=>'required|exists:pages,id',
