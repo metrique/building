@@ -28,6 +28,6 @@ class CreateComponentTypes extends Migration
      */
     public function down()
     {
-        Schema::drop('index_component_types');
+        Schema::drop('component_types');
     }
 }
