@@ -14,6 +14,7 @@ class FkComponentStructures extends Migration
     {
         Schema::table('component_structures', function (Blueprint $table) {
             $table->integer('components_id')
+                ->nullable()
                 ->unsigned();
 
             $table->foreign('components_id')
@@ -22,6 +23,7 @@ class FkComponentStructures extends Migration
                 ->onDelete('cascade');
 
             $table->integer('component_types_id')
+                ->nullable()
                 ->unsigned();
 
             $table->foreign('component_types_id')

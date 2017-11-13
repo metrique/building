@@ -14,8 +14,8 @@ class FkPageGroups extends Migration
     {
         Schema::table('page_groups', function (Blueprint $table) {
             $table->integer('page_contents_id')
-                ->unsigned()
-                ->nullable();
+                ->nullable()
+                ->unsigned();
 
             $table->foreign('page_contents_id')
                 ->references('id')

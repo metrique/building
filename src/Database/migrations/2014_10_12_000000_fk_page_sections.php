@@ -14,6 +14,7 @@ class FkPageSections extends Migration
     {
         Schema::table('page_sections', function (Blueprint $table) {
             $table->integer('pages_id')
+                ->nullable()
                 ->unsigned();
 
             $table->foreign('pages_id')
@@ -22,6 +23,7 @@ class FkPageSections extends Migration
                 ->onDelete('cascade');
 
             $table->integer('components_id')
+                ->nullable()
                 ->unsigned();
 
             $table->foreign('components_id')
