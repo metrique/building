@@ -19,7 +19,7 @@
     },
     "require": {
         "illuminate/support": "^5.3",
-        "danielstjules/stringy": "^2.0",
+        "danielstjules/stringy": "^3.1",
         "laravelcollective/html": "^5.3"
     }
 }
