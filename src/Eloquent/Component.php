@@ -3,7 +3,7 @@
 namespace Metrique\Building\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
-use Metrique\Building\Eloquent\Component\Structure;
+use Metrique\Building\Eloquent\ComponentStructure;
 
 class Component extends Model
 {
@@ -23,6 +23,6 @@ class Component extends Model
 
     public function structure()
     {
-        return $this->hasMany(Structure::class, 'components_id');
+        return $this->hasMany(ComponentStructure::class, 'components_id');
     }
 }

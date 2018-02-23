@@ -3,7 +3,7 @@
 namespace Metrique\Building\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
-use Metrique\Building\Eloquent\Page\Group;
+use Metrique\Building\Eloquent\PageGroup;
 use Metrique\Building\Eloquent\Traits\CommonAttributes;
 
 class PageContent extends Model
@@ -21,6 +21,6 @@ class PageContent extends Model
 
     public function group()
     {
-        return $this->belongsTo(Group::class, 'page_groups_id');
+        return $this->belongsTo(PageGroup::class, 'page_groups_id');
     }
 }

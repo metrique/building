@@ -23,6 +23,6 @@ class ComponentStructure extends Model
 
     public function type()
     {
-        return $this->belongsTo(Type::class, 'component_types_id');
+        return $this->belongsTo(ComponentType::class, 'component_types_id');
     }
 }
