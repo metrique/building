@@ -2,6 +2,7 @@
 
 namespace Metrique\Building\Database\Seeds;
 
+use Metrique\Building\Eloquent\ComponentTypes;
 use Illuminate\Database\Seeder;
 
 class ComponentTypesSeeder extends Seeder
@@ -13,32 +14,24 @@ class ComponentTypesSeeder extends Seeder
      */
     public function run()
     {
-        $componentTypes = [
-            [
-                // 1
-                'title'=>'Text',
-                'slug'=>'input-text',
-                'params'=>'{}',
-            ],[
-                // 2
-                'title'=>'Text area',
-                'slug'=>'text-area',
-                'params'=>'{}',
-            ],[
-                // 3
-                'title'=>'File',
-                'slug'=>'file',
-                'params'=>'{}',
-            ],[
-                // 4
-                'title'=>'Widget',
-                'slug'=>'widget',
-                'params'=>'{}',
-            ]
-        ];
-
-        foreach ($componentTypes as $key => $value) {
-            \DB::table('component_types')->insert($value);
-        }
+        collect([
+            'title' => 'Text',
+            'slug' => 'text',
+            'params' => '{}',
+        ],[
+            'title' => 'Text area',
+            'slug' => 'text-area',
+            'params' => '{}',
+        ],[
+            'title' => 'File',
+            'slug' => 'file',
+            'params' => '{}',
+        ],[
+            'title' => 'Widget',
+            'slug' => 'widget',
+            'params' => '{}',
+        ])->each(function($type) {
+            ComponentTypes::create($type);
+        })
     }
 }
