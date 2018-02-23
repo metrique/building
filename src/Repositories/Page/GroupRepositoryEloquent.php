@@ -12,6 +12,6 @@ class GroupRepositoryEloquent implements GroupRepositoryInterface
      */
     public function destroy($id)
     {
-        return Group::destroy($id);
+        return PageGroup::destroy($id);
     }
 }

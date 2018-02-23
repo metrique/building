@@ -7,11 +7,11 @@ use Metrique\Building\Repositories\Contracts\Component\StructureRepositoryInterf
 
 class StructureRepositoryEloquent implements StructureRepositoryInterface
 {
-    protected $modelClassName = ComponentStructure::class;
+    protected $modelClassName = ComponentComponentStructure::class;
 
     public function byComponentId($id)
     {
-        return Structure::orderBy('order', 'desc')->where('components_id', $id)->get();
+        return ComponentStructure::orderBy('order', 'desc')->where('components_id', $id)->get();
     }
 
     /**
@@ -19,7 +19,7 @@ class StructureRepositoryEloquent implements StructureRepositoryInterface
      */
     public function find($id)
     {
-        return Structure::find($id);
+        return ComponentStructure::find($id);
     }
 
     /**
@@ -29,7 +29,7 @@ class StructureRepositoryEloquent implements StructureRepositoryInterface
     {
         $data['order'] = $data['order'] ?: 0;
 
-        return Structure::create($data);
+        return ComponentStructure::create($data);
     }
 
     /**
@@ -50,7 +50,7 @@ class StructureRepositoryEloquent implements StructureRepositoryInterface
      */
     public function destroy($id)
     {
-        return Structure::destroy($id);
+        return ComponentStructure::destroy($id);
     }
 
     /**
@@ -60,7 +60,7 @@ class StructureRepositoryEloquent implements StructureRepositoryInterface
     {
         $data['order'] = $data['order'] ?: 0;
 
-        return Structure::find($id)->update($data);
+        return ComponentStructure::find($id)->update($data);
     }
 
     /**

@@ -9,7 +9,7 @@ class TypeRepositoryEloquent implements TypeRepositoryInterface
 {
     public function formBuilderSelect()
     {
-        return Type::orderBy('title', 'asc')->get()->keyBy('id')->map(function ($item) {
+        return ComponentType::orderBy('title', 'asc')->get()->keyBy('id')->map(function ($item) {
             return $item->title;
         });
     }

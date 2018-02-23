@@ -23,7 +23,7 @@ class ContentRepository implements ContentRepositoryInterface
      */
     public function bySectionId($id)
     {
-        return Content::join('page_groups as group', 'group.id', '=', 'page_groups_id')
+        return PageContent::join('page_groups as group', 'group.id', '=', 'page_groups_id')
             ->select('page_contents.*', 'group.order', 'group.published')
             ->where(['page_sections_id' => $id])
             ->orderBy('group.order', 'desc')
@@ -82,13 +82,13 @@ class ContentRepository implements ContentRepositoryInterface
 
                 // Create!
                 if ($groupId === 0) {
-                    $group = Group::create([
+                    $group = PageGroup::create([
                         'order' => request(sprintf('order-%s', $groupId), 0),
                         'published' => in_array(0, request('published', [])),
                     ]);
 
                     $item->each(function ($item, $key) use ($group, $pageId, $sectionId) {
-                        $content = Content::create([
+                        $content = PageContent::create([
                             'content' => $item['content'],
                             'pages_id' => $pageId,
                             'page_sections_id' => $sectionId,
@@ -105,14 +105,14 @@ class ContentRepository implements ContentRepositoryInterface
                 }
 
                 // Update!
-                Group::find($groupId)->update([
+                PageGroup::find($groupId)->update([
                     'order' => request(sprintf('order-%s', $groupId), 0),
                     'published' => in_array($groupId, request('published', [])),
                 ]);
                 
                 $item->each(function ($item, $key) use ($groupId, $pageId, $sectionId) {
                     if ($item['content_id'] == 0) {
-                        $item['content_id'] = Content::create([
+                        $item['content_id'] = PageContent::create([
                             'pages_id' => $pageId,
                             'page_sections_id' => $sectionId,
                             'page_groups_id' => $groupId,
@@ -120,7 +120,7 @@ class ContentRepository implements ContentRepositoryInterface
                         ])->id;
                     }
                     
-                    Content::find($item['content_id'])->update([
+                    PageContent::find($item['content_id'])->update([
                         'content' => $item['content'],
                     ]);
                 });

@@ -13,7 +13,7 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
      */
     public function all()
     {
-        return Section::orderBy('order', 'desc');
+        return PageSection::orderBy('order', 'desc');
     }
 
     /**
@@ -21,7 +21,7 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
      */
     public function find($id)
     {
-        return Section::find($id);
+        return PageSection::find($id);
     }
 
     /**
@@ -29,7 +29,7 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
     */
     public function findWithStructure($id)
     {
-        return Section::with([
+        return PageSection::with([
             'page',
             'component.structure.type',
             'component.structure' => function ($query) {
@@ -43,7 +43,7 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
      */
     public function byPageId($id, $order = ['order' => 'desc'])
     {
-        return Section::orderBy('order', 'desc')->where([
+        return PageSection::orderBy('order', 'desc')->where([
             'pages_id' => $id
         ])->get();
     }
@@ -57,7 +57,7 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
         $data['order'] = $data['order'] ?: 0;
         
         DB::transaction(function () use ($data) {
-            $section = Section::create($data);
+            $section = PageSection::create($data);
             $section->slug = md5($section->id);
             return $section->save();
         });
@@ -82,7 +82,7 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
      */
     public function destroy($id)
     {
-        return Section::destroy($id);
+        return PageSection::destroy($id);
     }
 
     /**
@@ -92,7 +92,7 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
     {
         $data['order'] = $data['order'] ?: 0;
 
-        return Section::find($id)->update($data);
+        return PageSection::find($id)->update($data);
     }
 
     /**
