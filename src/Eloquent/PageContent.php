@@ -1,12 +1,12 @@
 <?php
 
-namespace Metrique\Building\Eloquent\Page;
+namespace Metrique\Building\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
 use Metrique\Building\Eloquent\Page\Group;
 use Metrique\Building\Eloquent\Traits\CommonAttributes;
 
-class Content extends Model
+class PageContent extends Model
 {
     use CommonAttributes;
 
@@ -18,13 +18,6 @@ class Content extends Model
         'page_groups_id',
         'component_structures_id',
     ];
-
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'page_contents';
 
     public function group()
     {

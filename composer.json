@@ -1,12 +1,12 @@
 {
     "name": "metrique/laravel-building",
-    "description": "A flexible page management system for Laravel 5.",
+    "description": "A flexible page manager for Laravel 5.",
     "type": "Library",
     "license": "MIT",
     "authors": [
         {
             "name": "Daniel Hudson",
-            "email": "support@shinobicorp.com"
+            "email": "support@metrique.co.uk"
         }
     ],
     "autoload": {
@@ -18,7 +18,7 @@
         "php": ">=5.6.0"
     },
     "require": {
-        "illuminate/support": "^5.3",
+        "illuminate/support": "^5.4",
         "danielstjules/stringy": "^3.1",
         "laravelcollective/html": "^5.3"
     }

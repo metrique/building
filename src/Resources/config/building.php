@@ -17,7 +17,6 @@ return [
         'widget_path' => 'components.widgets',
     ],
     'prefix' => [
-        'api' => 'building/api',
         'web' => 'building',
     ]
 ];

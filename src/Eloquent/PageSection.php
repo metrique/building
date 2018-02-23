@@ -1,13 +1,13 @@
 <?php
 
-namespace Metrique\Building\Eloquent\Page;
+namespace Metrique\Building\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
 use Metrique\Building\Eloquent\Page;
 use Metrique\Building\Eloquent\Component;
 use Metrique\Building\Eloquent\Traits\CommonAttributes;
 
-class Section extends Model
+class PageSection extends Model
 {
     use CommonAttributes;
 
@@ -22,13 +22,6 @@ class Section extends Model
         'pages_id',
         'components_id'
     ];
-
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'page_sections';
 
     public function page()
     {
@@ -46,7 +39,7 @@ class Section extends Model
 
         if (json_last_error() != JSON_ERROR_NONE) {
             return [
-                'class'=>[]
+                'class' => []
             ];
         }
 

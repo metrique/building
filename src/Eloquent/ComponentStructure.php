@@ -1,12 +1,12 @@
 <?php
 
-namespace Metrique\Building\Eloquent\Component;
+namespace Metrique\Building\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
 use Metrique\Building\Eloquent\Component;
 use Metrique\Building\Eloquent\Component\Type;
 
-class Structure extends Model
+class ComponentStructure extends Model
 {
     protected $fillable = [
         'id',
@@ -15,13 +15,6 @@ class Structure extends Model
         'components_id',
         'component_types_id'
     ];
-
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'component_structures';
 
     public function component()
     {

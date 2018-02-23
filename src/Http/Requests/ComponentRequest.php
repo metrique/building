@@ -32,10 +32,10 @@ class ComponentRequest extends Request
     public function rules()
     {
         return [
-            'title'=>'required|string|unique:components,title,'.$this->route('component'),
-            'slug'=>'required|string|unique:components,slug,'.$this->route('component'),
-            'params'=>'json',
-            'single_item'=>'boolean',
+            'title' => 'required|string|unique:components,title,'.$this->route('component'),
+            'slug' => 'required|string|unique:components,slug,'.$this->route('component'),
+            'params' => 'json',
+            'single_item' => 'boolean',
         ];
     }
 }

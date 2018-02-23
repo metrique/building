@@ -24,10 +24,10 @@ class StructureRequest extends Request
     public function rules()
     {
         return [
-            'title'=>'required|string',
-            'order'=>'integer',
-            'components_id'=>'required|exists:components,id',
-            'component_types_id'=>'required|exists:component_types,id',
+            'title' => 'required|string',
+            'order' => 'integer',
+            'components_id' => 'required|exists:components,id',
+            'component_types_id' => 'required|exists:component_types,id',
         ];
     }
 }

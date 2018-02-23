@@ -21,13 +21,6 @@ class Component extends Model
         'params'
     ];
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'components';
-
     public function structure()
     {
         return $this->hasMany(Structure::class, 'components_id');

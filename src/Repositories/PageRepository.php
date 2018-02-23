@@ -2,10 +2,10 @@
 
 namespace Metrique\Building\Repositories;
 
+use Metrique\Building\Eloquent\Page;
 use Metrique\Building\Repositories\Contracts\PageRepositoryInterface;
 use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface as ContentRepository;
 use Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface as SectionRepository;
-use Metrique\Building\Eloquent\Page;
 
 class PageRepository implements PageRepositoryInterface
 {

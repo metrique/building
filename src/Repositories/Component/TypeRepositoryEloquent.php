@@ -2,9 +2,8 @@
 
 namespace Metrique\Building\Repositories\Component;
 
-use Metrique\Building\Abstracts\EloquentRepositoryAbstract;
+use Metrique\Building\Eloquent\ComponentType;
 use Metrique\Building\Repositories\Contracts\Component\TypeRepositoryInterface;
-use Metrique\Building\Eloquent\Component\Type;
 
 class TypeRepositoryEloquent implements TypeRepositoryInterface
 {

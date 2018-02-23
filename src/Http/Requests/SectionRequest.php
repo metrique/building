@@ -32,11 +32,11 @@ class SectionRequest extends Request
     public function rules()
     {
         return [
-            'title'=>'required|string',
-            'order'=>'integer',
-            'params'=>'json',
-            'pages_id'=>'required|exists:pages,id',
-            'components_id'=>'required|exists:components,id',
+            'title' => 'required|string',
+            'order' => 'integer',
+            'params' => 'json',
+            'pages_id' => 'required|exists:pages,id',
+            'components_id' => 'required|exists:components,id',
         ];
     }
 }

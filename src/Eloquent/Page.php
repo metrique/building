@@ -23,13 +23,6 @@ class Page extends Model
         'published'
     ];
 
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'pages';
-
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);

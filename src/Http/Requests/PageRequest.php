@@ -32,12 +32,12 @@ class PageRequest extends Request
     public function rules()
     {
         return [
-            'title'=>'required',
+            'title' => 'required',
             'description' => 'required',
-            'slug'=>'sometimes|unique:pages,slug,'.$this->route('page'),
-            'params'=>'json',
-            'meta'=>'json',
-            'published'=>'boolean',
+            'slug' => 'sometimes|unique:pages,slug,'.$this->route('page'),
+            'params' => 'json',
+            'meta' => 'json',
+            'published' => 'boolean',
         ];
     }
 }

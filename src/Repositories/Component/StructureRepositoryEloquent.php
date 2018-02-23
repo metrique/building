@@ -2,12 +2,12 @@
 
 namespace Metrique\Building\Repositories\Component;
 
+use Metrique\Building\Eloquent\ComponentStructure;
 use Metrique\Building\Repositories\Contracts\Component\StructureRepositoryInterface;
-use Metrique\Building\Eloquent\Component\Structure;
 
 class StructureRepositoryEloquent implements StructureRepositoryInterface
 {
-    protected $modelClassName = 'Metrique\Building\Eloquent\Component\Structure';
+    protected $modelClassName = ComponentStructure::class;
 
     public function byComponentId($id)
     {

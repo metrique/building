@@ -3,8 +3,8 @@
 namespace Metrique\Building\Repositories;
 
 use Metrique\Building\Abstracts\EloquentRepositoryAbstract;
-use Metrique\Building\Repositories\Contracts\ComponentRepositoryInterface;
 use Metrique\Building\Eloquent\Component;
+use Metrique\Building\Repositories\Contracts\ComponentRepositoryInterface;
 
 class ComponentRepositoryEloquent implements ComponentRepositoryInterface
 {
