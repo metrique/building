@@ -40,9 +40,9 @@ class FkComponentStructures extends Migration
      */
     public function down()
     {
-        Schema::table('page_contents', function (Blueprint $table) {
-            $table->dropForeign(['components_id']);
-            $table->dropForeign(['component_types_id']);
+        Schema::table('component_structures', function (Blueprint $table) {
+            $table->dropForeign('component_structures_components_id_foreign');
+            $table->dropForeign('component_structures_component_types_id_foreign');
         });
     }
 }

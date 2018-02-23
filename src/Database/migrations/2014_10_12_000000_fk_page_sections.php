@@ -40,9 +40,9 @@ class FkPageSections extends Migration
      */
     public function down()
     {
-        Schema::table('page_contents', function (Blueprint $table) {
-            $table->dropForeign('pages_id');
-            $table->dropForeign('components_id');
+        Schema::table('page_sections', function (Blueprint $table) {
+            $table->dropForeign('page_sections_pages_id_foreign');
+            $table->dropForeign('page_sections_components_id_foreign');
         });
     }
 }

@@ -31,8 +31,8 @@ class FkPageGroups extends Migration
      */
     public function down()
     {
-        Schema::table('page_contents', function (Blueprint $table) {
-            $table->dropForeign('page_contents_id');
+        Schema::table('page_groups', function (Blueprint $table) {
+            $table->dropForeign('page_groups_page_contents_id_foreign');
         });
     }
 }

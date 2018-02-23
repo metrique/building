@@ -59,11 +59,10 @@ class FkPageContents extends Migration
     public function down()
     {
         Schema::table('page_contents', function (Blueprint $table) {
-            $table->dropForeign('pages_id');
-            $table->dropForeign('page_sections_id');
-            $table->dropForeign('page_groups_id');
-            $table->dropForeign('component_structures_id');
-            $table->dropForeign('component_types_id');
+            $table->dropForeign('page_contents_pages_id_foreign');
+            $table->dropForeign('page_contents_page_sections_id_foreign');
+            $table->dropForeign('page_contents_page_groups_id_foreign');
+            $table->dropForeign('page_contents_component_structures_id_foreign');
         });
     }
 }
