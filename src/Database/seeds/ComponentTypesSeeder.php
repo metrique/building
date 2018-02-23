@@ -14,7 +14,7 @@ class ComponentTypesSeeder extends Seeder
     public function run()
     {
         $componentTypes = [
-        [
+            [
                 // 1
                 'title'=>'Text',
                 'slug'=>'input-text',
