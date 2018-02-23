@@ -85,7 +85,7 @@ class BuildingServiceProvider extends ServiceProvider
     protected function bootRoutes()
     {
         if (! $this->app->routesAreCached()) {
-            require __DIR__.'/Routes/api.php';
+            // require __DIR__.'/Routes/api.php'; // Not implemented
             require __DIR__.'/Routes/web.php';
         }
     }
