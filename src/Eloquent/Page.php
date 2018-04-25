@@ -17,6 +17,7 @@ class Page extends Model
         'id',
         'title',
         'description',
+        'image',
         'slug',
         'params',
         'meta',

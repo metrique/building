@@ -47,6 +47,7 @@ class PageRepository implements PageRepositoryInterface
         return $this->create(request()->only([
             'title',
             'description',
+            'image',
             'slug',
             'params',
             'meta',
@@ -78,6 +79,7 @@ class PageRepository implements PageRepositoryInterface
         return $this->update($id, request()->only([
             'title',
             'description',
+            'image',
             'slug',
             'params',
             'meta',
