@@ -5,7 +5,7 @@ namespace Metrique\Building\Database\Seeds;
 use Metrique\Building\Eloquent\ComponentType;
 use Illuminate\Database\Seeder;
 
-class ComponentTypesSeeder extends Seeder
+class ComponentTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
