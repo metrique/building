@@ -2,7 +2,7 @@
 
 namespace Metrique\Building\Database\Seeds;
 
-use Metrique\Building\Eloquent\ComponentTypes;
+use Metrique\Building\Eloquent\ComponentType;
 use Illuminate\Database\Seeder;
 
 class ComponentTypesSeeder extends Seeder
