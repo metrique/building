@@ -31,7 +31,7 @@ class ComponentTypesSeeder extends Seeder
             'slug' => 'widget',
             'params' => '{}',
         ])->each(function ($type) {
-            ComponentTypes::create($type);
+            ComponentType::create($type);
         });
     }
 }
