@@ -31,6 +31,10 @@ class ComponentTypeSeeder extends Seeder
                 'title' => 'Widget',
                 'slug' => 'widget',
                 'params' => '{}',
+            ], [
+                'title' => 'Checkbox',
+                'slug' => 'checkbox',
+                'params' => '{}',
             ]
         ])->each(function ($type) {
             ComponentType::create($type);
