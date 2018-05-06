@@ -15,21 +15,23 @@ class ComponentTypesSeeder extends Seeder
     public function run()
     {
         collect([
-            'title' => 'Text',
-            'slug' => 'text',
-            'params' => '{}',
-        ], [
-            'title' => 'Text area',
-            'slug' => 'text-area',
-            'params' => '{}',
-        ], [
-            'title' => 'File',
-            'slug' => 'file',
-            'params' => '{}',
-        ], [
-            'title' => 'Widget',
-            'slug' => 'widget',
-            'params' => '{}',
+            [
+                'title' => 'Text',
+                'slug' => 'text',
+                'params' => '{}',
+            ], [
+                'title' => 'Text area',
+                'slug' => 'text-area',
+                'params' => '{}',
+            ], [
+                'title' => 'File',
+                'slug' => 'file',
+                'params' => '{}',
+            ], [
+                'title' => 'Widget',
+                'slug' => 'widget',
+                'params' => '{}',
+            ]
         ])->each(function ($type) {
             ComponentType::create($type);
         });
