@@ -18,20 +18,20 @@ class ComponentTypesSeeder extends Seeder
             'title' => 'Text',
             'slug' => 'text',
             'params' => '{}',
-        ],[
+        ], [
             'title' => 'Text area',
             'slug' => 'text-area',
             'params' => '{}',
-        ],[
+        ], [
             'title' => 'File',
             'slug' => 'file',
             'params' => '{}',
-        ],[
+        ], [
             'title' => 'Widget',
             'slug' => 'widget',
             'params' => '{}',
-        ])->each(function($type) {
+        ])->each(function ($type) {
             ComponentTypes::create($type);
-        })
+        });
     }
 }
