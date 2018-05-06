@@ -3,67 +3,64 @@
 namespace Metrique\Building\Http\Controllers\Page;
 
 use Illuminate\Http\Request;
-use Metrique\Building\Contracts\BlockRepositoryInterface as BlockRepository;
-use Metrique\Building\Contracts\Page\ContentRepositoryInterface as ContentRepository;
-use Metrique\Building\Contracts\PageRepositoryInterface as PageRepository;
-use Metrique\Building\Contracts\Page\SectionRepositoryInterface as SectionRepository;
-use Metrique\Building\Http\Controllers\Controller;
+use Metrique\Building\Repositories\Contracts\ComponentRepositoryInterface as Component;
+use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface as Content;
+use Metrique\Building\Repositories\Contracts\PageRepositoryInterface as Page;
+use Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface as Section;
+use Metrique\Building\Http\Controllers\BuildingController;
 use Metrique\Building\Http\Requests\PageRequest;
+use Metrique\Building\Http\Requests\SectionRequest;
 
-class SectionController extends Controller
+class SectionController extends BuildingController
 {
     /**
      * Holder for view data
-     * 
+     *
      * @var array
      */
     protected $data = [];
 
     /**
      * List of views used.
-     * 
+     *
      * @var array
      */
     protected $views = [
-        'index' => 'metrique-building::page.section.index',
-        'create' => 'metrique-building::page.section.create',
-        'edit' => 'metrique-building::page.section.edit',
+        'index' => 'laravel-building::page.section.index',
+        'create' => 'laravel-building::page.section.create',
+        'edit' => 'laravel-building::page.section.edit',
     ];
 
     /**
      * List of routes used.
-     * 
+     *
      * @var array
      */
     protected $routes = [
-        'index' => 'cms.page.section.index',
-        'create' => 'cms.page.section.create',
-        'store' => 'cms.page.section.store',
-        'edit' => 'cms.page.section.edit',
-        'update' => 'cms.page.section.update',
-        'destroy' => 'cms.page.section.destroy',
+        'index' => 'page.section.index',
+        'create' => 'page.section.create',
+        'store' => 'page.section.store',
+        'edit' => 'page.section.edit',
+        'update' => 'page.section.update',
+        'destroy' => 'page.section.destroy',
+        'content.index' => 'page.section.content.index',
     ];
-
-    public function __construct()
-    {
-    }
 
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index($pageId, PageRepository $page, SectionRepository $section)
+    public function index($id, Page $page, Section $section)
     {
-        $page = $page->find($pageId);
-
-        $this->data = array_merge($this->data, [
-            'page' => $page,
-            'section' => $section->byPageId($pageId),
-            'routes' => $this->routes,
+        $this->mergeViewData([
+            'data' => [
+                'page' => $page->find($id),
+                'section' => $section->byPageId($id),
+            ]
         ]);
 
-        return view($this->views['index'])->with($this->data);
+        return $this->viewWithData($this->views['index']);
     }
 
     /**
@@ -71,17 +68,16 @@ class SectionController extends Controller
      *
      * @return Response
      */
-    public function create($pageId, PageRepository $page, BlockRepository $block)
+    public function create($id, Page $page, Component $component)
     {
-        $page = $page->find($pageId);
+        $this->mergeViewData([
+            'data' => [
+                'page' => $page->find($id),
+                'components' => $component->formBuilderSelect()
+            ]
+        ]);
 
-        $this->data = [
-            'blocks' => $block->formSelect(),
-            'page' => $page,
-            'routes' => $this->routes,
-        ];
-
-        return view($this->views['create'])->with($this->data);
+        return $this->viewWithData($this->views['create']);
     }
 
     /**
@@ -90,24 +86,11 @@ class SectionController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store($pageId, Request $request, SectionRepository $section)
+    public function store($id, SectionRequest $request, Section $section)
     {
-        try {
-            $section = $section->create([
-                'title' => $request->input('title'),
-                'slug' => $request->input('slug'),
-                'order' => $request->input('order'),
-                'params' => $request->input('params'),
-                'building_pages_id' => $pageId,
-                'building_blocks_id' => $request->input('building_blocks_id'),
-            ]);
-        } catch (\Exception $e) {
-            // flash()->error(trans('error.general'));
-            return redirect()->back();
-        }
+        $section->createWithRequest();
 
-        // flash()->success(trans('common.success'));
-        return redirect()->route($this->routes['index'], [$pageId, $section->id]);
+        return redirect()->route($this->routes['index'], [$id]);
     }
 
     /**
@@ -127,19 +110,17 @@ class SectionController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($pageId, $sectionId, PageRepository $page, SectionRepository $section, BlockRepository $block)
+    public function edit($id, $sectionId, Page $page, Section $section, Component $component)
     {
-        $page = $page->find($pageId);
-        $section = $section->find($sectionId);
-
-        $this->data = array_merge($this->data, [
-            'page' => $page,
-            'section' => $section,
-            'blocks' => $block->formSelect(),
-            'routes' => $this->routes,
+        $this->mergeViewData([
+            'data' => [
+                'page' => $page->find($id),
+                'section' => $section->find($sectionId),
+                'components' => $component->formBuilderSelect(),
+            ],
         ]);
 
-        return view($this->views['edit'])->with($this->data);
+        return $this->viewWithData($this->views['edit']);
     }
 
     /**
@@ -149,29 +130,11 @@ class SectionController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $pageId, $sectionId, SectionRepository $section, ContentRepository $content)
+    public function update(SectionRequest $request, $id, $sectionId, Section $section, Content $content)
     {
-        try {
-            if($section->find($sectionId)->building_blocks_id != $request->input('building_blocks_id'))
-            {
-                $content->destroyBySectionId($sectionId);
-            }
+        $section->updateWithRequest($sectionId);
 
-            $section->update($sectionId, [
-                'title' => $request->input('title'),
-                'slug' => $request->input('slug'),
-                'order' => $request->input('order'),
-                'params' => $request->input('params'),
-                'building_pages_id' => $pageId,
-                'building_blocks_id' => $request->input('building_blocks_id'),
-            ]);
-        } catch (\Exception $e) {
-            // flash()->error(trans('error.general'));
-            return redirect()->back();
-        }
-
-        // flash()->success(trans('common.success'));
-        return redirect()->route($this->routes['index'], $pageId);
+        return redirect()->route($this->routes['index'], $id);
     }
 
     /**
@@ -180,16 +143,10 @@ class SectionController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($pageId, $sectionId, SectionRepository $section)
+    public function destroy($id, $sectionId, Section $section)
     {
-        try {
-            $section->destroy($sectionId);
-        } catch (\Exception $e) {
-            // flash()->error(trans('error.general'));
-            return redirect()->back();          
-        }
+        $section->destroy($sectionId);
 
-        // flash()->success(trans('common.success'));
-        return redirect()->route($this->routes['index'], $pageId);
+        return redirect()->route($this->routes['index'], $id);
     }
 }

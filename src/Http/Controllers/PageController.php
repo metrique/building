@@ -3,61 +3,51 @@
 namespace Metrique\Building\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Metrique\Building\Contracts\PageRepositoryInterface as PageRepository;
-use Metrique\Building\Http\Controllers\Controller;
+use Metrique\Building\Repositories\Contracts\PageRepositoryInterface as Page;
+use Metrique\Building\Http\Controllers\BuildingController;
 use Metrique\Building\Http\Requests\PageRequest;
 
-class PageController extends Controller
+class PageController extends BuildingController
 {
     /**
-     * Holder for view data
-     * 
-     * @var array
-     */
-    protected $data = [];
-
-    /**
      * List of views used.
-     * 
+     *
      * @var array
      */
     protected $views = [
-        'index' => 'metrique-building::page.index',
-        'create' => 'metrique-building::page.create',
-        'edit' => 'metrique-building::page.edit',
+        'index' => 'laravel-building::page.index',
+        'create' => 'laravel-building::page.create',
+        'edit' => 'laravel-building::page.edit',
     ];
 
     /**
      * List of routes used
-     * @var [type]
+     * @var array
      */
     protected $routes = [
-        'index' => 'cms.page.index',
-        'create' => 'cms.page.create',
-        'store' => 'cms.page.store',
-        'edit' => 'cms.page.edit',
-        'update' => 'cms.page.update',
-        'destroy' => 'cms.page.destroy',
-        'section.index' => 'cms.page.section.index',
+        'index' => 'page.index',
+        'create' => 'page.create',
+        'store' => 'page.store',
+        'edit' => 'page.edit',
+        'update' => 'page.update',
+        'destroy' => 'page.destroy',
+        'section.index' => 'page.section.index',
     ];
-
-    public function __construct()
-    {
-    }
 
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index(PageRepository $page)
+    public function index(Page $page)
     {
-        $this->data = array_merge($this->data, [
-            'pages' => $page->all(['id', 'title', 'slug', 'published'], ['title' => 'asc']),
-            'routes' => $this->routes,
+        $this->mergeViewData([
+            'data' => [
+                'pages' => $page->all(),
+            ]
         ]);
 
-        return view($this->views['index'])->with($this->data);
+        return $this->viewWithData($this->views['index']);
     }
 
     /**
@@ -67,11 +57,7 @@ class PageController extends Controller
      */
     public function create()
     {
-        $this->data = array_merge($this->data, [
-            'routes' => $this->routes,
-        ]);
-
-        return view($this->views['create'])->with($this->data);
+        return $this->viewWithData($this->views['create']);
     }
 
     /**
@@ -80,22 +66,10 @@ class PageController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(PageRequest $request, PageRepository $page)
+    public function store(PageRequest $request, Page $page)
     {
-        try {
-            $page->create([
-                'title' => $request->input('title'),
-                'slug' => $request->input('slug'),
-                'params' => $request->input('params'),
-                'meta' => $request->input('meta'),
-                'published' => $request->input('published') == 1 ? 1 : 0,
-            ]);
-        } catch (AbstractException $e) {
-            // flash()->error(trans('error.general'));
-            return redirect()->back();
-        }
+        $page->createWithRequest();
 
-        // flash()->success(trans('common.success'));
         return redirect()->route($this->routes['index']);
     }
 
@@ -107,7 +81,7 @@ class PageController extends Controller
      */
     public function show($id)
     {
-        abort('404');
+        abort(404);
     }
 
     /**
@@ -116,14 +90,15 @@ class PageController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($id, PageRepository $page)
+    public function edit($id, Page $page)
     {
-        $this->data = array_merge($this->data, [
-            'page' => $page->find($id, ['id', 'title', 'slug', 'params', 'meta', 'published']),
-            'routes' => $this->routes,
+        $this->mergeViewData([
+            'data' => [
+                'page' => $page->find($id),
+            ],
         ]);
 
-        return view($this->views['edit'])->with($this->data);
+        return $this->viewWithData($this->views['edit']);
     }
 
     /**
@@ -133,23 +108,10 @@ class PageController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(PageRequest $request, $id, PageRepository $page)
+    public function update(PageRequest $request, $id, Page $page)
     {
-        try {
-            $page->update($id, [
-                'title' => $request->input('title'),
-                'slug' => $request->input('slug'),
-                'params' => $request->input('params'),
-                'meta' => $request->input('meta'),
-                'published' => $request->input('published') == 1 ? 1 : 0,
-            ]);
+        $page->updateWithRequest($id);
 
-        } catch (AbstractException $e) {
-            // flash()->error(trans('general.error'));
-            return redirect()->back();
-        }
-
-        // flash()->success(trans('common.success'));
         return redirect()->route($this->routes['index']);
     }
 
@@ -159,16 +121,10 @@ class PageController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id, PageRepository $page)
+    public function destroy($id, Page $page)
     {
-        try {
-            $page->destroy($id);
-        } catch (AbstractException $e) {
-            // flash()->error(trans('error.general'));
-            return redirect()->back();          
-        }
+        $page->destroy($id);
 
-        // flash()->success(trans('common.success'));
         return redirect()->route($this->routes['index']);
     }
 }

@@ -1,22 +1,25 @@
-@extends('metrique-building::master')
+@extends('laravel-building::main')
 
 @section('content')
-	@include('metrique-building::partial.header', [
-		'heading'=>'Page content',
-		'link'=>route($routes['create'], [$pageId, $sectionId]),
-		'title'=>'New item',
-		'icon'=>'fa-plus'
-	])
-	
-	{{-- No structure... --}}
-	@if(count($section['block']['structure']) == 0)
-		<p>Whoops! <a href="{{ route('cms.block.structure.index', $section['block']['id']) }}">{{ $section['block']['title'] }}</a> has no structure.</p>
-	@endif
-	
-	{{-- No content yet... --}}
-	@if(count($content) == 0)
-		<p>No content exists.</p>
-	@else
-		@include($views['edit'])
-	@endif
+    @include('laravel-building::partial.header', [
+        'heading'=>'Page contents',
+        'link'=>route($routes['create'], [$data['section']->page->id, $data['section']->id]),
+        'title'=>'New content',
+        'icon'=>'fa-plus'
+    ])
+
+    @if($data['section']->component->structure->count() < 1)
+        <p>Whoops! <a href="{{ route('component.structure.index', $data['section']->component->id) }}">{{ $data['section']->component->title }}</a> has no structure.</p>
+    @else
+        @if($data['content']->count() < 1)
+            <p>No content exists.</p>
+        @else
+            @include($views['multi.edit'], [
+                'routes' => $routes,
+                'views' => $views,
+                'data' => $data,
+            ])
+        @endif
+    @endif
+
 @endsection

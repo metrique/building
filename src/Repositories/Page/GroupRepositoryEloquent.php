@@ -2,10 +2,16 @@
 
 namespace Metrique\Building\Repositories\Page;
 
-use Metrique\Building\Abstracts\EloquentRepositoryAbstract;
-use Metrique\Building\Contracts\Page\GroupRepositoryInterface;
+use Metrique\Building\Eloquent\PageGroup;
+use Metrique\Building\Repositories\Contracts\Page\GroupRepositoryInterface;
 
-class GroupRepositoryEloquent extends EloquentRepositoryAbstract implements GroupRepositoryInterface
+class GroupRepositoryEloquent implements GroupRepositoryInterface
 {
-	protected $modelClassName = 'Metrique\Building\Eloquent\Page\Group';
+    /**
+     * {@inheritdoc}
+     */
+    public function destroy($id)
+    {
+        return PageGroup::destroy($id);
+    }
 }

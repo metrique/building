@@ -2,23 +2,12 @@
 
 namespace Metrique\Building;
 
+use Collective\Html\HtmlServiceProvider;
+use Illuminate\Support\HtmlString;
 use Illuminate\Support\ServiceProvider;
-use Metrique\Building\Commands\BuildingMigrationsCommand;
 use Metrique\Building\Commands\BuildingSeedsCommand;
-use Metrique\Building\Contracts\BlockRepositoryInterface;
-use Metrique\Building\Repositories\BlockRepositoryEloquent;
-use Metrique\Building\Contracts\Block\StructureRepositoryInterface;
-use Metrique\Building\Repositories\Block\StructureRepositoryEloquent;
-use Metrique\Building\Contracts\Block\TypeRepositoryInterface;
-use Metrique\Building\Repositories\Block\TypeRepositoryEloquent;
-use Metrique\Building\Contracts\PageRepositoryInterface;
-use Metrique\Building\Repositories\PageRepositoryEloquent;
-use Metrique\Building\Contracts\Page\ContentRepositoryInterface;
-use Metrique\Building\Repositories\Page\ContentRepositoryEloquent;
-use Metrique\Building\Contracts\Page\GroupRepositoryInterface;
-use Metrique\Building\Repositories\Page\GroupRepositoryEloquent;
-use Metrique\Building\Contracts\Page\SectionRepositoryInterface;
-use Metrique\Building\Repositories\Page\SectionRepositoryEloquent;
+
+use DH\Eloquent\Page;
 
 class BuildingServiceProvider extends ServiceProvider
 {
@@ -27,23 +16,26 @@ class BuildingServiceProvider extends ServiceProvider
      *
      * @var bool
      */
-    // protected $defer = true;
+    protected $defer = false;
+
+    public function __construct($app)
+    {
+        parent::__construct($app);
+
+        // Register other packages.
+        $this->html = new HtmlServiceProvider($app);
+    }
 
     /**
      * Bootstrap the application services.
      */
     public function boot()
     {
-        // Commands
-        $this->commands('command.metrique.migrate-building');
-        $this->commands('command.metrique.seed-building');
-
-        // Views
-        $this->loadViewsFrom(__DIR__.'/Resources/views/', 'metrique-building');
-
-        $this->publishes([
-            __DIR__.'/Resources/views' => base_path('resources/views/vendor/metrique-building'),
-        ], 'building');
+        $this->bootCommands();
+        $this->bootConfig();
+        $this->bootMigrations();
+        $this->bootRoutes();
+        $this->bootViews();
     }
 
     /**
@@ -51,99 +43,133 @@ class BuildingServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Facade
-        $this->registerBuildingFacade();
-
         // Repositories
-        $this->registerBlocks();
-        $this->registerPages();
+        $this->registerHook();
+        $this->registerComponent();
+        $this->registerComponentType();
+        $this->registerComponentStructure();
+        $this->registerPage();
+        $this->registerPageContent();
+        $this->registerPageSection();
+        $this->registerPageGroup();
 
         // Commands
         $this->registerCommands();
+
+        // Html
+        $this->html->register();
     }
 
-    /**
-     * Register the Building Facade.
-     */
-    private function registerBuildingFacade()
+    protected function bootCommands()
     {
-        $this->app->bind('\Metrique\Building\Building', function () {
-            return new Building($this->app);
-        });
+        $this->commands('command.metrique.building-seed');
     }
 
-    private function registerBlocks()
+    protected function bootConfig()
     {
-        // Block
-        $this->app->bind(
-            BlockRepositoryInterface::class,
-            BlockRepositoryEloquent::class
-        );
+        $this->publishes([
+            __DIR__.'/Resources/config/building.php' => config_path('building.php')
+        ], 'laravel-building');
 
-        // Block type
-        $this->app->bind(
-            TypeRepositoryInterface::class,
-            TypeRepositoryEloquent::class
-        );
-
-        // Block structure
-        $this->app->bind(
-            StructureRepositoryInterface::class,
-            StructureRepositoryEloquent::class
+        $this->mergeConfigFrom(
+            __DIR__.'/Resources/config/building.php',
+            'building'
         );
     }
 
-    private function registerPages()
+    protected function bootMigrations()
     {
-        // Page
-        $this->app->bind(
-            PageRepositoryInterface::class,
-            PageRepositoryEloquent::class
-        );
+        $this->loadMigrationsFrom(__DIR__.'/Database/migrations');
+    }
 
-        // Page contents
-        $this->app->bind(
-            ContentRepositoryInterface::class,
-            ContentRepositoryEloquent::class
-        );
+    protected function bootRoutes()
+    {
+        if (! $this->app->routesAreCached()) {
+            // require __DIR__.'/Routes/api.php'; // Not implemented
+            require __DIR__.'/Routes/web.php';
+        }
+    }
 
-        // Page sections
-        $this->app->bind(
-            SectionRepositoryInterface::class,
-            SectionRepositoryEloquent::class
-        );
+    protected function bootViews()
+    {
+        $views = __DIR__ . '/Resources/views/';
+        $this->loadViewsFrom($views, 'laravel-building');
 
-        // Page sections
+        $this->publishes([
+            __DIR__.'/Resources/views' => resource_path('views/vendor/laravel-building'),
+        ], 'laravel-building');
+
+        view()->composer('*', \Metrique\Building\Http\Composers\BuildingViewComposer::class);
+    }
+
+    protected function registerHook()
+    {
         $this->app->bind(
-            GroupRepositoryInterface::class,
-            GroupRepositoryEloquent::class
+            \Metrique\Building\Repositories\Contracts\HookRepositoryInterface::class,
+            \Metrique\Building\Repositories\HookRepository::class
+        );
+    }
+
+    protected function registerComponent()
+    {
+        $this->app->bind(
+            \Metrique\Building\Repositories\Contracts\ComponentRepositoryInterface::class,
+            \Metrique\Building\Repositories\ComponentRepositoryEloquent::class
+        );
+    }
+
+    protected function registerComponentType()
+    {
+        $this->app->bind(
+            \Metrique\Building\Repositories\Contracts\Component\TypeRepositoryInterface::class,
+            \Metrique\Building\Repositories\Component\TypeRepositoryEloquent::class
+        );
+    }
+
+    protected function registerComponentStructure()
+    {
+        $this->app->bind(
+            \Metrique\Building\Repositories\Contracts\Component\StructureRepositoryInterface::class,
+            \Metrique\Building\Repositories\Component\StructureRepositoryEloquent::class
+        );
+    }
+
+    protected function registerPage()
+    {
+        $this->app->bind(
+            \Metrique\Building\Repositories\Contracts\PageRepositoryInterface::class,
+            \Metrique\Building\Repositories\PageRepository::class
+        );
+    }
+    protected function registerPageContent()
+    {
+        $this->app->bind(
+            \Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface::class,
+            \Metrique\Building\Repositories\Page\ContentRepository::class
+        );
+    }
+    protected function registerPageSection()
+    {
+        $this->app->bind(
+            \Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface::class,
+            \Metrique\Building\Repositories\Page\SectionRepositoryEloquent::class
+        );
+    }
+    protected function registerPageGroup()
+    {
+        $this->app->bind(
+            \Metrique\Building\Repositories\Contracts\Page\GroupRepositoryInterface::class,
+            \Metrique\Building\Repositories\Page\GroupRepositoryEloquent::class
         );
     }
 
     /**
      * Register the artisan commands.
      */
-    private function registerCommands()
+    protected function registerCommands()
     {
-        $this->app->singleton('command.metrique.migrate-building', function ($app) {
-            return new BuildingMigrationsCommand();
+        $this->app->singleton('command.metrique.building-seed', function ($app) {
+            return new \Metrique\Building\Commands\BuildingSeedsCommand();
         });
-
-        $this->app->singleton('command.metrique.seed-building', function ($app) {
-            return new BuildingSeedsCommand();
-        });
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [
-            // 'Metrique\Building\Contracts\BlockTypeRepositoryInterface',
-            // 'Metrique\Building\Repositories\BlockTypeRepositoryEloquent'
-        ];
     }
 }

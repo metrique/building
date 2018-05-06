@@ -3,48 +3,51 @@
 namespace Metrique\Building\Http\Controllers\Page;
 
 use Illuminate\Http\Request;
-use Metrique\Building\Contracts\Page\ContentRepositoryInterface as ContentRepository;
-use Metrique\Building\Contracts\Page\GroupRepositoryInterface as GroupRepository;
-use Metrique\Building\Contracts\Page\SectionRepositoryInterface as SectionRepository;
-use Metrique\Building\Http\Controllers\Controller;
+use Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface as Content;
+use Metrique\Building\Repositories\Contracts\Page\GroupRepositoryInterface as Group;
+use Metrique\Building\Repositories\Contracts\HookRepositoryInterface as Hook;
+use Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface as Section;
+use Metrique\Building\Http\Controllers\BuildingController;
 use Metrique\Building\Http\Requests\PageRequest;
 
-class ContentController extends Controller
+class ContentController extends BuildingController
 {
     /**
-     * Holder for view data
-     * 
-     * @var array
-     */
-    protected $data = [];
+    * List of routes used
+    * @var array
+    */
+    protected $routes = [
+        'single.index' => 'page.section.index',
+        'multi.index' => 'page.section.content.index',
+        'create' => 'page.section.content.create',
+        'store' => 'page.section.content.store',
+        'edit' => 'page.section.content.edit',
+        'update' => 'page.section.content.update',
+        'destroy' => 'page.section.content.destroy',
+    ];
 
     /**
      * List of views used.
-     * 
+     *
      * @var array
      */
     protected $views = [
-        'single.index' => 'metrique-building::page.content.single.index',
-        'multi.index' => 'metrique-building::page.content.multi.index',
-        'create' => 'metrique-building::page.content.create',
-        'edit' => 'metrique-building::page.content.edit',
+        'single.index' => 'laravel-building::page.content.single.index',
+        'multi.index' => 'laravel-building::page.content.multi.index',
+        'single.form' => 'laravel-building::page.content.single.form',
+        'multi.form' => 'laravel-building::page.content.multi.form',
+        'single.create' => 'laravel-building::page.content.single.create',
+        'multi.create' => 'laravel-building::page.content.multi.create',
+        'single.edit' => 'laravel-building::page.content.single.edit',
+        'multi.edit' => 'laravel-building::page.content.multi.edit',
+        'single.form' => 'laravel-building::page.content.single.form',
+        'multi.form' => 'laravel-building::page.content.multi.form',
     ];
 
-    /**
-     * List of routes used
-     * @var [type]
-     */
-    protected $routes = [
-        'index' => 'cms.page.section.content.index',
-        'create' => 'cms.page.section.content.create',
-        'store' => 'cms.page.section.content.store',
-        'edit' => 'cms.page.section.content.edit',
-        'update' => 'cms.page.section.content.update',
-        'destroy' => 'cms.page.section.content.destroy',
-    ];
-
-    public function __construct(SectionRepository $section, ContentRepository $content)
+    public function __construct(Hook $hook, Section $section, Content $content)
     {
+        parent::__construct($hook);
+
         $this->section = $section;
         $this->content = $content;
     }
@@ -54,35 +57,21 @@ class ContentController extends Controller
      *
      * @return Response
      */
-    public function index($pageId, $sectionId)
+    public function index($id, $sectionId)
     {
-        // General content pulling stuff.
-        $section = $this->section->findWithAll($sectionId);
-        $content = $this->content->groupBySectionId($sectionId);
-
-        $structure = $section['block']['structure'];
-        $singleItem = $section['block']['single_item'] ? true : false;
-
-        // Data/View binding
-        $this->data = array_merge($this->data, [
-            'content' => $content,
-            'counter' => 0,
-            'pageId' => $pageId,
-            'section' => $section,
-            'sectionId' => $sectionId,
-            'singleItem' => $singleItem,
-            'structure' => $structure,
-            'routes' => $this->routes,
-            'views' => $this->views,
+        $this->mergeViewData([
+            'content' => $this->content,
+            'data' => [
+                'content' => $this->content->groupBySectionId($sectionId),
+                'section' => $this->section->findWithStructure($sectionId),
+            ]
         ]);
 
-        // Please move this to somewhere else...
-        if($singleItem)
-        {
-            return view($this->views['single.index'])->with($this->data);
+        if ($this->viewData['data']['section']->component->single_item) {
+            return $this->viewWithData($this->views['single.index']);
         }
 
-        return view($this->views['multi.index'])->with($this->data);
+        return $this->viewWithData($this->views['multi.index']);
     }
 
     /**
@@ -90,26 +79,21 @@ class ContentController extends Controller
      *
      * @return Response
      */
-    public function create($pageId, $sectionId)
+    public function create($id, $sectionId)
     {
-        // General content pulling stuff.
-        $section = $this->section->findWithAll($sectionId);
-        $content = $this->content->groupBySectionId($sectionId);
-        $structure = $section['block']['structure'];
-        $singleItem = $section['block']['single_item'] ? true : false;
+        $this->mergeViewData([
+            'content' => $this->content,
+            'data' => [
+                'content' => $this->content->groupBySectionId($sectionId),
+                'section' => $this->section->findWithStructure($sectionId),
+            ]
+        ]);
 
-        // Data/View binding
-        $data = [
-            'content' => $content,
-            'pageId' => $pageId,
-            'section' => $section,
-            'sectionId' => $sectionId,
-            'singleItem' => $singleItem,
-            'structure' => $structure,
-            'routes' => $this->routes,
-        ];
+        if ($this->viewData['data']['section']->component->single_item) {
+            return $this->viewWithData($this->views['single.create']);
+        }
 
-        return view($this->views['create'])->with($data);
+        return $this->viewWithData($this->views['multi.create']);
     }
 
     /**
@@ -118,16 +102,15 @@ class ContentController extends Controller
      * @param  Request  $request
      * @return Response
      */
-    public function store(Request $request, $pageId, $sectionId)
+    public function store(Request $request, $id, $sectionId)
     {
-        try {
-            $this->content->store($request, $pageId, $sectionId);
-            // flash()->success(trans('common.success'));
-        } catch (Exception $e) {
-            // flash()->error(trans('error.general'));
+        $this->content->persistWithRequest($id, $sectionId);
+
+        if ($request->type == 'single') {
+            return redirect()->route($this->routes['single.index'], $id);
         }
 
-        return redirect()->back();
+        return redirect()->route($this->routes['multi.index'], [$id, $sectionId]);
     }
 
     /**
@@ -147,7 +130,7 @@ class ContentController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function edit($pageId, $sectionId)
+    public function edit($id, $sectionId)
     {
         abort('404');
     }
@@ -159,16 +142,15 @@ class ContentController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update($pageId, $sectionId, Request $request)
+    public function update(Request $request, $id, $sectionId)
     {
-        try {
-            $this->content->store($request, $pageId, $sectionId);
-            // flash()->success(trans('common.success'));
-        } catch (\Exception $e) {
-            // flash()->error(trans('error.general'));
+        $this->content->persistWithRequest($id, $sectionId);
+
+        if ($request->type == 'single') {
+            return redirect()->route($this->routes['single.index'], [$id]);
         }
 
-        return redirect()->back();
+        return redirect()->route($this->routes['multi.index'], [$id, $sectionId]);
     }
 
     /**
@@ -177,14 +159,10 @@ class ContentController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($pageId, $sectionId, $groupId, GroupRepository $group)
+    public function destroy($id, $sectionId, $groupId, Group $group)
     {
-        try {
-            $group->destroy($groupId);
-            // flash()->success(trans('common.success'));
-        } catch (\Exception $e) {
-            // flash()->error(trans('error.general'));
-        }
-        return redirect()->back();
+        $group->destroy($groupId);
+
+        return redirect()->route($this->routes['index'], [$id, $sectionId]);
     }
 }
