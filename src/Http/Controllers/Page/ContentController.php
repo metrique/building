@@ -163,6 +163,6 @@ class ContentController extends BuildingController
     {
         $group->destroy($groupId);
 
-        return redirect()->route($this->routes['index'], [$id, $sectionId]);
+        return redirect()->route($this->routes['multi.index'], [$id, $sectionId]);
     }
 }
