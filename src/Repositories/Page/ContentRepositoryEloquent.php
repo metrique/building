@@ -19,7 +19,7 @@ class ContentRepositoryEloquent extends EloquentRepositoryAbstract implements Co
         return $this->model
             ->join('building_page_groups as group', 'group.id', '=', 'building_page_groups_id')
             ->join('building_block_structures as structures', 'structures.id', '=', 'building_block_structures_id')
-            ->select('building_page_contents.*', 'group.order', 'group.published', 'structures.order')
+            ->select('building_page_contents.*', 'group.order as group_order', 'group.published', 'structures.order')
             ->where(['building_page_sections_id' => $id])
             ->orderBy('structures.order', 'desc')
             ->orderBy('group.order', 'desc')
