@@ -28,7 +28,7 @@
                 "Metrique\\Building\\BuildingServiceProvider"
             ],
             "aliases": {
-                "Building": "Metrique\\Building\\PlonkFacade"
+                "Building": "Metrique\\Building\\BuildingFacade"
             }
         }
     }
