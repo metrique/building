@@ -13,7 +13,7 @@ class ContentController extends BuildingController
 {
     protected $page;
     protected $content;
-    
+
     protected $views = [
         'index' => 'laravel-building::content.index',
     ];
@@ -34,7 +34,7 @@ class ContentController extends BuildingController
     {
         $slug = Slug::slugify(request()->path());
         $page = $this->page->bySlug($slug);
-        
+
         if (is_null($page)) {
             abort(404);
         }
