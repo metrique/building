@@ -55,7 +55,7 @@ class SectionRepositoryEloquent implements SectionRepositoryInterface
     public function create(array $data)
     {
         $data['order'] = $data['order'] ?: 0;
-        
+
         DB::transaction(function () use ($data) {
             $section = PageSection::create($data);
             $section->slug = md5($section->id);

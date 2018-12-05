@@ -16,7 +16,7 @@ class CreatePageSections extends Migration
             $table->timestamps();
             $table->increments('id');
             $table->string('title', 191);
-            $table->string('slug', 191)->unique();
+            $table->string('slug', 191)->unique()->default('');
             $table->integer('order')->unsigned()->default(0);
             $table->text('params');
         });
