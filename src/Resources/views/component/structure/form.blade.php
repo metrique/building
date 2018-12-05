@@ -1,5 +1,3 @@
-@include('laravel-building::partial.errors')
-
 <form action="{{ $action }}" method="POST">
     {!! csrf_field() !!}
     <input type="hidden" name="components_id" value="{{ $data['component']->id }}">

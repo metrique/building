@@ -1,22 +1,26 @@
-<form action="{{ $action }}" method="POST">
-    {!! csrf_field() !!}
-    <input type="hidden" name="type" value="{{ $data['section']->component->single_item ? 'single' : 'multi' }}">
-
+<form class="form-horizontal" role="form" method="POST" action="{{ $action }}">
+    
+    @include('laravel-building::partial.form-requisites')
+    
+    @constituent('laravel-building::partial.input-hidden', [
+        'name' => 'type',
+        'value' => $data['section']->component->single_item ? 'single' : 'multi'
+    ])
+    
     {{-- Create form --}}
     @if(!$edit)
-        <fieldset class="panel panel-default">
-            <div class="panel-body">
-                <div class="col-xs-12">
-                    <h3>Create content</h3>
-                </div>
-
+        <div class="card">
+            <div class="card-header">
+                Create content
+            </div>
+            <div class="card-body">
                 @foreach($data['section']->component->structure as $structure)
-                    <div class="form-group col-xs-12">
+                    <div class="form-group">
                         {!!
-                            $content->input([
+                            \Metrique\Building\Support\Input::input([
                                 'classes' => ['form-control'],
                                 'type' => $structure->type->slug,
-                                'name' => $content->inputName([
+                                'name' => \Metrique\Building\Support\Input::inputName([
                                     'structure_id' => $structure->id
                                 ]),
                                 'label' => $structure->title,
@@ -25,78 +29,109 @@
                         !!}
                     </div>
                 @endforeach
+                
+                @constituent('laravel-building::partial.input-number', [
+                    'name' => 'order-0',
+                    'label' => 'Order',
+                    'value' => $edit ? $data['section']->order : old('order'),
+                    'attributes' => [
+                        'placeholder' => 'Larger numbers take priority.',
+                        'required',
+                        'steps' => 1,
+                    ],
+                ])
+                
+                @constituent('laravel-building::partial.input-checkbox', [
+                    'name' => 'published[]',
+                    'label' => 'Published',
+                    'checked' => $edit ? $data['page']->published ? 'checked' : '' : '',
+                    'value' => 0,
+                    'attributes' => [
+                        'id' => 'published-0',
+                    ],
+                ])
 
-                <div class="form-group col-xs-12">
-                    <label for="order-0">Order</label>
-                    <input class="form-control" type="text" name="order-0" value="0">
-                </div>
-
-                <div class="form-group col-xs-12">
-                    <input type="checkbox" id="published-0" name="published[]" value="0">
-                    <label for="published-0">Publish</label>
-                </div>
-            </div>
-        </fieldset>
-        
-        <div class="row text-center">
-            <div class="col-sm-12">
-                @include('laravel-building::partial.button-save')
+                @constituent('laravel-building::partial.resource-button-save', [
+                    'title' => 'Save',
+                ])
+                
             </div>
         </div>
     @endif
 
     {{-- Edit form --}}
     @if($edit)
-        {{ method_field('PATCH') }}
-
         @foreach($data['content'] as $groupId => $group)
-            <fieldset class="panel panel-default">
-                <div class="panel-body">
-                        <div class="col-xs-6">
-                            <h3>Edit item {{ ++$counter }}</h3>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            Edit item {{ ++$counter }}
                         </div>
-                        <div class="col-xs-6 text-right">
-                            <br>
-                            <button type="submit" class="btn btn-danger" data-role="destroy" data-route="{{ route($routes['destroy'], [$group->first()->pages_id, $group->first()->page_sections_id, $groupId]) }}"><i class="fa fa-trash-o"></i> Delete</button>
+                        <div class="col-md-6 text-right">
+                                @constituent('laravel-building::partial.input-submit', [
+                                    'level' => 'btn-sm btn-secondary',
+                                    'icon' => 'fas fa-trash',
+                                    'title' => 'Delete',
+                                    'attributes' => [
+                                        'data-csrf' => csrf_token(),
+                                        'data-role' => 'destroy',
+                                        'data-route' => route($routes['destroy'], [
+                                            $group->first()->pages_id,
+                                            $group->first()->page_sections_id,
+                                            $groupId
+                                        ])
+                                    ]
+                                ])
                         </div>
-                        <div class="col-xs-12">
-                            <hr>
-                        </div>
+                    </div>
+                </div>
+
+                <div class="card-body">
                     @foreach($data['section']->component->structure as $structure)
-                        <div class="form-group col-xs-12">
+                        <div class="form-group">
                             {!!
-                                $content->input([
+                                \Metrique\Building\Support\Input::input([
                                     'classes' => ['form-control'],
                                     'type' => $structure->type->slug,
-                                    'name' => $content->inputName([
+                                    'name' => \Metrique\Building\Support\Input::inputName([
                                         'structure_id' => $structure->id,
                                         'group_id' => $groupId,
-                                        'content_id' => $content->fromGroupByStructure($group, $structure->id)->id,
+                                        'content_id' => $content->fromGroupByStructure($group, $structure->id)->id ?? 0,
                                     ]),
                                     'label' => $structure->title,
-                                    'value' => $content->fromGroupByStructure($group, $structure->id)->content,
+                                    'value' => $content->fromGroupByStructure($group, $structure->id)->content ?? '',
                                 ]);
                             !!}
                         </div>
                     @endforeach
-
-                    <div class="form-group col-xs-12">
-                        <label for="order-{{ $groupId }}">Order</label>
-                        <input class="form-control" type="text" name="order-{{ $groupId }}" value="{{ $group->first()->order }}">
-                    </div>
-
-                    <div class="form-group col-xs-12">
-                        <input type="checkbox" id="published-{{ $groupId }}" name="published[]" value="{{ $groupId }}" {{ $group->first()->published == 1 ? 'checked' : '' }}>
-                        <label for="published-{{ $groupId }}">Publish</label>
-                    </div>
+                    
+                    @constituent('laravel-building::partial.input-number', [
+                        'name' => sprintf('order-%s', $groupId),
+                        'label' => 'Order',
+                        'value' => $group->first()->order,
+                        'attributes' => [
+                            'placeholder' => 'Larger numbers take priority.',
+                            'required',
+                            'steps' => 1,
+                        ],
+                    ])
+                    
+                    @constituent('laravel-building::partial.input-checkbox', [
+                        'name' => 'published[]',
+                        'label' => 'Published',
+                        'checked' => $group->first()->published == 1 ? 'checked' : '',
+                        'value' => $groupId,
+                        'attributes' => [
+                            'id' => sprintf('published-%s', $groupId),
+                        ],
+                    ])
+                
+                    @constituent('laravel-building::partial.resource-button-save', [
+                        'title' => 'Save',
+                    ])
                 </div>
-            </fieldset>
-        @endforeach
-
-        <div class="row text-center">
-            <div class="col-sm-12">
-                @include('laravel-building::partial.button-save')
             </div>
-        </div>
+        @endforeach
     @endif
 </form>

@@ -1,5 +1,3 @@
-@include('laravel-building::partial.errors')
-
 <form action="{{ $action }}" method="POST">
     {!! csrf_field() !!}
 

@@ -13,9 +13,7 @@
 
             @if(!$section->component->single_item)
                 @include(config('building.component.view_path') . $section->component->slug, [
-                    'contents' => $section->content->map(function($item){
-                        return $item->pluck('content');
-                    }),
+                    'contents' => $section->content,
                 ])
             @endif
         </section>

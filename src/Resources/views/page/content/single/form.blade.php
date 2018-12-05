@@ -1,27 +1,30 @@
-<form action="{{ $action }}" method="POST">
-    {!! csrf_field() !!}
-    <input type="hidden" name="type" value="{{ $data['section']->component->single_item ? 'single' : 'multi' }}">
+<div class="card">
+    <div class="card-header">
+        @if($edit)
+            Edit content
+        @else
+            Create content
+        @endif
+    </div>
 
-    <fieldset class="panel panel-default">
-        <div class="panel-body">
-            <div class="col-xs-12">
-                @if($edit)
-                    <h3>Edit content</h3>
-                    {{ method_field('PATCH') }}
-                @else
-                    <h3>Create content</h3>
-                @endif
-            </div>
+    <div class="card-body">
+        <form class="form-horizontal" role="form" method="POST" action="{{ $action }}">
+            
+            @include('laravel-building::partial.form-requisites')
+
+            @constituent('laravel-building::partial.input-hidden', [
+                'name' => 'type',
+                'value' => $data['section']->component->single_item ? 'single' : 'multi'
+            ])
 
             {{-- Create form --}}
             @if(!$edit)
                 @foreach($data['section']->component->structure as $structure)
-                    <div class="form-group col-xs-12">
+                    <div class="form-group">
                         {!!
-                            $content->input([
-                                'classes' => ['form-control'],
+                            \Metrique\Building\Support\Input::input([
                                 'type' => $structure->type->slug,
-                                'name' => $content->inputName([
+                                'name' => Metrique\Building\Support\Input::inputName([
                                     'structure_id' => $structure->id
                                 ]),
                                 'label' => $structure->title,
@@ -29,47 +32,53 @@
                         !!}
                     </div>
                 @endforeach
-
-                <div class="form-group col-xs-12">
-                    <input type="checkbox" id="published-0" name="published[]" value="0">
-                    <label for="published-0">Publish</label>
-                </div>
+                
+                @constituent('laravel-building::partial.input-checkbox', [
+                    'name' => 'published[]',
+                    'label' => 'Published',
+                    'checked' => false,
+                    'value' => 0,
+                    'attributes' => [
+                        'id' => 'published-0',
+                    ],
+                ])
             @endif
 
             {{-- Edit form --}}
             @if($edit)
                 @foreach($data['content'] as $groupId => $group)
                     @foreach($data['section']->component->structure as $structure)
-                        <div class="form-group col-xs-12">
+                        <div class="form-group">
                             {!!
-                                $content->input([
-                                    'classes' => ['form-control'],
+                                Metrique\Building\Support\Input::input([
                                     'type' => $structure->type->slug,
-                                    'name' => $content->inputName([
+                                    'name' => Metrique\Building\Support\Input::inputName([
                                         'structure_id' => $structure->id,
                                         'group_id' => $groupId,
                                         'content_id' => $content->fromGroupByStructure($group, $structure->id)->id,
                                     ]),
                                     'label' => $structure->title,
-                                    'value' => $content->fromGroupByStructure($group, $structure->id)->content,
+                                    'value' => $content->fromGroupByStructure($group, $structure->id)->content ?? '',
                                 ]);
                             !!}
                         </div>
                     @endforeach
-
-                    <div class="form-group col-xs-12">
-                        <input type="checkbox" id="published-{{ $groupId }}" name="published[]" value="{{ $groupId }}" {{ $group->first()->published == 1 ? 'checked' : '' }}>
-                        <label for="published-{{ $groupId }}">Publish</label>
-                    </div>
+                    
+                    @constituent('laravel-building::partial.input-checkbox', [
+                        'name' => 'published[]',
+                        'label' => 'Published',
+                        'checked' => $group->first()->published == 1 ? 'checked' : '',
+                        'value' => $groupId,
+                        'attributes' => [
+                            'id' => sprintf('published-%s', $groupId),
+                        ],
+                    ])
                 @endforeach
             @endif
 
-        </div>
-    </fieldset>
-
-    <div class="row text-center">
-        <div class="col-sm-12">
-            @include('laravel-building::partial.button-save')
-        </div>
+            @constituent('laravel-building::partial.resource-button-save', [
+                'title' => 'Save',
+            ])
+        </form>
     </div>
-</form>
+</div>

@@ -1,57 +1,51 @@
 @extends('laravel-building::main')
 
 @section('content')
-    @include('laravel-building::partial.header', [
-        'heading'=>'Pages',
-        'link'=>route($routes['create']),
-        'title'=>'New page.',
-        'icon'=>'fa-plus'
-    ])
-
-    <div class="row">
-        <div class="col-sm-12">
-            @if(count($data['pages']) > 0)
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Slug</th>
-                            <th>Published</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($data['pages'] as $key=>$value)
-                            <tr>
-                                <td>
-                                    <a href="{{ route($routes['edit'], $value->id) }}">{{ $value->title }}</a>
-                                </td>
-
-                                <td>{{ $value->slug }}</td>
-
-                                <td>
-                                    <i class="fa fa-lg fa-{{ $value->published ? 'check' : 'times' }}"></i>
-                                </td>
-
-                                <td class="text-right">
-                                    <a href="{{ route($routes['section.index'], $value->id) }}" class="btn btn-default">
-                                        <i class="fa fa-pencil"></i> Edit sections
-                                    </a>
-                                </td>
-
-                                <td class="text-right">
-                                    @include('laravel-building::partial.button-destroy', [
-                                        'route'=>route($routes['destroy'], $value->id),
-                                    ])
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @else
-                <p>No pages exist.</p>
-            @endif
+    <div class="container">
+        @constituent('laravel-building::partial.resource-page-title', [
+            'icon' => 'fas fa-file-alt',
+            'title' => 'Pages'
+        ])
+        
+        <div class="row justify-content-center mt-4 mb-4">
+            <div class="col-md-8 d-flex justify-content-end">
+                @constituent('laravel-building::partial.resource-create-button', [
+                    'icon' => 'fas fa-fw fa-plus',
+                    'title' => 'Create a new page',
+                    'route' => route($routes['create'])
+                ])
+            </div>
         </div>
-    </div>
+        
+        <div class="row justify-content-center mb4">
+            <div class="col-md-8">
+                @if(count($data['pages']) < 1)
+                    <p>No pages found. <a href="{{ route($routes['create']) }}">Create a new page.</a></p>
+                @endif
+
+                @foreach($data['pages'] as $key => $page)
+                    @constituent('laravel-building::partial.list-group', [
+                        'icon' => 'fa fa-fw fa-file',
+                        'title' => sprintf('%s', $page->title),
+                        'destroy' => route($routes['destroy'], $page->id),
+                        'visible' => $page->published,
+                        'items' => [
+                            [
+                                'title' => '/'. str_replace('_', '/', $page->slug),
+                                'icon' => 'fas fa-external-link-alt',
+                                'route' => '/'. str_replace('_', '/', $page->slug),
+                            ],[
+                                'title' => 'Configure page',
+                                'icon' => 'fas fa-cog',
+                                'route' => route($routes['edit'], $page->id),
+                            ],[
+                                'title' => 'Edit page sections',
+                                'icon' => 'fas fa-puzzle-piece',
+                                'route' => route($routes['section.index'], $page->id),
+                            ]
+                        ]
+                    ])
+                @endforeach
+            </div>
+        </div>
 @endsection

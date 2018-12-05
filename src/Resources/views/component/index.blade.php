@@ -8,7 +8,7 @@
         'icon'=>'fa-plus'
     ])
 
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-xs-12">
         @if(count($data['components']) > 0)
             <table class="table table-striped">
