@@ -1,14 +1,11 @@
-@if(Session::has('flash_notification.message'))
-	@if(Session::has('flash_notification.overlay'))
-		@include('laravel-building::partial.modal', [
-			'modalId' => 'flash-modal',
-			'title' => Session::get('flash_notification.title'),
-			'body' => Session::get('flash_notification.message'),
-		])
-	@else
-		<div class="alert-box {{ Session::get('flash_notificaiton.level') }}" data-alert>
-			{{ Session::get('flash_notification.message') }}
-			<a href="#" class="close">&times;</a>
-		</div>
-	@endif
+@if($errors->count() > 0)
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="alert alert-warning" role="alert">
+                    {{ $errors->first() }}
+                </div>
+            </div>
+        </div>
+    </div>
 @endif

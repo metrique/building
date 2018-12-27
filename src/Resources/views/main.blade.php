@@ -36,10 +36,9 @@
                 </div>
             <nav>
         </div>
-
-        <div class="container">
-            @include('laravel-building::partial.message')
-        </div>
+        
+        @include('laravel-building::partial.message')
+        
         <div class="container">
             @yield('content')
         </div>

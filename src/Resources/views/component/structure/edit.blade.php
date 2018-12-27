@@ -1,14 +1,21 @@
 @extends('laravel-building::main')
 
 @section('content')
-    @include('laravel-building::partial.header', [
-        'heading'=>'Component structure',
+    @constituent('laravel-building::partial.resource-page-title', [
+        'icon' => 'fas fa-cog',
+        'title' => 'Component structure'
     ])
-
-    @include('laravel-building::component.structure.form', [
-        'action' => route($routes['update'], [$data['component']->id, $data['structure']->id]),
-        'edit' => true,
-        'data' => $data
-    ])
-
+    
+    <div class="row justify-content-center">
+        <div class="col-md-8 ">
+            @include('laravel-building::component.structure.form', [
+                'action' => route($routes['update'], [
+                    $data['component']->id,
+                    $data['structure']->id
+                ]),
+                'edit' => true,
+                'data' => $data,
+            ])
+        </div>
+    </div>
 @endsection

@@ -1,11 +1,18 @@
 @extends('laravel-building::main')
 
 @section('content')
-    @include('laravel-building::partial.header', [
-        'heading'=>'Components',
+    @constituent('laravel-building::partial.resource-page-title', [
+        'icon' => 'fas fa-cog',
+        'title' => 'Components'
     ])
-    @include('laravel-building::component.form', [
-        'action' => route($routes['store']),
-        'edit' => false,
-    ])
+    
+    <div class="row justify-content-center">
+        <div class="col-md-8 ">
+            @include('laravel-building::component.form', [
+                'action' => route($routes['store']),
+                'edit' => false,
+                'data' => $data,
+            ])
+        </div>
+    </div>
 @endsection

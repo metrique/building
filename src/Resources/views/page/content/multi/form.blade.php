@@ -7,7 +7,6 @@
         'value' => $data['section']->component->single_item ? 'single' : 'multi'
     ])
     
-    {{-- Create form --}}
     @if(!$edit)
         <div class="card">
             <div class="card-header">
