@@ -20,22 +20,19 @@
         </style>
     </head>
     <main>
-        <div>
-            <nav class="navbar navbar-default">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <a class="navbar-brand" href="https://github.com/metrique/laravel-building"><i class="fa fa-lg fa-building-o" aria-hidden="true"></i> Building</a>
-                        <ul class="nav navbar-nav">
-                            <li>
-                                <a href="{{ route('page.index') }}">Pages</a>
-                            </li>
-                            <li>
-                                <a href="{{ route('component.index') }}">Components</a>
-                            </li>
-                    </div>
-                </div>
-            <nav>
-        </div>
+        <nav class="navbar navbar-light bg-light mb-4">
+            <span class="navbar-brand">Building</span>
+            <div class="navbar-collapse collapse">
+                <ul class="navbar-nav">
+                    <li class="navbar-item">
+                        <a href="{{ route('page.index') }}">Pages</a>
+                    </li>
+                    <li class="navbar-item">
+                        <a href="{{ route('component.index') }}">Components</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
         
         @include('laravel-building::partial.message')
         
