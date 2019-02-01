@@ -35,9 +35,9 @@ class Building implements BuildingInterface {
      * @return string
      */
     public function slugify($string, $delimiter = '-', $directorySeperator = '_')
-    {
+    {            
         // Allowed character list
-        $allowed = "/[^a-zA-Z\d\s-_\/" . preg_quote($delimiter) . "]/u";
+        $allowed = "/[^a-zA-Z\d\s\/" . preg_quote($delimiter) . preg_quote($directorySeparator) . "]/u";
 
         // Convert to closest ASCII
         $string = Stringy::create($string)->toAscii();
@@ -45,13 +45,26 @@ class Building implements BuildingInterface {
         // Remove non allowed characters
         $string = preg_replace($allowed, '', $string);
 
-        // Lowercase, delimit and trim!
-        $string = Stringy::create($string)->toLowerCase()->delimit($delimiter)->removeLeft($delimiter)->removeRight($delimiter);
+        // Get directory separators.
+        $string = collect(explode($directorySeparator, $string))->reduce(
+            function ($carry, $item) use ($delimiter, $directorySeparator) {
+                return $carry . $directorySeparator . Stringy::create($item)->delimit($delimiter);
+            }
+        );
 
-        // Convert path seperators to underscores.
+        // Lowercase, delimit and trim!
+        if (strlen($string) > 1) {
+            $string = Stringy::create($string)
+                ->removeLeft($delimiter)
+                ->removeLeft($directorySeparator)
+                ->removeRight($delimiter)
+                ->removeRight($directorySeparator);
+        }
+
+        // Convert path separators to underscores.
         $string = str_replace('/', '_', $string);
 
-        return $string;
+        return empty($string) ? '_' : $string;
     }
 
     /**
