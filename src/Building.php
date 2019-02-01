@@ -34,7 +34,7 @@ class Building implements BuildingInterface {
      * @param  string $string
      * @return string
      */
-    public function slugify($string, $delimiter = '-', $directorySeperator = '_')
+    public function slugify($string, $delimiter = '-', $directorySeparator = '_')
     {            
         // Allowed character list
         $allowed = "/[^a-zA-Z\d\s\/" . preg_quote($delimiter) . preg_quote($directorySeparator) . "]/u";
