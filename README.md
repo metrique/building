@@ -36,3 +36,15 @@ laravel-building ships with a default set of resource controllers of which you c
 If you prefer more fine grained control then you may extend the `BuildingServiceProvider.php` file into your own application, and override the `bootRoutes` method.
 
 - To do.
+
+### Package development
+
+```
+{
+    "url": "../laravel-building",
+    "type": "path",
+    "options": {
+        "symlink": true
+    }
+}
+```

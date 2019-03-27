@@ -17,7 +17,7 @@ class CreatePages extends Migration
             $table->increments('id');
             $table->string('title', 191);
             $table->string('description', 191);
-            $table->string('image', 191);
+            $table->string('image', 191)->nullable();
             $table->string('slug', 191)->unique();
             $table->text('params');
             $table->text('meta');

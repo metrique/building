@@ -2,7 +2,7 @@
 
 @section('content')
     @constituent('laravel-building::partial.resource-page-title', [
-        'icon' => 'fas fa-file-alt',
+        'icon' => 'fas fa-fw fa-file-alt',
         'title' => 'Pages'
     ])
     

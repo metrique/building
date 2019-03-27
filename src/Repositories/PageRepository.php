@@ -20,7 +20,13 @@ class PageRepository implements PageRepositoryInterface
      */
     public function all()
     {
-        return Page::orderBy('title', 'asc')->get(['id', 'title', 'description', 'slug', 'published']);
+        return Page::orderBy('title', 'asc')->get([
+            'id',
+            'title',
+            'description',
+            'slug',
+            'published'
+        ]);
     }
 
     /**
@@ -92,12 +98,17 @@ class PageRepository implements PageRepositoryInterface
      */
     public function bySlug($slug)
     {
-        return Page::where(['slug' => $slug, 'published' => 1])->first();
+        return Page::where([
+            'slug' => $slug,
+            'published' => 1
+        ])->first();
     }
 
     public function publishedContentBySlug($slug)
     {
-        return $this->section->byPageId($this->bySlug($slug)->id)->map(function ($item, $key) {
+        return $this->section->byPageId(
+            $this->bySlug($slug)->id
+        )->map(function ($item, $key) {
             if ($item->component->slug == 'widget') {
                 // Widget rendering goes here...
             }
@@ -112,7 +123,9 @@ class PageRepository implements PageRepositoryInterface
      */
     public function contentBySlug($slug)
     {
-        return $this->section->byPageId($this->bySlug($slug)->id)->map(function ($item, $key) {
+        return $this->section->byPageId(
+            $this->bySlug($slug)->id
+        )->map(function ($item, $key) {
             if ($item->component->slug == 'widget') {
                 // Widget rendering goes here...
             }
@@ -121,31 +134,5 @@ class PageRepository implements PageRepositoryInterface
 
             return $item;
         });
-        // $content = $this->app->make(ContentRepositoryInterface::class);
-        // $section = $this->app->make(SectionRepositoryInterface::class);
-
-        // dd($section->byPageId($this->bySlug($slug)->id));
-        /*
-        $content = $this->app->make('Metrique\Building\Repositories\Contracts\Page\ContentRepositoryInterface');
-        $section = $this->app->make('Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface');
-
-        $contents = [];
-
-        foreach ($section->byPageId($this->bySlug($slug)->id) as $key => $value) {
-            $value['params'] = json_decode($value['params'], true);
-
-            // Widget rendering.
-            if ($value['component']['slug'] == 'widget') {
-                $value['_contents'] = array_pluck($content->bySectionId($value['id']), 'content');
-                $value['_contents'] = $this->app->make($value['_contents'][0])->render($value['_contents'][1], $this->app);
-            } else {
-                $value['_contents'] = $content->groupBySectionId($value['id']);
-            }
-
-            $contents[] = $value;
-        }
-
-        return $contents;
-        */
     }
 }
