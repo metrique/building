@@ -27,34 +27,24 @@ class Input
                 break;
 
             case 'checkbox':
+                $checkboxValue = 'true';
+
+                return view('laravel-building::partial.input-checkbox', [
+                    'name' => $params['name'] ?? '',
+                    'label' => $params['label'] ?? '',
+                    'value' => $params['value'] ?? '',
+                    'attributes' => [
+                        'data-post-unchecked',
+                    ]
+                ])
                 break;
 
             case 'image':
-                return
-
-                view('laravel-building::partial.input-image', [
-                    'name' => $params['name'],
-                    'label' => 'Image',
-                    'resource' => resolve(Plonk::class)->resource($params['value'] ?? ''),
+                return view('laravel-building::partial.input-text', [
+                    'name' => $params['name'] ?? '',
+                    'label' => $params['label'] ?? '',
                     'value' => $params['value'] ?? '',
                 ]);
-
-            case 'plonk':
-            // $plonk = new Plonk;
-            // return $label . sprintf(
-            //     '<div class="col-md-6">
-            //         <plonk
-            //             hash-input-name="%s"
-            //             hash-input-value="%s"
-            //             image-path="%s"
-            //             preview-image-src="%s"
-            //             ></plonk>
-            //     </div>',
-            //     $params['name'],
-            //     htmlentities($params['value']),
-            //     '/plonk',
-            //     $params['value'] ? \CDNify::cdn().$plonk->findByHash($params['value'])->resource['smallest'] : ''
-            // );
                 break;
 
             default:
