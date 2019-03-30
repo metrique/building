@@ -36,7 +36,7 @@ class Input
                     'attributes' => [
                         'data-post-unchecked',
                     ]
-                ])
+                ]);
                 break;
 
             case 'image':
