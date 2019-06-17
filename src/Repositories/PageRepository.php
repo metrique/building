@@ -15,12 +15,38 @@ class PageRepository implements PageRepositoryInterface
         $this->section = $section;
     }
 
+    private function index()
+    {
+        if (request()->has('search')) {
+            $search = sprintf(
+                '%%%s%%',
+                request('search')
+            );
+
+            return Page::where('slug', 'like', str_slug($search))
+                ->orWhere('title', 'like', $search);
+        }
+
+        return Page::orderBy('title', 'asc');
+    }
+
     /**
      * {@inheritdoc}
      */
     public function all()
     {
-        return Page::orderBy('title', 'asc')->get([
+        return $this->index()->get([
+            'id',
+            'title',
+            'description',
+            'slug',
+            'published'
+        ]);
+    }
+
+    public function paginate()
+    {
+        return $this->index()->paginate(15, [
             'id',
             'title',
             'description',

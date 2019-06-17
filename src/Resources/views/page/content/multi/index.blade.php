@@ -1,4 +1,4 @@
-@extends('laravel-building::main')
+@extends('dashboard.boilerplate')
 
 @section('content')
     @constituent('laravel-building::partial.resource-page-title', [
@@ -6,9 +6,9 @@
         'title' => 'Page content'
     ])
     
-    <div class="row justify-content-center mt-4 mb-4">
+    <div class="row justify-content-center my-4">
         <div class="col-md-8 d-flex justify-content-end">
-            @constituent('dashboard.resource-create-button', [
+            @constituent('laravel-building::partial.resource-create-button', [
                 'icon' => 'fas fa-fw fa-plus',
                 'title' => 'Create new content',
                 'route' => route($routes['create'], [$data['section']->page->id, $data['section']->id])
