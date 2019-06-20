@@ -9,6 +9,8 @@ use Metrique\Building\Repositories\Contracts\Page\SectionRepositoryInterface as 
 
 class PageRepository implements PageRepositoryInterface
 {
+    private $pagination = 15;
+
     public function __construct(ContentRepository $content, SectionRepository $section)
     {
         $this->content = $content;
@@ -46,7 +48,7 @@ class PageRepository implements PageRepositoryInterface
 
     public function paginate()
     {
-        return $this->index()->paginate(15, [
+        return $this->index()->paginate($this->pagination, [
             'id',
             'title',
             'description',
@@ -160,5 +162,10 @@ class PageRepository implements PageRepositoryInterface
 
             return $item;
         });
+    }
+
+    public function setPagination($pagination)
+    {
+        return $this->pagination = $pagination;
     }
 }
