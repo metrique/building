@@ -10,9 +10,7 @@ class ConvertEmptyStringsToNull extends TransformsRequest
     protected $except = [
         'dashboard/*',
     ];
-    
-    protected $skipTransform = false;
-    
+
     /**
      * Handle an incoming request.
      *
@@ -22,13 +20,13 @@ class ConvertEmptyStringsToNull extends TransformsRequest
      */
     public function handle($request, Closure $next, ...$attributes)
     {
-        if ($this->inExceptArray($request)) {
-            $this->skipTransform = true;
+        if (!$this->inExceptArray($request)) {
+            $this->clean($request);
         }
 
         return $next($request);
     }
-    
+
     /**
      * Transform the given value.
      *
@@ -38,13 +36,9 @@ class ConvertEmptyStringsToNull extends TransformsRequest
      */
     protected function transform($key, $value)
     {
-        if ($this->skipTransform) {
-            return $value;
-        }
-        
         return is_string($value) && $value === '' ? null : $value;
     }
-    
+
     /**
      * Determine if the request has a URI that should pass through verification.
      *
