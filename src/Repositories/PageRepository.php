@@ -78,15 +78,7 @@ class PageRepository implements PageRepositoryInterface
      */
     public function createWithRequest()
     {
-        return $this->create(request()->only([
-            'title',
-            'description',
-            'image',
-            'slug',
-            'params',
-            'meta',
-            'published'
-        ]));
+        return $this->create($this->getRequest());
     }
 
     /**
@@ -110,15 +102,7 @@ class PageRepository implements PageRepositoryInterface
      */
     public function updateWithRequest($id)
     {
-        return $this->update($id, request()->only([
-            'title',
-            'description',
-            'image',
-            'slug',
-            'params',
-            'meta',
-            'published'
-        ]));
+        return $this->update($id, $this->getRequest());
     }
 
     /**
@@ -167,5 +151,20 @@ class PageRepository implements PageRepositoryInterface
     public function setPagination($pagination)
     {
         return $this->pagination = $pagination;
+    }
+
+    private function getRequest()
+    {
+        return collect(request()->only([
+            'title',
+            'description',
+            'image',
+            'slug',
+            'params',
+            'meta',
+            'published'
+        ]))->merge([
+            'published' => request()->has('published')
+        ])->toArray();
     }
 }
