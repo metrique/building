@@ -55,8 +55,15 @@ class PageRepositoryEloquent extends EloquentRepositoryAbstract implements PageR
 
             // Widget rendering.
             if ($value['block']['slug'] == 'widget') {
-                $value['_contents'] = array_pluck($content->bySectionId($value['id']), 'content');
-                $value['_contents'] = $this->app->make($value['_contents'][0])->render($value['_contents'][1], $this->app);
+                $value['_contents'] = [];
+                $section = $content->bySectionId($value['id']);
+                
+                if ($section[0]['published'] == 1) {
+                    $value['_contents'] = array_pluck($section, 'content');
+                    $value['_contents'] = $this->app->make(
+                        $value['_contents'][0]
+                    )->render($value['_contents'][1], $this->app);
+                }
             } else {
                 if ($published) {
                     $value['_contents'] = $content->groupPublishedBySectionId($value['id']);
