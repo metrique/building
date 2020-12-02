@@ -24,6 +24,7 @@
     "extra": {
         "laravel": {
             "providers": [
+                "Metrique\\Building\\BuildingServiceProvider"
             ],
             "aliases": {
             }
