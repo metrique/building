@@ -22,10 +22,10 @@ class PageFactory extends Factory
     public function definition()
     {
         return [
-            'slug' => $this->faker->word(),
+            'path' => sprintf('/fr/%s', $this->faker->word()),
             'title' => $this->faker->sentence(),
             'description' => $this->faker->sentences(2, true),
-            'image' => $this->faker->imageUrl(random_int(320,640), random_int(320,640), 'cats'),
+            'image' => $this->faker->imageUrl(random_int(320, 640), random_int(320, 640), 'cats'),
             'meta' => sprintf('{"og:title":"%s"}', $this->faker->sentence()),
             'params' => sprintf('{"share":true}'),
             'published_at' => now(),
