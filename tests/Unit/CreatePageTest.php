@@ -8,7 +8,7 @@ use Metrique\Building\Http\Requests\PageRequest;
 use Metrique\Building\Tests\TestCase;
 use Metrique\Building\Models\Page;
 
-class PageTest extends TestCase
+class CreatePageTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -43,7 +43,7 @@ class PageTest extends TestCase
         
         $validator = Validator::make(
             $page->toArray(),
-            $pageRequest->rules(),
+            $pageRequest->rules()
         );
 
         $this->assertFalse(
@@ -57,11 +57,31 @@ class PageTest extends TestCase
 
         $validator = Validator::make(
             $page->toArray(),
-            $pageRequest->rules(),
+            $pageRequest->rules()
         );
 
         $this->assertTrue(
             $validator->fails()
         );
+    }
+
+    public function test_paths_with_local_pass_validation()
+    {
+        $pageRequest = new PageRequest;
+
+        collect([
+            Page::factory()->english()->make(),
+            Page::factory()->french()->make(),
+            Page::factory()->german()->make(),
+            Page::factory()->root()->make(),
+            Page::factory()->rootLanguage()->make(),
+        ])->each(function ($page) use ($pageRequest) {
+            $this->assertFalse(
+                Validator::make(
+                    $page->toArray(),
+                    $pageRequest->rules()
+                )->fails()
+            );
+        });
     }
 }

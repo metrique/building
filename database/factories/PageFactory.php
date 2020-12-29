@@ -22,7 +22,11 @@ class PageFactory extends Factory
     public function definition()
     {
         return [
-            'path' => sprintf('/fr/%s', $this->faker->word()),
+            'path' => sprintf(
+                '/%s/%s',
+                $this->faker->word(),
+                $this->faker->word()
+            ),
             'title' => $this->faker->sentence(),
             'description' => $this->faker->sentences(2, true),
             'image' => $this->faker->imageUrl(random_int(320, 640), random_int(320, 640), 'cats'),
@@ -30,5 +34,30 @@ class PageFactory extends Factory
             'params' => sprintf('{"share":true}'),
             'published_at' => now(),
         ];
+    }
+
+    public function english()
+    {
+        return $this->state(fn (array $attributes) => ['path' => sprintf('/en/%s', $this->faker->word())]);
+    }
+
+    public function french()
+    {
+        return $this->state(fn (array $attributes) => ['path' => sprintf('/fr/%s', $this->faker->word())]);
+    }
+
+    public function german()
+    {
+        return $this->state(fn (array $attributes) => ['path' => sprintf('/de/%s', $this->faker->word())]);
+    }
+
+    public function root()
+    {
+        return $this->state(fn (array $attributes) => ['path' => '/']);
+    }
+
+    public function rootLanguage()
+    {
+        return $this->state(fn (array $attributes) => ['path' => '/fr']);
     }
 }
