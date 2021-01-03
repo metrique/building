@@ -3,6 +3,7 @@
 namespace Metrique\Building\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Metrique\Building\Rules\AbsoluteUrlPathRule;
 
 class PageRequest extends FormRequest
@@ -15,6 +16,18 @@ class PageRequest extends FormRequest
     public function authorize()
     {
         return true;
+    }
+    
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'published_at' => 'published date',
+        ];
     }
 
     /**
@@ -29,7 +42,12 @@ class PageRequest extends FormRequest
                 'required',
                 'string',
                 new AbsoluteUrlPathRule,
-                'unique:pages,path',
+                Rule::unique(
+                    'pages',
+                    'path'
+                )->ignore(
+                    optional($this->page)->id
+                ),
             ],
             'title' => [
                 'required',

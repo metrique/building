@@ -71,10 +71,12 @@ class CreatePageTest extends TestCase
 
         collect([
             Page::factory()->english()->make(),
+            Page::factory()->englishRoot()->make(),
             Page::factory()->french()->make(),
+            Page::factory()->frenchRoot()->make(),
             Page::factory()->german()->make(),
+            Page::factory()->germanRoot()->make(),
             Page::factory()->root()->make(),
-            Page::factory()->rootLanguage()->make(),
         ])->each(function ($page) use ($pageRequest) {
             $this->assertFalse(
                 Validator::make(

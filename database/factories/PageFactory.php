@@ -24,8 +24,8 @@ class PageFactory extends Factory
         return [
             'path' => sprintf(
                 '/%s/%s',
-                $this->faker->word(),
-                $this->faker->word()
+                uniqid(),
+                uniqid()
             ),
             'title' => $this->faker->sentence(),
             'description' => $this->faker->sentences(2, true),
@@ -38,26 +38,36 @@ class PageFactory extends Factory
 
     public function english()
     {
-        return $this->state(fn (array $attributes) => ['path' => sprintf('/en/%s', $this->faker->word())]);
+        return $this->state(fn (array $attributes) => ['path' => sprintf('/en/%s', uniqid())]);
+    }
+    
+    public function englishRoot()
+    {
+        return $this->state(fn (array $attributes) => ['path' => '/en']);
     }
 
     public function french()
     {
-        return $this->state(fn (array $attributes) => ['path' => sprintf('/fr/%s', $this->faker->word())]);
+        return $this->state(fn (array $attributes) => ['path' => sprintf('/fr/%s', uniqid())]);
+    }
+
+    public function frenchRoot()
+    {
+        return $this->state(fn (array $attributes) => ['path' => '/fr']);
     }
 
     public function german()
     {
-        return $this->state(fn (array $attributes) => ['path' => sprintf('/de/%s', $this->faker->word())]);
+        return $this->state(fn (array $attributes) => ['path' => sprintf('/de/%s', uniqid())]);
+    }
+
+    public function germanRoot()
+    {
+        return $this->state(fn (array $attributes) => ['path' => '/de']);
     }
 
     public function root()
     {
         return $this->state(fn (array $attributes) => ['path' => '/']);
-    }
-
-    public function rootLanguage()
-    {
-        return $this->state(fn (array $attributes) => ['path' => '/fr']);
     }
 }

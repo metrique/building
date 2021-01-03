@@ -3,6 +3,7 @@
 namespace Metrique\Building\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Metrique\Building\Support\RegularExpression;
 
 class AbsoluteUrlPathRule implements Rule
 {
@@ -29,7 +30,7 @@ class AbsoluteUrlPathRule implements Rule
             return true;
         }
 
-        return preg_match('/^\/(([a-z0-9\-]+\/)*[a-z0-9\-]+$)/m', $value) === 1;
+        return preg_match(RegularExpression::ABSOLUTE_URL_PATH, $value) === 1;
     }
 
     /**
