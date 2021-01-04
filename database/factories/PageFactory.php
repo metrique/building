@@ -36,24 +36,48 @@ class PageFactory extends Factory
         ];
     }
 
+    public function unpublished()
+    {
+        return $this->state(fn (array $attributes) => [
+            'path' => sprintf('/unpublished/%s', uniqid()),
+            'published_at' => null
+        ]);
+    }
+
+    public function notYetPublished()
+    {
+        return $this->state(fn (array $attributes) => [
+            'path' => sprintf('/not-yet-published/%s', uniqid()),
+            'published_at' => now()->addYear(1),
+        ]);
+    }
+
     public function english()
     {
-        return $this->state(fn (array $attributes) => ['path' => sprintf('/en/%s', uniqid())]);
+        return $this->state(fn (array $attributes) => [
+            'path' => sprintf('/en/%s', uniqid())
+        ]);
     }
     
     public function englishRoot()
     {
-        return $this->state(fn (array $attributes) => ['path' => '/en']);
+        return $this->state(fn (array $attributes) => [
+            'path' => '/en'
+        ]);
     }
 
     public function french()
     {
-        return $this->state(fn (array $attributes) => ['path' => sprintf('/fr/%s', uniqid())]);
+        return $this->state(fn (array $attributes) => [
+            'path' => sprintf('/fr/%s', uniqid())
+        ]);
     }
 
     public function frenchRoot()
     {
-        return $this->state(fn (array $attributes) => ['path' => '/fr']);
+        return $this->state(fn (array $attributes) => [
+            'path' => '/fr'
+        ]);
     }
 
     public function german()

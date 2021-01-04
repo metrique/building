@@ -26,13 +26,14 @@ class PageScopePathStartsWithTest extends TestCase
     {
         parent::setUp();
 
+        Page::factory()->root()->create();
         Page::factory()->englishRoot()->create();
         Page::factory()->english()->create();
         Page::factory()->frenchRoot()->create();
         Page::factory()->french()->create();
         Page::factory()->germanRoot()->create();
         Page::factory()->german()->create();
-        Page::factory()->root()->create();
+        Page::factory()->unpublished()->create();
     }
 
     public function test_page_scope_path_starts_with()
