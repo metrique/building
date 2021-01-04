@@ -5,17 +5,18 @@ namespace Metrique\Building\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Metrique\Building\Models\Scopes\OrderByTitleScope;
 use Metrique\Building\Models\Traits\Publishable;
-use Metrique\Building\Models\Traits\Expireable;
 
 class Page extends Model
 {
-    use Expireable;
     use Publishable;
     use HasFactory;
     use SoftDeletes;
 
+    protected $appends = [
+        'is_published'
+    ];
+    
     /**
      * The model's attributes.
      *
