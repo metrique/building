@@ -19,6 +19,6 @@ trait Publishable
 
     public function getIsPublishedAttribute()
     {
-        return now()->gt($this->published_at);
+        return !is_null($this->published_at) && now()->gte($this->published_at);
     }
 }
