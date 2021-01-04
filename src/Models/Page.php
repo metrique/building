@@ -58,7 +58,11 @@ class Page extends Model
      */
     public function scopePathStartsWith($query, $startsWith)
     {
-        if (is_string($startsWith)) {
+        if (is_null($startsWith)) {
+            $startsWith = [];
+        }
+
+        if (!is_array($startsWith)) {
             $startsWith = [
                 $startsWith
             ];
