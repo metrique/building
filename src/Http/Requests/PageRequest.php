@@ -26,6 +26,7 @@ class PageRequest extends FormRequest
     public function attributes()
     {
         return [
+            'path' => 'Path',
             'published_at' => 'published date',
         ];
     }
@@ -70,6 +71,7 @@ class PageRequest extends FormRequest
                 'json',
             ],
             'published_at' => [
+                'nullable',
                 'date',
             ],
         ];
