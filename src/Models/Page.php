@@ -74,10 +74,10 @@ class Page extends Model
 
         return $query->where(function ($query) use ($startsWith) {
             collect($startsWith)->map(function ($string) {
-                $string = ltrim($string, '/');
-                return sprintf('/%s%%', $string);
+                return '/' . trim($string, '/');
             })->each(function ($string) use ($query) {
-                $query->orWhere('path', 'like', $string);
+                $query->orWhere('path', '=', $string);
+                $query->orWhere('path', 'like', $string . '/%');
             });
         });
     }

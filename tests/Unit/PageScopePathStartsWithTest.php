@@ -16,10 +16,17 @@ class PageScopePathStartsWithTest extends TestCase
     private $paths = [
         'en',
         '/en',
+        'en/',
+        '/en/',
         'de',
         '/de',
+        'de/',
+        '/de/',
         'fr',
         '/fr',
+        'fr/',
+        '/fr/',
+        '/france',
     ];
 
     public function setUp(): void
@@ -34,6 +41,15 @@ class PageScopePathStartsWithTest extends TestCase
         Page::factory()->germanRoot()->create();
         Page::factory()->german()->create();
         Page::factory()->unpublished()->create();
+        Page::factory()->french()->create([
+            'path' => '/fra'
+        ]);
+        Page::factory()->french()->create([
+            'path' => '/france'
+        ]);
+        Page::factory()->french()->create([
+            'path' => '/france/fr/fra'
+        ]);
     }
 
     public function test_page_scope_path_starts_with()
@@ -42,9 +58,13 @@ class PageScopePathStartsWithTest extends TestCase
             collect(
                 Page::pathStartsWith($path)->pluck('path')
             )->each(function ($page) use ($path) {
-                $path = ltrim($path, '/'); // Remove leading slash
-                $page = substr(ltrim($page, '/'), 0, strlen($path)); // Trim to same length as path.
-
+                
+                // Trim any existing slashes, but re-add trailing slash.
+                $path = '/' . trim($path, '/') . '/';
+                $page = '/' . trim($page, '/') . '/';
+                
+                // Cut page to same length as path.
+                $page = substr($page, 0, strlen($path));
                 $this->assertEquals($page, $path);
             });
         });
