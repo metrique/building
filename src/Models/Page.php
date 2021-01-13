@@ -68,6 +68,10 @@ class Page extends Model
             ];
         }
 
+        if (empty($startsWith)) {
+            return $query->where('id', '=', '0');
+        }
+
         if (in_array('*', $startsWith)) {
             return $query;
         }

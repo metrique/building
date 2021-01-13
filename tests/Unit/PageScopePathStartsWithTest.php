@@ -70,6 +70,13 @@ class PageScopePathStartsWithTest extends TestCase
         });
     }
 
+    public function test_page_scope_path_starts_with_empty_array_gives_no_pages()
+    {
+        $pages = Page::pathStartsWith([])->pluck('path');
+
+        $this->assertCount(0, $pages);
+    }
+
     public function test_page_scope_path_starts_with_wildcard_gives_all_pages()
     {
         $pages = Page::pathStartsWith(['*', 'ab', 'ce', 'de', 'fg'])->pluck('path');
