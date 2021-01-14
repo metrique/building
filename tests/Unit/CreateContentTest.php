@@ -17,9 +17,9 @@ class CreateContentTest extends TestCase
 
     public function test_component_can_be_added_to_page_draft()
     {
-        $page = Page::factory()->create();
         $building = resolve(BuildingServiceInterface::class);
         $component = new TestComponent;
+        $page = Page::factory()->create();
 
         $this->assertTrue(
             $building->addComponentToPage($component, $page)
@@ -27,7 +27,7 @@ class CreateContentTest extends TestCase
         
         $this->assertArrayHasKey(
             $component->id(),
-            $page->fresh()->source_draft
+            $page->draft
         );
     }
 }

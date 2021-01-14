@@ -36,8 +36,8 @@ class PageFactory extends Factory
             'params' => [
                 'share' => true
             ],
-            'source_draft' => null,
-            'source_published' => null,
+            'draft' => null,
+            'live' => null,
             'published_at' => now(),
         ];
     }

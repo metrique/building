@@ -11,10 +11,24 @@ class BuildingService implements BuildingServiceInterface
 {
     public function addComponentToPage(Component $component, Page $page): bool
     {
-        $draft = $page->source_draft ?? [];
-        $draft[$component->id()] = $component->toArray();
-        $page->source_draft = $draft;
+        $page->draft = collect(
+            $page->draft ?? []
+        )
+        ->merge([
+            $component->id() => $component->toArray()
+        ])->toArray();
         
+        return $page->save();
+    }
+
+    public function deleteComponentFromPage(string $componentId, Page $page): bool
+    {
+        $page->draft = collect(
+            $page->draft ?? []
+        )->forget(
+            $componentId
+        );
+
         return $page->save();
     }
 

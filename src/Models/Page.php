@@ -24,16 +24,16 @@ class Page extends Model
         'image',
         'meta',
         'params',
-        'source_draft',
-        'source_published',
+        'draft',
+        'live',
         'published_at',
     ];
 
     protected $casts = [
         'meta' => 'array',
         'params' => 'array',
-        'source_draft' => 'array',
-        'source_published' => 'array',
+        'draft' => 'array',
+        'live' => 'array',
         'published_at' => 'datetime',
         'is_published' => 'boolean',
     ];
@@ -57,12 +57,12 @@ class Page extends Model
                 $page->params = [];
             }
 
-            if (is_null($page->source_draft)) {
-                $page->source_draft = [];
+            if (is_null($page->draft)) {
+                $page->draft = [];
             }
 
-            if (is_null($page->source_published)) {
-                $page->source_published = [];
+            if (is_null($page->live)) {
+                $page->live = [];
             }
         });
     }

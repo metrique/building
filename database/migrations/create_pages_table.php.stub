@@ -21,8 +21,8 @@ class CreatePagesTable extends Migration
             $table->string('image')->nullable();
             $table->jsonb('meta');
             $table->jsonb('params');
-            $table->jsonb('source_draft')->nullable();
-            $table->jsonb('source_published')->nullable();
+            $table->jsonb('draft')->nullable();
+            $table->jsonb('live')->nullable();
             $table->timestamp('published_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

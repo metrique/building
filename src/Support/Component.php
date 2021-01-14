@@ -2,6 +2,7 @@
 
 namespace Metrique\Building\Support;
 
+use Faker\Provider\Uuid;
 use Metrique\Building\Support\Contracts\boolean;
 use Metrique\Building\Support\Contracts\ComponentInterface;
 
@@ -11,7 +12,7 @@ abstract class Component implements ComponentInterface
 
     public function __construct()
     {
-        $this->id = uniqid();
+        $this->id = md5(uniqid('', true));
     }
 
     public function enabled(): bool
