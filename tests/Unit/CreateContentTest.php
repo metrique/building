@@ -30,4 +30,21 @@ class CreateContentTest extends TestCase
             $page->draft
         );
     }
+
+    public function test_duplicate_component_ids_cant_be_added_to_page_draft()
+    {
+        $building = resolve(BuildingServiceInterface::class);
+        $component = new TestComponent;
+        $page = Page::factory()->create();
+
+        $this->assertTrue(
+            $building->addComponentToPage($component, $page)
+        );
+
+        $this->assertFalse(
+            $building->addComponentToPage($component, $page)
+        );
+        
+        $this->assertCount(1, $page->draft);
+    }
 }

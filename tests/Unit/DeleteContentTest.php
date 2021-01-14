@@ -38,4 +38,16 @@ class DeleteContentTest extends TestCase
             $page->draft
         );
     }
+
+    public function test_invalid_component_id_returns_false_when_deleting_component_from_page_draft()
+    {
+        $building = resolve(BuildingServiceInterface::class);
+        
+        $this->assertFalse(
+            $building->deleteComponentFromPage(
+                'invalidcomponentid',
+                Page::factory()->create()
+            )
+        );
+    }
 }

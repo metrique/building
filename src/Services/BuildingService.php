@@ -11,6 +11,10 @@ class BuildingService implements BuildingServiceInterface
 {
     public function addComponentToPage(Component $component, Page $page): bool
     {
+        if (array_key_exists($component->id(), $page->draft)) {
+            return false;
+        }
+
         $page->draft = collect(
             $page->draft ?? []
         )
@@ -23,6 +27,10 @@ class BuildingService implements BuildingServiceInterface
 
     public function deleteComponentFromPage(string $componentId, Page $page): bool
     {
+        if (!array_key_exists($componentId, $page->draft)) {
+            return false;
+        }
+
         $page->draft = collect(
             $page->draft ?? []
         )->forget(
