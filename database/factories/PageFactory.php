@@ -30,8 +30,16 @@ class PageFactory extends Factory
             'title' => $this->faker->sentence(),
             'description' => $this->faker->sentences(2, true),
             'image' => $this->faker->imageUrl(random_int(320, 640), random_int(320, 640), 'cats'),
-            'meta' => sprintf('{"og:title":"%s"}', $this->faker->sentence()),
-            'params' => sprintf('{"share":true}'),
+            'meta' => [
+                'og:title' => $this->faker->sentence()
+            ],
+            'params' => [
+                'share' => true
+            ],
+            'source' => [
+                'draft' => null,
+                'published' => null,
+            ],
             'published_at' => now(),
         ];
     }
