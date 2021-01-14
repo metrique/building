@@ -63,12 +63,13 @@ class PageRequest extends FormRequest
                 'url'
             ],
             'meta' => [
-                'required',
-                'json',
+                'array',
             ],
             'params' => [
-                'required',
-                'json',
+                'array',
+            ],
+            'source' => [
+                'array',
             ],
             'published_at' => [
                 'nullable',

@@ -12,19 +12,9 @@ class Page extends Model
     use Publishable;
     use HasFactory;
     use SoftDeletes;
-
+    
     protected $appends = [
         'is_published'
-    ];
-    
-    /**
-     * The model's attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [
-        'meta' => '{}',
-        'params' => '{}',
     ];
 
     protected $fillable = [
@@ -34,12 +24,14 @@ class Page extends Model
         'image',
         'meta',
         'params',
+        'source',
         'published_at',
     ];
 
     protected $casts = [
         'meta' => 'array',
         'params' => 'array',
+        'source' => 'array',
         'published_at' => 'datetime',
         'is_published' => 'boolean',
     ];
@@ -47,6 +39,28 @@ class Page extends Model
     protected static function newFactory()
     {
         return \Metrique\Building\Database\Factories\PageFactory::new();
+    }
+
+    /**
+     * Default Json
+     */
+    protected static function booted()
+    {
+        static::creating(function ($page) {
+            if (is_null($page->meta)) {
+                $page->meta = [];
+            }
+
+            if (is_null($page->params)) {
+                $page->params = [];
+            }
+            if (is_null($page->source)) {
+                $page->source = [
+                    'draft' => [],
+                    'pubished' => [],
+                ];
+            }
+        });
     }
     
     /**
