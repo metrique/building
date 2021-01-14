@@ -8,8 +8,8 @@ use Metrique\Building\Tests\TestCase;
 class ComponentIsBoundRuleTest extends TestCase
 {
     private $components = [
-        '\An\Obviously\Non\ExistingComponent' => false,
-        '\Metrique\Building\View\Components\TestComponent' => true,
+        'An\Obviously\Non\ExistingComponent' => false,
+        'Metrique\Building\View\Components\TestComponent' => true,
     ];
 
     /**
@@ -21,11 +21,9 @@ class ComponentIsBoundRuleTest extends TestCase
     {
         $componentIsBoundRule = new ComponentIsBoundRule;
 
-        collect($this->components)->each(function ($shouldPass, $class) use ($componentIsBoundRule) {
-            $this->assertEquals(
-                $componentIsBoundRule->passes(null, $class),
-                $shouldPass
-            );
-        });
+        collect($this->components)->each(fn ($shouldPass, $class) => $this->assertEquals(
+            $componentIsBoundRule->passes(null, $class),
+            $shouldPass
+        ));
     }
 }

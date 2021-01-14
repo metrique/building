@@ -2,6 +2,6 @@
 
 return [
   'components' => [
-      'Test component' => '\Metrique\Building\View\Components\TestComponent'
+      'Test component' => 'Metrique\Building\View\Components\TestComponent'
   ],
 ];
