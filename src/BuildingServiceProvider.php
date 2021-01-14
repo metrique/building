@@ -3,6 +3,8 @@
 namespace Metrique\Building;
 
 use Illuminate\Support\ServiceProvider;
+use Metrique\Building\Services\BuildingService;
+use Metrique\Building\Services\BuildingServiceInterface;
 
 class BuildingServiceProvider extends ServiceProvider
 {
@@ -13,6 +15,8 @@ class BuildingServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        $this->app->singleton(BuildingServiceInterface::class, BuildingService::class);
+
         if ($this->app->runningInConsole()) {
             if (!class_exists('CreatePagesTable')) {
                 $this->publishes([
