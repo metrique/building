@@ -68,9 +68,6 @@ class PageRequest extends FormRequest
             'params' => [
                 'array',
             ],
-            'source' => [
-                'array',
-            ],
             'published_at' => [
                 'nullable',
                 'date',

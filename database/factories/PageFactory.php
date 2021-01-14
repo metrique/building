@@ -36,10 +36,8 @@ class PageFactory extends Factory
             'params' => [
                 'share' => true
             ],
-            'source' => [
-                'draft' => null,
-                'published' => null,
-            ],
+            'source_draft' => null,
+            'source_published' => null,
             'published_at' => now(),
         ];
     }
@@ -90,16 +88,22 @@ class PageFactory extends Factory
 
     public function german()
     {
-        return $this->state(fn (array $attributes) => ['path' => sprintf('/de/%s', uniqid())]);
+        return $this->state(fn (array $attributes) => [
+            'path' => sprintf('/de/%s', uniqid())
+        ]);
     }
 
     public function germanRoot()
     {
-        return $this->state(fn (array $attributes) => ['path' => '/de']);
+        return $this->state(fn (array $attributes) => [
+            'path' => '/de'
+        ]);
     }
 
     public function root()
     {
-        return $this->state(fn (array $attributes) => ['path' => '/']);
+        return $this->state(fn (array $attributes) => [
+            'path' => '/'
+        ]);
     }
 }
