@@ -2,8 +2,26 @@
 
 namespace Metrique\Building\Support\Contracts;
 
+use Illuminate\Support\Collection;
+
 interface ComponentInterface
 {
+
+    /**
+     * Gets the cast type for a given property.
+     */
+    public function attributeFor(string $property): ?int;
+
+    /**
+     * Returns the entire list of property attributes.
+     */
+    public function attributes(): array;
+
+    /**
+     * Returns the name of the class
+     */
+    public function class(): string;
+
     /**
      * Returns the enabled status of the component.
      * Default is false.
@@ -19,16 +37,16 @@ interface ComponentInterface
     public function id(): string;
 
     /**
-     * Returns the name for the component.
-     * Default is the class name.
-     */
-    public function name(): string;
-
-    /**
      * Returns if this component should store multiple copies of the data.
      * Default is false.
      */
     public function multiple(): bool;
+
+    /**
+     * Returns the name for the component.
+     * Default is the class name.
+     */
+    public function name(): string;
 
     /**
      * Returns an integer relating to the position of the compoment.
@@ -38,6 +56,11 @@ interface ComponentInterface
      */
     public function order(): int;
     
+    /**
+     * Returns a list of arbitrary parameters
+     */
+    public function parameters(): array;
+
     /**
      * Returns a list of properties that the component supports.
      *
@@ -58,9 +81,19 @@ interface ComponentInterface
     public function values(): array;
 
     /**
+     * Gets the value for a given property.
+     */
+    public function valueFor(string $property);
+
+    /**
      * Returns the component structure as an array.
      *
      * @return array
      */
     public function toArray() :array;
+
+    /**
+     * Populates the component structure from an array.
+     */
+    public function fromArray(array $data);
 }

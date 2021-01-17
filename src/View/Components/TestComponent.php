@@ -7,6 +7,11 @@ use Metrique\Building\Support\Component;
 
 class TestComponent extends Component
 {
+    public function multiple(): bool
+    {
+        return false;
+    }
+    
     public function name(): string
     {
         return 'Test component';
@@ -31,7 +36,7 @@ class TestComponent extends Component
             ],
             'description' => [
                 'required',
-                'min:3,',
+                'min:3',
                 'max:255'
             ],
             'link_href' => [

@@ -6,11 +6,13 @@ final class InputType
 {
     const HIDDEN = 0;
     const TEXT = 1;
-    const TEXTAREA = 2;
-    const IMAGE = 3;
-    const FILE = 4;
-    const DATE = 5;
-    const DATETIME = 6;
-    const TIME = 7;
-    const CHECKBOX = 8;
+    const NUMBER = 2;
+    const EMAIL = 3;
+    const IMAGE = 4;
+    const FILE = 5;
+    const DATE = 6;
+    const DATETIME = 7;
+    const TIME = 8;
+    const TEXTAREA = 9;
+    const CHECKBOX = 10;
 }
