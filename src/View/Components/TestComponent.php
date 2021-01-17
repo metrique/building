@@ -22,7 +22,8 @@ class TestComponent extends Component
         return [
             'title' => InputType::TEXT,
             'description' => InputType::TEXT,
-            'link_href' => InputType::TEXT,
+            'link' => InputType::TEXT,
+            'link_text' => InputType::TEXT,
         ];
     }
 

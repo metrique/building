@@ -15,4 +15,23 @@ final class InputType
     const TIME = 8;
     const TEXTAREA = 9;
     const CHECKBOX = 10;
+
+    public static function type(int $enum)
+    {
+        $types = [
+            'hidden',
+            'text',
+            'number',
+            'email',
+            'text',
+            'file',
+            'date-local',
+            'datetime-local',
+            'time-local',
+            'textarea',
+            'checkbox',
+        ];
+
+        return $types[$enum];
+    }
 }

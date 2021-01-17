@@ -10,6 +10,11 @@ class FormBuilder implements FormBuilderInterface
 {
     protected $form;
 
+    public function form(): array
+    {
+        return $this->form;
+    }
+
     public function make(Component $component): array
     {
         return $this->form = [
@@ -18,7 +23,7 @@ class FormBuilder implements FormBuilderInterface
         ];
     }
 
-    public function render(): string
+    public function render()
     {
         throw_unless(
             isset($this->form),
@@ -55,8 +60,11 @@ class FormBuilder implements FormBuilderInterface
     {
         return collect($attributes)->filter()->mapWithKeys(fn ($value, $key) => [
             $key => [
-                'name' => ($component->id() . ':' . $key),
-                'type' => $component->attributeFor($key),
+                'id' => ($component->id() . ':' . $key),
+                'component_id' => $component->id(),
+                'name' => $key,
+                'type' => $value,
+                'input_type' => InputType::type($value),
                 'value' => $component->valueFor($key),
             ]
         ])->toArray();

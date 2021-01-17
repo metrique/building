@@ -33,9 +33,12 @@ class FormBuilderTest extends TestCase
         $this->assertIsArray($form['properties']);
     
         collect($form['attributes'] + $form['properties'])->map(function ($value) {
+            $this->assertArrayHasKey('id', $value);
+            $this->assertArrayHasKey('component_id', $value);
             $this->assertArrayHasKey('name', $value);
             $this->assertArrayHasKey('type', $value);
             $this->assertArrayHasKey('value', $value);
+            $this->assertIsInt($value['type']);
         });
     }
 
