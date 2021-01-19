@@ -1,6 +1,6 @@
 <?php
 
-namespace Metrique\Building\Tests\Unit;
+namespace Metrique\Building\Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Validator;

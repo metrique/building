@@ -2,10 +2,9 @@
 
 namespace Metrique\Building\Support;
 
-use Faker\Provider\Uuid;
-use Illuminate\Support\Collection;
-use Metrique\Building\Support\Contracts\boolean;
 use Metrique\Building\Support\Contracts\ComponentInterface;
+
+use function PHPUnit\Framework\throwException;
 
 class Component implements ComponentInterface
 {
@@ -13,7 +12,7 @@ class Component implements ComponentInterface
     private $enabled;
     private $id;
     private $multiple;
-    private $name;
+    protected $name;
     private $order;
     private $parameters;
     private $properties;
@@ -22,11 +21,11 @@ class Component implements ComponentInterface
 
     protected $attributes = [
         'class' => null,
+        'enabled' => InputType::CHECKBOX,
         'id' => null,
+        'multiple' => null,
         'name' => InputType::TEXT,
         'order' => InputType::NUMBER,
-        'enabled' => InputType::CHECKBOX,
-        'multiple' => null,
         'parameters' => null,
     ];
 
@@ -43,11 +42,11 @@ class Component implements ComponentInterface
     {
         $this->id = md5(uniqid('', true));
 
-        $this->values = collect($this->properties())->map(function ($value, $key) {
+        $this->values = collect(
+            $this->properties()
+        )->map(function ($value, $key) {
             return null;
-        })->merge(
-            array_intersect_key($this->toArray(), $this->attributes)
-        )->toArray();
+        })->toArray();
     }
 
     public function attributes(): array
@@ -64,6 +63,29 @@ class Component implements ComponentInterface
         }
 
         return null;
+    }
+
+    public function attributeRules(): array
+    {
+        return  [
+            'enabled' => [
+                'required',
+                'boolean',
+            ],
+            'name' => [
+                'required',
+                'string',
+            ],
+            'order' => [
+                'required',
+                'integer',
+                'min:0',
+                'max:65535'
+            ],
+            'parameters' => [
+                'array'
+            ],
+        ];
     }
 
     public function class(): string
@@ -113,19 +135,42 @@ class Component implements ComponentInterface
 
     public function values(): array
     {
-        return $this->values ?? [];
+        return $this->values;
     }
 
-    public function valueFor(string $property)
+    public function valueFor(string $property, $value = null)
     {
-        $values = $this->values();
-
-        if (array_key_exists($property, $values)) {
-            return $values[$property];
+        // Catch if property is in attributes, and has method.
+        if (isset($this->attributes[$property]) && method_exists($this, $property)) {
+            return is_null($value) || is_null($this->attributes[$property])
+                ? $this->$property()
+                : $this->$property = $value;
         }
 
-        return null;
+        $values = $this->values();
+
+        if (!array_key_exists($property, $values)) {
+            return null;
+        }
+
+        if (!is_null($value)) {
+            $values[$property] = $value;
+        }
+        
+        $this->values = $values;
+
+        return $values[$property];
     }
+
+    public function valuesFor(array $data): array
+    {
+        foreach ($data as $property => $value) {
+            $this->valueFor($property, $value);
+        }
+
+        return $this->toArray();
+    }
+
 
     public function toArray(): array
     {
@@ -139,7 +184,10 @@ class Component implements ComponentInterface
             'order' => $this->order(),
             'parameters' => $this->parameters(),
             'properties' => $this->properties(),
-            'rules' => $this->rules(),
+            'rules' => array_merge(
+                $this->attributeRules(),
+                $this->rules()
+            ),
             'values' => $this->values(),
         ];
     }

@@ -1,16 +1,16 @@
 <?php
 
-namespace Metrique\Building\Tests\Unit;
+namespace Metrique\Building\Tests\Feature;
 
-use ErrorException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Metrique\Building\Exceptions\BuildingException;
 use Metrique\Building\Tests\TestCase;
 use Metrique\Building\Models\Page;
 use Metrique\Building\Services\BuildingServiceInterface;
 use Metrique\Building\Support\Component;
 use Metrique\Building\View\Components\TestComponent;
 
-class GetComponentFromPageTest extends TestCase
+class ReadComponentFromPageTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -21,7 +21,7 @@ class GetComponentFromPageTest extends TestCase
         $page = Page::factory()->create();
 
         $this->assertTrue(
-            $building->addComponentToPage($component, $page)
+            $building->createComponentOnPage($component, $page)
         );
         
         $this->assertArrayHasKey(
@@ -29,7 +29,7 @@ class GetComponentFromPageTest extends TestCase
             $page->draft
         );
 
-        $getComponent = $building->getComponent($component->id(), $page);
+        $getComponent = $building->readComponentFromPage($component->id(), $page);
 
         $this->assertInstanceOf(
             Component::class,
@@ -44,12 +44,13 @@ class GetComponentFromPageTest extends TestCase
 
     public function test_invalid_component_id_throws_exception()
     {
+        $building = resolve(BuildingServiceInterface::class);
         $page = Page::factory()->create();
 
         $this->assertNotNull($page);
 
-        $this->expectException(ErrorException::class);
+        $this->expectException(BuildingException::class);
 
-        $building->getComponent('loosemore', $page);
+        $building->readComponentFromPage(uniqid('FAKE', true), $page);
     }
 }

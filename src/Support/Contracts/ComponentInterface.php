@@ -7,15 +7,21 @@ use Illuminate\Support\Collection;
 interface ComponentInterface
 {
 
+    
+    /**
+     * Returns the entire list of property attributes.
+     */
+    public function attributes(): array;
+    
     /**
      * Gets the cast type for a given property.
      */
     public function attributeFor(string $property): ?int;
 
     /**
-     * Returns the entire list of property attributes.
+     * Returns a list of validation rules to be used when updating attributes.
      */
-    public function attributes(): array;
+    public function attributeRules(): array;
 
     /**
      * Returns the name of the class
@@ -81,9 +87,17 @@ interface ComponentInterface
     public function values(): array;
 
     /**
-     * Gets the value for a given property.
+     * Gets and or sets the value for a given property. Where
+     * the property is an attribute with an InputType, the
+     * corresponding class variable is updated instead.
+     *
      */
-    public function valueFor(string $property);
+    public function valueFor(string $property, $value = null);
+
+    /**
+     * Helper method to call valueFor multiple times, pass an array of property/values.
+     */
+    public function valuesFor(array $values): array;
 
     /**
      * Returns the component structure as an array.

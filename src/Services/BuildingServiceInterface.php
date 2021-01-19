@@ -7,9 +7,10 @@ use Metrique\Building\Support\Component;
 
 interface BuildingServiceInterface
 {
-    public function addComponentToPage(Component $component, Page $page): bool;
+    public function createComponentOnPage(Component $component, Page $page): bool;
+    public function readComponentFromPage(string $componentId, Page $page): Component;
+    public function updateComponentOnPage(Component $component, Page $page): Component;
     public function deleteComponentFromPage(string $componentId, Page $page): bool;
     public function validateComponent(string $class): bool;
-    public function getComponent(string $componentId, Page $page): Component;
     public function buildComponentForm(string $componentId, Page $page): FormBuilderInterface;
 }

@@ -11,11 +11,11 @@ use Metrique\Building\View\Components\TestComponent;
 
 class BuildingService implements BuildingServiceInterface
 {
-    public function addComponentToPage(Component $component, Page $page): bool
+    public function createComponentOnPage(Component $component, Page $page): bool
     {
         throw_if(
             array_key_exists($component->id(), $page->draft),
-            BuildingException::couldNotFindComponentInPage($component->id())
+            BuildingException::couldNotFindComponentOnPage($component->id())
         );
 
         $page->draft = collect(
@@ -28,11 +28,37 @@ class BuildingService implements BuildingServiceInterface
         return $page->save();
     }
 
+    public function readComponentFromPage(string $componentId, Page $page): Component
+    {
+        throw_unless(
+            array_key_exists($componentId, $page->draft),
+            BuildingException::couldNotFindComponentOnPage($componentId)
+        );
+
+        return new Component($page->draft[$componentId]);
+    }
+
+    public function updateComponentOnPage(Component $component, Page $page): Component
+    {
+        throw_unless(
+            array_key_exists($component->id(), $page->draft),
+            BuildingException::couldNotFindComponentOnPage($component->id())
+        );
+
+        $page->update([
+            'draft' => collect($page->draft)->merge([
+                $component->id() => $component->toArray()
+            ])->toArray()
+        ]);
+
+        return $component;
+    }
+
     public function deleteComponentFromPage(string $componentId, Page $page): bool
     {
         throw_unless(
             array_key_exists($componentId, $page->draft),
-            BuildingException::couldNotFindComponentInPage($componentId)
+            BuildingException::couldNotFindComponentOnPage($componentId)
         );
 
         $page->draft = collect(
@@ -48,23 +74,13 @@ class BuildingService implements BuildingServiceInterface
     {
         return (new ComponentIsBoundRule)->passes(null, $class);
     }
-
-    public function getComponent(string $componentId, Page $page): Component
-    {
-        throw_unless(
-            array_key_exists($componentId, $page->draft),
-            BuildingException::couldNotFindComponentInPage($componentId)
-        );
-
-        return new Component($page->draft[$componentId]);
-    }
     
     public function buildComponentForm(string $componentId, Page $page): FormBuilderInterface
     {
         $formBuilder = resolve(FormBuilderInterface::class);
         
         $formBuilder->make(
-            $this->getComponent($componentId, $page)
+            $this->readComponentFromPage($componentId, $page)
         );
 
         return $formBuilder->render();

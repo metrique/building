@@ -4,6 +4,9 @@ namespace Metrique\Building\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Metrique\Building\Rules\ComponentIsBoundRule;
+use Metrique\Building\Services\BuildingServiceInterface;
+use Metrique\Building\Support\Component;
 
 class ComponentEditRequest extends FormRequest
 {
@@ -36,15 +39,18 @@ class ComponentEditRequest extends FormRequest
     public function rules()
     {
         return [
-            'enabled' => 'boolean',
-            'multiple' => 'boolean',
-            'name' => [
-                'string',
-                'max:191',
-            ],
-            'order' => [
-                'integer',
+            'component' => [
+                'required',
+                new ComponentIsBoundRule,
             ],
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        dd($this);
+        collect($this->request)->each(function ($value, $key) {
+            dump($key, $value);
+        });
     }
 }

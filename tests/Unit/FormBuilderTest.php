@@ -23,7 +23,7 @@ class FormBuilderTest extends TestCase
         $page = Page::factory()->create();
 
         $this->assertTrue(
-            $building->addComponentToPage($component, $page)
+            $building->createComponentOnPage($component, $page)
         );
 
         $form = $form->make($component, $page);
@@ -50,7 +50,7 @@ class FormBuilderTest extends TestCase
         $page = Page::factory()->create();
 
         $this->assertTrue(
-            $building->addComponentToPage($component, $page)
+            $building->createComponentOnPage($component, $page)
         );
 
         $form->make($component, $page);

@@ -17,7 +17,7 @@ class ComponentAttributesTest extends TestCase
         $this->assertIsArray($component->attributes());
     }
 
-    public function test_component_gives_cast_value_for_property()
+    public function test_component_gives_cast_value_for_attribute()
     {
         $component = new TestComponent;
 
@@ -28,10 +28,10 @@ class ComponentAttributesTest extends TestCase
         }
     }
 
-    public function test_component_gives_null_for_property_that_does_not_exit()
+    public function test_component_gives_null_for_attribute_that_does_not_exist()
     {
         $component = new TestComponent;
 
-        $this->assertNull($component->attributeFor('loosemore'));
+        $this->assertNull($component->attributeFor('obviously-non-existing-attribute'));
     }
 }

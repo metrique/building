@@ -14,7 +14,7 @@ class TestComponent extends Component
     
     public function name(): string
     {
-        return 'Test component';
+        return $this->name ?? 'Test component';
     }
 
     public function properties(): array
