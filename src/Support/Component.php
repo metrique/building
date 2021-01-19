@@ -18,6 +18,7 @@ class Component implements ComponentInterface
     private $properties;
     private $rules;
     private $values;
+    private $view;
 
     protected $attributes = [
         'class' => null,
@@ -174,7 +175,7 @@ class Component implements ComponentInterface
 
     public function view(): ?string
     {
-        return null;
+        return $this->view ?? '';
     }
 
     public function toArray(): array
