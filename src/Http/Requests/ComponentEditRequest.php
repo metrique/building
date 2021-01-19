@@ -38,19 +38,35 @@ class ComponentEditRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'component' => [
-                'required',
-                new ComponentIsBoundRule,
-            ],
-        ];
+        return $this->fetchRules($this->id);
     }
 
     public function prepareForValidation()
     {
-        dd($this);
-        collect($this->request)->each(function ($value, $key) {
-            dump($key, $value);
-        });
+        abort_unless(
+            (new ComponentIsBoundRule)->passes(
+                null,
+                $this->request->get('component')
+            ),
+            403
+        );
+        
+        $this->merge(
+            collect($this->request)->mapWithKeys(function ($value, $key) {
+                return [
+                    str_replace($this->id . ':', '', $key) => $value
+                ];
+            })->toArray()
+        );
+    }
+
+    private function fetchRules($componentId)
+    {
+        return resolve(BuildingServiceInterface::class)
+            ->readComponentFromPage(
+                $componentId,
+                $this->page
+            )
+            ->rules();
     }
 }
