@@ -100,6 +100,11 @@ interface ComponentInterface
     public function valuesFor(array $values): array;
 
     /**
+     * Returns the name of the view to use when rendering the component
+     */
+    public function view(): ?string;
+
+    /**
      * Returns the component structure as an array.
      *
      * @return array

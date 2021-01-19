@@ -27,6 +27,7 @@ class Component implements ComponentInterface
         'name' => InputType::TEXT,
         'order' => InputType::NUMBER,
         'parameters' => null,
+        'view' => null,
     ];
 
     public function __construct(array $data = null)
@@ -171,6 +172,10 @@ class Component implements ComponentInterface
         return $this->toArray();
     }
 
+    public function view(): ?string
+    {
+        return null;
+    }
 
     public function toArray(): array
     {
@@ -189,6 +194,7 @@ class Component implements ComponentInterface
                 $this->rules()
             ),
             'values' => $this->values(),
+            'view' => $this->view(),
         ];
     }
 
