@@ -95,7 +95,7 @@ class Component implements ComponentInterface
 
     public function enabled(): bool
     {
-        return $this->enabled ?? false;
+        return (bool) $this->enabled ?? false;
     }
 
     public function id(): string
