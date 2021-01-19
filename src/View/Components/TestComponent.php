@@ -32,18 +32,25 @@ class TestComponent extends Component
         return [
             'title' => [
                 'required',
+                'string',
                 'min:3',
-                'max:255',
+                'max:191',
             ],
             'description' => [
                 'required',
                 'min:3',
-                'max:255'
+                'max:191'
             ],
-            'link_href' => [
+            'link' => [
                 'required',
                 'url',
             ],
+            'link_text' => [
+                'required',
+                'string',
+                'min:3',
+                'max:191'
+            ]
         ];
     }
 }
