@@ -10,7 +10,7 @@ use Metrique\Building\Services\BuildingServiceInterface;
 use Metrique\Building\Support\Component;
 use Metrique\Building\View\Components\TestComponent;
 
-class ReadComponentFromPageTest extends TestCase
+class ReadComponentOnPageTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -24,12 +24,11 @@ class ReadComponentFromPageTest extends TestCase
             $building->createComponentOnPage($component, $page)
         );
         
-        $this->assertArrayHasKey(
-            $component->id(),
-            $page->draft
+        $this->assertNotNull(
+            collect($page->draft)->firstWhere('id', $component->id())
         );
 
-        $getComponent = $building->readComponentFromPage($component->id(), $page);
+        $getComponent = $building->readComponentOnPage($component->id(), $page);
 
         $this->assertInstanceOf(
             Component::class,
@@ -51,6 +50,6 @@ class ReadComponentFromPageTest extends TestCase
 
         $this->expectException(BuildingException::class);
 
-        $building->readComponentFromPage(uniqid('FAKE', true), $page);
+        $building->readComponentOnPage(uniqid('FAKE', true), $page);
     }
 }

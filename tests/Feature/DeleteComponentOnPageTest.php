@@ -9,7 +9,7 @@ use Metrique\Building\Models\Page;
 use Metrique\Building\Services\BuildingServiceInterface;
 use Metrique\Building\View\Components\TestComponent;
 
-class DeleteComponentFromPageTest extends TestCase
+class DeleteComponentOnPageTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -23,15 +23,14 @@ class DeleteComponentFromPageTest extends TestCase
             $building->createComponentOnPage($component, $page)
         );
         
-        $this->assertArrayHasKey(
-            $component->id(),
-            $page->draft
+        $this->assertNotNull(
+            collect($page->draft)->firstWhere('id', $component->id())
         );
 
         $this->assertTrue(
-            $building->deleteComponentFromPage($component->id(), $page)
+            $building->deleteComponentOnPage($component->id(), $page)
         );
-
+        
         $this->assertEmpty(
             $page->draft
         );
@@ -43,7 +42,7 @@ class DeleteComponentFromPageTest extends TestCase
         
         $this->expectException(BuildingException::class);
 
-        $building->deleteComponentFromPage(
+        $building->deleteComponentOnPage(
             'invalidcomponentid',
             Page::factory()->create()
         );

@@ -20,6 +20,7 @@ class UpdateComponentOnPageTest extends TestCase
         $building = resolve(BuildingServiceInterface::class);
         $component = new TestComponent;
         $page = Page::factory()->create();
+        
         $updated = [
             'enabled' => true,
             'order' => 999,
@@ -44,7 +45,7 @@ class UpdateComponentOnPageTest extends TestCase
         );
 
         // Refetch component
-        $component = $building->readComponentFromPage(
+        $component = $building->readComponentOnPage(
             $component->id(),
             $page->fresh()
         );

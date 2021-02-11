@@ -11,61 +11,69 @@ use Metrique\Building\View\Components\TestComponent;
 
 class BuildingService implements BuildingServiceInterface
 {
+    public function findComponent(string $componentId, Page $page): ?array
+    {
+        return collect($page->draft)->firstWhere('id', $componentId);
+    }
+
     public function createComponentOnPage(Component $component, Page $page): bool
     {
         throw_if(
-            array_key_exists($component->id(), $page->draft),
+            $this->findComponent($component->id(), $page),
             BuildingException::couldNotFindComponentOnPage($component->id())
         );
 
         $page->draft = collect(
             $page->draft ?? []
-        )
-        ->merge([
-            $component->id() => $component->toArray()
-        ])->toArray();
+        )->push(
+            $component->toArray()
+        )->toArray();
         
         return $page->save();
     }
 
-    public function readComponentFromPage(string $componentId, Page $page): Component
+    public function readComponentOnPage(string $componentId, Page $page): Component
     {
         throw_unless(
-            array_key_exists($componentId, $page->draft),
+            $component = $this->findComponent($componentId, $page),
             BuildingException::couldNotFindComponentOnPage($componentId)
         );
 
-        return new Component($page->draft[$componentId]);
+        return new Component($component);
     }
 
     public function updateComponentOnPage(Component $component, Page $page): Component
     {
         throw_unless(
-            array_key_exists($component->id(), $page->draft),
+            $this->findComponent($component->id(), $page),
             BuildingException::couldNotFindComponentOnPage($component->id())
         );
 
         $page->update([
-            'draft' => collect($page->draft)->merge([
-                $component->id() => $component->toArray()
-            ])->toArray()
+            'draft' => collect(
+                $page->draft
+            )->map(function ($value) use ($component) {
+                return $value['id'] == $component->id()
+                    ? $component->toArray()
+                    : $value;
+            })->toArray()
         ]);
 
         return $component;
     }
 
-    public function deleteComponentFromPage(string $componentId, Page $page): bool
+    public function deleteComponentOnPage(string $componentId, Page $page): bool
     {
         throw_unless(
-            array_key_exists($componentId, $page->draft),
+            collect($page->draft)->firstWhere('id', $componentId),
             BuildingException::couldNotFindComponentOnPage($componentId)
         );
 
         $page->draft = collect(
             $page->draft ?? []
-        )->forget(
-            $componentId
-        );
+        )->reject(function ($value) use ($componentId) {
+            return $value['id'] == $componentId;
+        });
 
         return $page->save();
     }

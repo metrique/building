@@ -23,9 +23,8 @@ class CreateComponentOnPageTest extends TestCase
             $building->createComponentOnPage($component, $page)
         );
         
-        $this->assertArrayHasKey(
-            $component->id(),
-            $page->draft
+        $this->assertNotNull(
+            collect($page->draft)->firstWhere('id', $component->id())
         );
     }
 

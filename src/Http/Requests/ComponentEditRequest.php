@@ -63,7 +63,7 @@ class ComponentEditRequest extends FormRequest
     private function fetchRules($componentId)
     {
         return resolve(BuildingServiceInterface::class)
-            ->readComponentFromPage(
+            ->readComponentOnPage(
                 $componentId,
                 $this->page
             )
