@@ -13,37 +13,40 @@ class DeleteComponentOnPageTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+        
+        $this->building = resolve(BuildingServiceInterface::class);
+        $this->component = new TestComponent;
+        $this->page = Page::factory()->create();
+    }
+
     public function test_component_can_be_deleted_from_page()
     {
-        $building = resolve(BuildingServiceInterface::class);
-        $component = new TestComponent;
-        $page = Page::factory()->create();
-
         $this->assertTrue(
-            $building->createComponentOnPage($component, $page)
+            $this->building->createComponentOnPage($this->component, $this->page)
         );
         
         $this->assertNotNull(
-            collect($page->draft)->firstWhere('id', $component->id())
+            collect($this->page->draft)->firstWhere('id', $this->component->id())
         );
 
         $this->assertTrue(
-            $building->deleteComponentOnPage($component->id(), $page)
+            $this->building->deleteComponentOnPage($this->component->id(), $this->page)
         );
         
         $this->assertEmpty(
-            $page->draft
+            $this->page->draft
         );
     }
 
     public function test_invalid_component_id_throws_exception_when_deleting_component_from_page()
     {
-        $building = resolve(BuildingServiceInterface::class);
-        
         $this->expectException(BuildingException::class);
 
-        $building->deleteComponentOnPage(
-            'invalidcomponentid',
+        $this->building->deleteComponentOnPage(
+            uniqid('FAKE', true),
             Page::factory()->create()
         );
     }

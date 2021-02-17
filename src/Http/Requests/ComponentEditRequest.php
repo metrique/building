@@ -50,7 +50,7 @@ class ComponentEditRequest extends FormRequest
             ),
             403
         );
-        
+
         $this->merge(
             collect($this->request)->mapWithKeys(function ($value, $key) {
                 return [
@@ -62,11 +62,26 @@ class ComponentEditRequest extends FormRequest
 
     private function fetchRules($componentId)
     {
-        return resolve(BuildingServiceInterface::class)
+        $component = resolve(BuildingServiceInterface::class)
             ->readComponentOnPage(
                 $componentId,
                 $this->page
-            )
-            ->rules();
+            );
+        
+        $rules = collect($component->rules());
+
+        if ($this->request->get('type') == 'attributes') {
+            $rules = $rules->intersectByKeys(
+                $component->attributes()
+            );
+        }
+
+        if ($this->request->get('type') == 'properties') {
+            $rules = $rules->intersectByKeys(
+                $component->properties()
+            );
+        }
+
+        return $rules->toArray();
     }
 }

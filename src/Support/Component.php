@@ -3,11 +3,14 @@
 namespace Metrique\Building\Support;
 
 use Metrique\Building\Support\Contracts\ComponentInterface;
+use Metrique\Building\Support\Traits\ComponentHasChildren;
 
 use function PHPUnit\Framework\throwException;
 
 class Component implements ComponentInterface
 {
+    use ComponentHasChildren;
+
     private $class;
     private $enabled;
     private $id;
@@ -77,6 +80,7 @@ class Component implements ComponentInterface
             'name' => [
                 'required',
                 'string',
+                'max:64',
             ],
             'order' => [
                 'required',
@@ -182,6 +186,7 @@ class Component implements ComponentInterface
     {
         return [
             'attributes' => $this->attributes(),
+            'children' => $this->children(),
             'class' => $this->class(),
             'enabled' => $this->enabled(),
             'id' => $this->id(),

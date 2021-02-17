@@ -11,7 +11,7 @@ use Metrique\Building\View\Components\TestComponent;
 
 class BuildingService implements BuildingServiceInterface
 {
-    public function findComponent(string $componentId, Page $page): ?array
+    protected function findComponent(string $componentId, Page $page): ?array
     {
         return collect($page->draft)->firstWhere('id', $componentId);
     }
@@ -20,7 +20,7 @@ class BuildingService implements BuildingServiceInterface
     {
         throw_if(
             $this->findComponent($component->id(), $page),
-            BuildingException::couldNotFindComponentOnPage($component->id())
+            BuildingException::componentAlreadyExists($component->id())
         );
 
         $page->draft = collect(

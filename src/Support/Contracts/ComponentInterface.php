@@ -6,8 +6,6 @@ use Illuminate\Support\Collection;
 
 interface ComponentInterface
 {
-
-    
     /**
      * Returns the entire list of property attributes.
      */
@@ -90,7 +88,6 @@ interface ComponentInterface
      * Gets and or sets the value for a given property. Where
      * the property is an attribute with an InputType, the
      * corresponding class variable is updated instead.
-     *
      */
     public function valueFor(string $property, $value = null);
 

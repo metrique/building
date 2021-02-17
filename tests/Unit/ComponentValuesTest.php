@@ -5,6 +5,7 @@ namespace Metrique\Building\Tests\Unit;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Metrique\Building\Tests\TestCase;
 use Metrique\Building\View\Components\TestComponent;
+use Metrique\Building\View\Components\TestMultipleComponent;
 
 class ComponentValuesTest extends TestCase
 {

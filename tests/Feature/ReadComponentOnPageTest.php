@@ -14,21 +14,26 @@ class ReadComponentOnPageTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function setUp(): void
+    {
+        parent::setUp();
+        
+        $this->building = resolve(BuildingServiceInterface::class);
+        $this->component = new TestComponent;
+        $this->page = Page::factory()->create();
+    }
+
     public function test_can_get_component_from_page_by_id()
     {
-        $building = resolve(BuildingServiceInterface::class);
-        $component = new TestComponent;
-        $page = Page::factory()->create();
-
         $this->assertTrue(
-            $building->createComponentOnPage($component, $page)
+            $this->building->createComponentOnPage($this->component, $this->page)
         );
         
         $this->assertNotNull(
-            collect($page->draft)->firstWhere('id', $component->id())
+            collect($this->page->draft)->firstWhere('id', $this->component->id())
         );
 
-        $getComponent = $building->readComponentOnPage($component->id(), $page);
+        $getComponent = $this->building->readComponentOnPage($this->component->id(), $this->page);
 
         $this->assertInstanceOf(
             Component::class,
@@ -36,20 +41,17 @@ class ReadComponentOnPageTest extends TestCase
         );
 
         foreach ($getComponent->toArray() as $key => $value) {
-            $this->assertArrayHasKey($key, $component->toArray());
-            $this->assertEquals($value, $component->toArray()[$key]);
+            $this->assertArrayHasKey($key, $this->component->toArray());
+            $this->assertEquals($value, $this->component->toArray()[$key]);
         }
     }
 
     public function test_invalid_component_id_throws_exception()
     {
-        $building = resolve(BuildingServiceInterface::class);
-        $page = Page::factory()->create();
-
-        $this->assertNotNull($page);
+        $this->assertNotNull($this->page);
 
         $this->expectException(BuildingException::class);
 
-        $building->readComponentOnPage(uniqid('FAKE', true), $page);
+        $this->building->readComponentOnPage(uniqid('FAKE', true), $this->page);
     }
 }
