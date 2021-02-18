@@ -11,7 +11,9 @@ trait ComponentHasChildren
 
     public function children(): array
     {
-        return $this->children;
+        return collect($this->children)->map(function ($child) {
+            return new $child['class']($child);
+        })->toArray();
     }
     
     public function createChild(Component $component)
