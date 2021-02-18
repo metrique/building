@@ -37,7 +37,7 @@ class ComponentCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'component' => [
+            '_component' => [
                 'required',
                 new ComponentIsBoundRule,
             ],
