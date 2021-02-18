@@ -2,6 +2,7 @@
 
 namespace Metrique\Building\Http\Requests;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Metrique\Building\Rules\AbsoluteUrlPathRule;
@@ -48,7 +49,9 @@ class PageRequest extends FormRequest
                     'path'
                 )->ignore(
                     optional($this->page)->id
-                ),
+                )->where(function ($query) {
+                    return $query->whereNull('deleted_at');
+                }),
             ],
             'title' => [
                 'required',
