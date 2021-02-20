@@ -8,13 +8,14 @@ final class InputType
     const TEXT = 1;
     const NUMBER = 2;
     const EMAIL = 3;
-    const IMAGE = 4;
-    const FILE = 5;
-    const DATE = 6;
-    const DATETIME = 7;
-    const TIME = 8;
-    const TEXTAREA = 9;
-    const CHECKBOX = 10;
+    const DATE = 4;
+    const DATETIME = 5;
+    const TIME = 6;
+    const TEXTAREA = 7;
+    const CHECKBOX = 8;
+    const FILE = 9;
+    const IMAGE = 10;
+    const MARKDOWN = 11;
 
     public static function type(int $enum)
     {
@@ -23,13 +24,14 @@ final class InputType
             'text',
             'number',
             'email',
-            'text',
-            'file',
             'date-local',
             'datetime-local',
             'time-local',
             'textarea',
             'checkbox',
+            'file',
+            'image',
+            'markdown',
         ];
 
         return $types[$enum];
