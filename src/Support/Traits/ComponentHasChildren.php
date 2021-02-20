@@ -9,11 +9,17 @@ trait ComponentHasChildren
 {
     protected $children = [];
 
-    public function children(): array
+    public function children(bool $resolve = false): array
     {
-        return collect($this->children)->map(function ($child) {
-            return new $child['class']($child);
-        })->toArray();
+        $children = collect($this->children)->sortByDesc('order');
+
+        if ($resolve) {
+            return $children->map(function ($child) {
+                return new $child['class']($child);
+            })->toArray();
+        }
+
+        return $children->toArray();
     }
     
     public function createChild(Component $component)
