@@ -6,8 +6,6 @@ use Metrique\Building\Exceptions\BuildingException;
 use Metrique\Building\Support\Component;
 use Metrique\Building\Models\Page;
 use Metrique\Building\Rules\ComponentIsBoundRule;
-use Metrique\Building\Support\InputType;
-use Metrique\Building\View\Components\TestComponent;
 
 class BuildingService implements BuildingServiceInterface
 {
@@ -88,7 +86,7 @@ class BuildingService implements BuildingServiceInterface
         $formBuilder = resolve(FormBuilderInterface::class);
         
         $formBuilder->make(
-            $this->readComponentFromPage($componentId, $page)
+            $this->readComponentOnPage($componentId, $page)
         );
 
         return $formBuilder->render();
