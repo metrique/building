@@ -36,6 +36,8 @@ class ComponentEditRequest extends FormRequest
      */
     public function rules()
     {
+        $this->redirect = url()->previous() . '#' . $this->request->get('_id');
+
         return $this->fetchRules(
             $this->request->get(
                 '_parent',
