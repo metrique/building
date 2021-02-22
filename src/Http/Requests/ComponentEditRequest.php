@@ -81,7 +81,13 @@ class ComponentEditRequest extends FormRequest
 
         if ($this->request->get('_type', '') == 'multiple') {
             return $rules->intersectByKeys(
-                collect($component->properties())->except('name')
+                collect(
+                    $component->properties()
+                )->merge(
+                    $component->attributes()
+                )->except(
+                    'name'
+                )
             )->toArray();
         }
 
