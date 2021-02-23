@@ -60,7 +60,7 @@ class FormBuilder implements FormBuilderInterface
     {
         return collect($attributes)->filter()->mapWithKeys(fn ($value, $key) => [
             $key => [
-                'id' => ($component->id() . ':' . $key),
+                'id' => ($key . '-' . $component->id()),
                 'component_id' => $component->id(),
                 'name' => $key,
                 'type' => $value,
