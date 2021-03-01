@@ -2,6 +2,7 @@
 
 namespace Metrique\Building\Services;
 
+use Illuminate\Support\Str;
 use Metrique\Building\Exceptions\BuildingException;
 use Metrique\Building\Support\Component;
 use Metrique\Building\Models\Page;
@@ -9,6 +10,32 @@ use Metrique\Building\Rules\ComponentIsBoundRule;
 
 class BuildingService implements BuildingServiceInterface
 {
+    public function fetchContent($page): array
+    {
+        return collect($page->draft)
+            ->filter(fn ($component) => $component['enabled'])
+            ->map(function ($component) {
+                $component['children'] = collect($component['children'])
+                    ->filter(fn ($child) => $child['enabled'])
+                    ->sortByDesc('order')
+                    ->pluck('values')
+                    ->map(function ($component) {
+                        return collect($component)->mapWithKeys(function ($value, $key) {
+                            return [Str::camel($key) => $value];
+                        })->toArray();
+                    })
+                    ->toArray();
+
+                $component['values'] = collect($component['values'])
+                    ->mapWithKeys(function ($value, $key) {
+                        return [Str::camel($key) => $value];
+                    })->toArray();
+                return $component;
+            })
+            ->sortByDesc('order')
+            ->toArray();
+    }
+    
     protected function findComponent(string $componentId, Page $page): ?array
     {
         return collect($page->draft)->firstWhere('id', $componentId);

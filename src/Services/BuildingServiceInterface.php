@@ -7,7 +7,7 @@ use Metrique\Building\Support\Component;
 
 interface BuildingServiceInterface
 {
-    // public function findComponentIndex(string $componentId, Page $page);
+    public function fetchContent($page): array;
     public function createComponentOnPage(Component $component, Page $page): bool;
     public function readComponentOnPage(string $componentId, Page $page): Component;
     public function updateComponentOnPage(Component $component, Page $page): Component;
