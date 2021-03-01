@@ -59,7 +59,7 @@ class ComponentEditRequest extends FormRequest
         $this->merge(
             collect($this->request)->mapWithKeys(function ($value, $key) {
                 return [
-                    str_replace('-' . $this->_id, '', $key) => $value
+                    str_replace('_' . $this->_id, '', $key) => $value
                 ];
             })->toArray()
         );
