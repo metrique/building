@@ -20,7 +20,7 @@ class CreateChildComponentTest extends TestCase
         parent::setUp();
 
         $this->firstChild = new TestMultipleComponent;
-        $this->firstChild->valuesFor([
+        $this->firstChild->setValuesFor([
             'title' => 'First child title',
         ]);
             

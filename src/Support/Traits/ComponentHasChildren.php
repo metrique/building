@@ -59,7 +59,7 @@ trait ComponentHasChildren
     public function updateChild(string $id, array $data)
     {
         $child = $this->readChild($id);
-        $child->valuesFor($data);
+        $child->setValuesFor($data);
 
         $this->children = collect($this->children)->map(function ($value) use ($child) {
             return $value['id'] == $child->id()

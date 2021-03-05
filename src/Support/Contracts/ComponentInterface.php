@@ -85,16 +85,28 @@ interface ComponentInterface
     public function values(): array;
 
     /**
-     * Gets and or sets the value for a given property. Where
-     * the property is an attribute with an InputType, the
-     * corresponding class variable is updated instead.
+     * Gets the value for any given property. Where the
+     * property is an attribute with an InputType, the
+     * corresponding class variable is returned instead.
      */
-    public function valueFor(string $property, $value = null);
+    public function getValueFor(string $property);
 
     /**
-     * Helper method to call valueFor multiple times, pass an array of property/values.
+     * Helper method to get multiple values, pass an array of property names.
      */
-    public function valuesFor(array $values): array;
+    public function getValuesFor(array $values): array;
+
+    /**
+     * Sets the value for a given property. Where the property
+     * is an attribute with an InputType, the corresponding
+     * class variables are updated accordingly instead.
+     */
+    public function setValueFor(string $property, $value = null);
+
+    /**
+     * Helper method to set values multiple times, pass an array of property/values.
+     */
+    public function setValuesFor(array $values): array;
 
     /**
      * Returns the name of the view to use when rendering the component

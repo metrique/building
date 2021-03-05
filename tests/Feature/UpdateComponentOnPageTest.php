@@ -34,11 +34,11 @@ class UpdateComponentOnPageTest extends TestCase
         $this->assertTrue(
             $building->createComponentOnPage($component, $page)
         );
-        
-        $this->assertIsArray(
-            $component->valuesFor($updated)
-        );
 
+        $this->assertIsArray(
+            $component->setValuesFor($updated)
+        );
+        
         $this->assertInstanceOf(
             Component::class,
             $building->updateComponentOnPage($component, $page)
@@ -53,7 +53,7 @@ class UpdateComponentOnPageTest extends TestCase
         foreach ($updated as $key => $expected) {
             $this->assertEquals(
                 $expected,
-                $component->valueFor($key),
+                $component->getValueFor($key),
                 "Matching `$key` failed."
             );
         }

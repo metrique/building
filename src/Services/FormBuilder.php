@@ -65,7 +65,7 @@ class FormBuilder implements FormBuilderInterface
                 'name' => $key,
                 'type' => $value,
                 'input_type' => InputType::type($value),
-                'value' => property_exists($component, $key) ? $component->$key() : $component->valueFor($key),
+                'value' => property_exists($component, $key) ? $component->$key() : $component->getValueFor($key),
             ]
         ])->toArray();
     }

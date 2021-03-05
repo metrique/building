@@ -20,7 +20,7 @@ class UpdateChildComponentTest extends TestCase
         parent::setUp();
 
         $this->firstChild = new TestMultipleComponent();
-        $this->firstChild->valuesFor([
+        $this->firstChild->setValuesFor([
             'title' => 'First child title',
         ]);
 
@@ -40,7 +40,7 @@ class UpdateChildComponentTest extends TestCase
         
         $this->assertEquals(
             $title,
-            $updatedFirstChild->valueFor('title')
+            $updatedFirstChild->getValueFor('title')
         );
     }
 

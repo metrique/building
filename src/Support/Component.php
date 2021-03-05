@@ -144,11 +144,38 @@ class Component implements ComponentInterface
         return $this->values;
     }
 
-    public function valueFor(string $property, $value = null)
+    public function getValueFor(string $property)
     {
         // Catch if property is in attributes, and has method.
         if (isset($this->attributes[$property]) && method_exists($this, $property)) {
-            return is_null($value) || is_null($this->attributes[$property])
+            return is_null($this->attributes[$property])
+                ? $this->$property()
+                : $this->$property ?? false;
+        }
+        
+        $values = $this->values();
+
+        if (!array_key_exists($property, $values)) {
+            return null;
+        }
+
+        return $values[$property];
+    }
+
+    public function getValuesFor(array $data): array
+    {
+        foreach ($data as $property) {
+            $this->getValueFor($property);
+        }
+
+        return $this->toArray();
+    }
+
+    public function setValueFor(string $property, $value = null)
+    {
+        // Catch if property is in attributes, and has method.
+        if (isset($this->attributes[$property]) && method_exists($this, $property)) {
+            return is_null($this->attributes[$property])
                 ? $this->$property()
                 : $this->$property = $value;
         }
@@ -159,19 +186,17 @@ class Component implements ComponentInterface
             return null;
         }
 
-        if (!is_null($value)) {
-            $values[$property] = $value;
-        }
+        $values[$property] = $value;
         
         $this->values = $values;
 
         return $values[$property];
     }
 
-    public function valuesFor(array $data): array
+    public function setValuesFor(array $data): array
     {
         foreach ($data as $property => $value) {
-            $this->valueFor($property, $value);
+            $this->setValueFor($property, $value);
         }
 
         return $this->toArray();

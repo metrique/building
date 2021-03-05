@@ -29,7 +29,7 @@ class ComponentValuesTest extends TestCase
         foreach ($component->values() as $key => $value) {
             $this->assertEquals(
                 $value,
-                $component->valueFor($key)
+                $component->getValueFor($key),
             );
         }
     }
@@ -41,7 +41,7 @@ class ComponentValuesTest extends TestCase
         foreach ($component->attributes() as $key => $value) {
             $this->assertEquals(
                 is_null($value),
-                is_null($component->valueFor($key))
+                is_null($component->getValueFor($key)),
             );
         }
     }
@@ -51,7 +51,7 @@ class ComponentValuesTest extends TestCase
         $component = new TestComponent;
 
         $this->assertNull(
-            $component->valueFor('obviously-non-existing-property')
+            $component->getValueFor('obviously-non-existing-property')
         );
     }
 }
