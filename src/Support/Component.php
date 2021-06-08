@@ -208,14 +208,14 @@ class Component implements ComponentInterface
         return $this->toArray();
     }
 
-    public function theme(): string
+    public function theme(): ?string
     {
-        return $this->theme ?? 'default';
+        return $this->theme ?? null;
     }
 
     public function themes(): array
     {
-        return $this->themes ?? ['default'];
+        return $this->themes ?? [];
     }
 
     public function view(): ?string

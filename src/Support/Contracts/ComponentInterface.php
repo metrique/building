@@ -82,7 +82,7 @@ interface ComponentInterface
     /**
      * Returns the current theme, uses 'default' where no theme is set.
      */
-    public function theme(): string;
+    public function theme(): ?string;
 
     /**
      * Returns a list of themes that the component can use.
