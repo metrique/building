@@ -80,6 +80,16 @@ interface ComponentInterface
     public function rules() :array;
 
     /**
+     * Returns the current theme, uses 'default' where no theme is set.
+     */
+    public function theme(): string;
+
+    /**
+     * Returns a list of themes that the component can use.
+     */
+    public function themes() :array;
+
+    /**
      * Holds the values for each property.
      */
     public function values(): array;

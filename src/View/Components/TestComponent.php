@@ -53,4 +53,12 @@ class TestComponent extends Component
             ]
         ];
     }
+
+    public function themes(): array
+    {
+        return [
+            'black',
+            'white',
+        ];
+    }
 }

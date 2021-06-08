@@ -16,6 +16,9 @@ final class InputType
     const FILE = 9;
     const IMAGE = 10;
     const MARKDOWN = 11;
+    const RADIO = 12;
+    const SELECT = 13;
+    const THEME = 14;
 
     public static function type(int $enum)
     {
@@ -32,6 +35,9 @@ final class InputType
             'file',
             'image',
             'markdown',
+            'radio',
+            'select',
+            'theme',
         ];
 
         return $types[$enum];

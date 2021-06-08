@@ -20,6 +20,8 @@ class Component implements ComponentInterface
     private $parameters;
     private $properties;
     private $rules;
+    private $theme;
+    private $themes;
     private $values;
     private $view;
 
@@ -31,6 +33,7 @@ class Component implements ComponentInterface
         'name' => InputType::TEXT,
         'order' => InputType::NUMBER,
         'parameters' => null,
+        'theme' => InputType::THEME,
         'view' => null,
     ];
 
@@ -91,6 +94,9 @@ class Component implements ComponentInterface
             'parameters' => [
                 'array'
             ],
+            'theme' => [
+                'in:' . implode(',', $this->themes())
+            ]
         ];
     }
 
@@ -202,6 +208,16 @@ class Component implements ComponentInterface
         return $this->toArray();
     }
 
+    public function theme(): string
+    {
+        return $this->theme ?? 'default';
+    }
+
+    public function themes(): array
+    {
+        return $this->themes ?? ['default'];
+    }
+
     public function view(): ?string
     {
         return $this->view ?? '';
@@ -224,6 +240,8 @@ class Component implements ComponentInterface
                 $this->attributeRules(),
                 $this->rules()
             ),
+            'theme' => $this->theme(),
+            'themes' => $this->themes(),
             'values' => $this->values(),
             'view' => $this->view(),
         ];
