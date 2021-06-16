@@ -118,4 +118,34 @@ class BuildingService implements BuildingServiceInterface
 
         return $formBuilder->render();
     }
+
+    public function upgradeComponentOnPage(Component $component, $page): bool
+    {
+        $page->draft = collect(
+            $page->draft
+        )->map(function ($value) use ($component) {
+            throw_if(
+                $value['multiple'] != $component->multiple(),
+                BuildingException::couldNotChangeMultipleProperty()
+            );
+
+            if ($value['class'] != $component->class()) {
+                return $value;
+            }
+
+            // Upgrade
+            $value['properties'] = $component->properties();
+            $value['rules'] = $component->rules();
+            $value['themes'] = $component->themes();
+            $value['values'] = collect($component->properties())->mapWithKeys(function ($item, $key) use ($value) {
+                return [
+                    $key => $value['values'][$key] ?? null
+                ];
+            })->toArray();
+
+            return $value;
+        })->toArray();
+
+        return $page->save();
+    }
 }

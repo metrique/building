@@ -35,4 +35,9 @@ class BuildingException extends Exception
     {
         return new static("Could not render form, use the `make` method first.");
     }
+
+    public static function couldNotChangeMultipleProperty(): self
+    {
+        return new static("Upgrading a components `multiple` property is not supported.");
+    }
 }
