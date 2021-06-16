@@ -14,5 +14,5 @@ interface BuildingServiceInterface
     public function deleteComponentOnPage(string $componentId, Page $page): bool;
     public function validateComponent(string $class): bool;
     public function buildComponentForm(string $componentId, Page $page): FormBuilderInterface;
-    public function upgradeComponentOnPage(Component $component, $page): bool;
+    public function upgradeComponentOnPage(Component $component, Page $page): bool;
 }
