@@ -7,6 +7,7 @@ use Metrique\Building\Exceptions\BuildingException;
 use Metrique\Building\Support\Component;
 use Metrique\Building\Models\Page;
 use Metrique\Building\Rules\ComponentIsBoundRule;
+use ReflectionClass;
 
 class BuildingService implements BuildingServiceInterface
 {
@@ -119,6 +120,23 @@ class BuildingService implements BuildingServiceInterface
         return $formBuilder->render();
     }
 
+    public function renameComponentOnPage(Component $from, Component $to, Page $page): bool
+    {
+        $page->draft = collect(
+            $page->draft
+        )->map(function ($value) use ($from, $to) {
+            if ($value['class'] !== $from->class()) {
+                return $value;
+            }
+
+            $value['class'] = $to->class();
+
+            return $value;
+        });
+
+        return $page->save();
+    }
+
     public function upgradeComponentOnPage(Component $component, Page $page): bool
     {
         $page->draft = collect(
@@ -128,24 +146,40 @@ class BuildingService implements BuildingServiceInterface
                 return $value;
             }
 
-            throw_unless(
-                $value['multiple'] == $component->multiple(),
-                BuildingException::couldNotChangeMultipleProperty()
-            );
+            $value = $this->upgradeComponentData($value, $component);
 
-            // Upgrade
-            $value['properties'] = $component->properties();
-            $value['rules'] = $component->rules();
-            $value['themes'] = $component->themes();
-            $value['values'] = collect($component->properties())->mapWithKeys(function ($item, $key) use ($value) {
-                return [
-                    $key => $value['values'][$key] ?? null
-                ];
+            $value['children'] = collect($value['children'])->map(function ($child) use ($component) {
+                return $this->upgradeComponentData($child, $component);
             })->toArray();
 
             return $value;
         })->toArray();
 
         return $page->save();
+    }
+
+    private function upgradeComponentData(array $data, Component $component): array
+    {
+        $data['properties'] = $component->properties();
+        $data['rules'] = $component->rules();
+        $data['themes'] = $component->themes();
+        $data['values'] = collect($component->properties())->mapWithKeys(function ($item, $key) use ($data) {
+            return [
+                $key => $data['values'][$key] ?? null
+            ];
+        })->toArray();
+
+        return $data;
+    }
+
+    public function isAComponentClass(string $class): bool
+    {
+        if (!class_exists($class)) {
+            return false;
+        }
+
+        return (
+            new ReflectionClass($class)
+        )->isSubclassOf(Component::class);
     }
 }
