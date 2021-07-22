@@ -18,8 +18,8 @@
         "php": ">=5.6.0"
     },
     "require": {
-        "illuminate/support": "^5.3",
-        "danielstjules/stringy": "^2.0",
-        "laravelcollective/html": "^5.3"
+        "illuminate/support": "^8.0",
+        "danielstjules/stringy": "^3.0",
+        "laravelcollective/html": "^6.0"
     }
 }
