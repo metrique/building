@@ -62,8 +62,9 @@ class PageRequest extends FormRequest
                 'string',
             ],
             'image' => [
+                'nullable',
                 'string',
-                'url'
+                'url',
             ],
             'meta' => [
                 'array',
