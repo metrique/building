@@ -70,12 +70,12 @@ class CreatePageTest extends TestCase
         $pageRequest = new PageRequest;
 
         collect([
-            Page::factory()->english()->make(),
-            Page::factory()->englishRoot()->make(),
-            Page::factory()->french()->make(),
-            Page::factory()->frenchRoot()->make(),
-            Page::factory()->german()->make(),
-            Page::factory()->germanRoot()->make(),
+            Page::factory()->uk()->make(),
+            Page::factory()->ukRoot()->make(),
+            Page::factory()->fr()->make(),
+            Page::factory()->frRoot()->make(),
+            Page::factory()->de()->make(),
+            Page::factory()->deRoot()->make(),
             Page::factory()->root()->make(),
         ])->each(function ($page) use ($pageRequest) {
             $this->assertFalse(

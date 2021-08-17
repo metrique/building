@@ -9,15 +9,15 @@
             "email": "support@metrique.co.uk"
         }
     ],
-    "autoload-dev": {
-        "psr-4": {
-            "Metrique\\Building\\Tests\\": "tests"
-        }
-    },
     "autoload": {
         "psr-4": {
             "Metrique\\Building\\": "src",
             "Metrique\\Building\\Database\\Factories\\": "database/factories"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Metrique\\Building\\Tests\\": "tests"
         }
     },
     "require-dev": {

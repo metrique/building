@@ -58,42 +58,42 @@ class PageFactory extends Factory
         ]);
     }
 
-    public function english()
+    public function uk()
     {
         return $this->state(fn (array $attributes) => [
-            'path' => sprintf('/en/%s', uniqid())
+            'path' => sprintf('/uk/%s', uniqid())
         ]);
     }
     
-    public function englishRoot()
+    public function ukRoot()
     {
         return $this->state(fn (array $attributes) => [
-            'path' => '/en'
+            'path' => '/uk'
         ]);
     }
 
-    public function french()
+    public function fr()
     {
         return $this->state(fn (array $attributes) => [
             'path' => sprintf('/fr/%s', uniqid())
         ]);
     }
 
-    public function frenchRoot()
+    public function frRoot()
     {
         return $this->state(fn (array $attributes) => [
             'path' => '/fr'
         ]);
     }
 
-    public function german()
+    public function de()
     {
         return $this->state(fn (array $attributes) => [
             'path' => sprintf('/de/%s', uniqid())
         ]);
     }
 
-    public function germanRoot()
+    public function deRoot()
     {
         return $this->state(fn (array $attributes) => [
             'path' => '/de'

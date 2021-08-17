@@ -18,12 +18,12 @@ class PageScopePublishedTest extends TestCase
         parent::setUp();
 
         Page::factory()->root()->create();
-        Page::factory()->englishRoot()->create();
-        Page::factory()->english()->create();
-        Page::factory()->frenchRoot()->create();
-        Page::factory()->french()->create();
-        Page::factory()->germanRoot()->create();
-        Page::factory()->german()->create();
+        Page::factory()->ukRoot()->create();
+        Page::factory()->uk()->create();
+        Page::factory()->frRoot()->create();
+        Page::factory()->fr()->create();
+        Page::factory()->deRoot()->create();
+        Page::factory()->de()->create();
         Page::factory()->unpublished()->create();
         Page::factory()->notYetPublished()->create();
     }
