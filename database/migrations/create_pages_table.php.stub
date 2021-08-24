@@ -17,7 +17,7 @@ class CreatePagesTable extends Migration
             $table->id();
             $table->string('path')->unique();
             $table->string('title');
-            $table->index('title');
+            $table->index('path');
             $table->string('description');
             $table->string('image')->nullable();
             $table->jsonb('meta');
