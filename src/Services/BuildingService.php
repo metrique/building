@@ -2,6 +2,7 @@
 
 namespace Metrique\Building\Services;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Metrique\Building\Exceptions\BuildingException;
 use Metrique\Building\Support\Component;
@@ -181,5 +182,13 @@ class BuildingService implements BuildingServiceInterface
         return (
             new ReflectionClass($class)
         )->isSubclassOf(Component::class);
+    }
+
+    public function getComponentList(array $filter = []): array
+    {
+        return array_diff(
+            Config::get('building.components', []),
+            $filter
+        );
     }
 }
