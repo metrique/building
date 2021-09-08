@@ -17,6 +17,13 @@ class Page extends Model
         'is_published'
     ];
 
+    protected $attributes = [
+        'meta' => '{}',
+        'params' => '{}',
+        'draft' => '{}',
+        'live' => '{}',
+    ];
+
     protected $fillable = [
         'path',
         'title',
@@ -41,30 +48,6 @@ class Page extends Model
     protected static function newFactory()
     {
         return \Metrique\Building\Database\Factories\PageFactory::new();
-    }
-
-    /**
-     * Default Json
-     */
-    protected static function booted()
-    {
-        static::creating(function ($page) {
-            if (is_null($page->meta)) {
-                $page->meta = [];
-            }
-
-            if (is_null($page->params)) {
-                $page->params = [];
-            }
-
-            if (is_null($page->draft)) {
-                $page->draft = [];
-            }
-
-            if (is_null($page->live)) {
-                $page->live = [];
-            }
-        });
     }
     
     /**
