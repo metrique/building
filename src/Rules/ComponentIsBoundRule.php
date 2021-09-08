@@ -3,6 +3,7 @@
 namespace Metrique\Building\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Metrique\Building\Services\BuildingServiceInterface;
 
 class ComponentIsBoundRule implements Rule
 {
@@ -25,7 +26,7 @@ class ComponentIsBoundRule implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (!in_array($value, config('building.components'))) {
+        if (!in_array($value, resolve(BuildingServiceInterface::class)->getComponentList())) {
             return false;
         }
         
