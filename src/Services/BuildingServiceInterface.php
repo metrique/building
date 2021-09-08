@@ -17,5 +17,5 @@ interface BuildingServiceInterface
     public function renameComponentOnPage(Component $from, Component $to, Page $page): bool;
     public function upgradeComponentOnPage(Component $component, Page $page): bool;
     public function isAComponentClass(string $class): bool;
-    public function getComponentList(array $filter): array;
+    public function getComponentList(array $filter = []): array;
 }
