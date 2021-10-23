@@ -2,6 +2,7 @@
 
 namespace Metrique\Building\Http\Requests;
 
+use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Metrique\Building\Rules\ComponentIsBoundRule;
 use Metrique\Building\Services\BuildingServiceInterface;
@@ -73,7 +74,11 @@ class ComponentEditRequest extends FormRequest
                 $this->page
             );
         
-        $rules = collect($component->rules());
+        $rules = collect($component->rules())->map(function ($field) {
+            return collect($field)->map(
+                fn ($rule) => is_a($rule, Rule::class, true) ? new $rule : $rule
+            )->toArray();
+        });
         
         if ($this->request->get('_type', '') == 'attributes') {
             return $rules->intersectByKeys(
