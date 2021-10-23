@@ -5,8 +5,6 @@ namespace Metrique\Building\Support;
 use Metrique\Building\Support\Contracts\ComponentInterface;
 use Metrique\Building\Support\Traits\ComponentHasChildren;
 
-use function PHPUnit\Framework\throwException;
-
 class Component implements ComponentInterface
 {
     use ComponentHasChildren;
@@ -92,7 +90,8 @@ class Component implements ComponentInterface
                 'max:65535'
             ],
             'parameters' => [
-                'array'
+                'nullable',
+                'json'
             ],
             'theme' => [
                 'in:' . implode(',', $this->themes())
@@ -132,6 +131,10 @@ class Component implements ComponentInterface
 
     public function parameters(): array
     {
+        if (is_string($this->parameters)) {
+            return json_decode($this->parameters, true);
+        }
+
         return $this->parameters ?? [];
     }
 

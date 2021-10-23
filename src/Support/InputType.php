@@ -19,6 +19,9 @@ final class InputType
     const RADIO = 12;
     const SELECT = 13;
     const THEME = 14;
+    const COLOR = 15;
+    const JSON = 16;
+    const KEY_VALUE = 17;
 
     public static function type(int $enum)
     {
@@ -38,6 +41,9 @@ final class InputType
             'radio',
             'select',
             'theme',
+            'color',
+            'json',
+            'key_value',
         ];
 
         return $types[$enum];
