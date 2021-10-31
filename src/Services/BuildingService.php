@@ -161,6 +161,7 @@ class BuildingService implements BuildingServiceInterface
 
     private function upgradeComponentData(array $data, Component $component): array
     {
+        $data['multiple'] = $component->multiple();
         $data['properties'] = $component->properties();
         $data['rules'] = $component->rules();
         $data['themes'] = $component->themes();
