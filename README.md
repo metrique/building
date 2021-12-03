@@ -14,7 +14,7 @@ A flexible page management system for Laravel.
 "repositories": [
     {
         "type": "path",
-        "url": "../laravel-building"
+        "url": "../building"
     }
 ]
 ```
