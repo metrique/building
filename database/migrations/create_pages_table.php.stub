@@ -1,0 +1,42 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreatePagesTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('pages', function (Blueprint $table) {
+            $table->id();
+            $table->string('path')->unique();
+            $table->string('title');
+            $table->index('path');
+            $table->string('description');
+            $table->string('image')->nullable();
+            $table->jsonb('meta');
+            $table->jsonb('params');
+            $table->jsonb('draft')->nullable();
+            $table->jsonb('live')->nullable();
+            $table->timestamp('published_at')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('pages');
+    }
+}
