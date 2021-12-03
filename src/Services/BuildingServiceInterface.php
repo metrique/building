@@ -18,4 +18,5 @@ interface BuildingServiceInterface
     public function upgradeComponentOnPage(Component $component, Page $page): bool;
     public function isAComponentClass(string $class): bool;
     public function getComponentList(array $filter = []): array;
+    public function publishDraft(Page $page): bool;
 }

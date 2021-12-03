@@ -192,4 +192,11 @@ class BuildingService implements BuildingServiceInterface
             $filter
         );
     }
+
+    public function publishDraft(Page $page): bool
+    {
+        $page->live = $page->draft;
+        
+        return $page->save();
+    }
 }
