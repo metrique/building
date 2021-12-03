@@ -12,7 +12,7 @@ use ReflectionClass;
 
 class BuildingService implements BuildingServiceInterface
 {
-    public function fetchContent($page, bool $live = true): array
+    public function fetchContent($page, bool $live = false): array
     {
         return collect($live ? $page->live : $page->draft)
             ->filter(fn ($component) => $component['enabled'])
