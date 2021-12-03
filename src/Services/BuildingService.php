@@ -12,9 +12,9 @@ use ReflectionClass;
 
 class BuildingService implements BuildingServiceInterface
 {
-    public function fetchContent($page): array
+    public function fetchContent($page, bool $live = true): array
     {
-        return collect($page->draft)
+        return collect($live ? $page->live : $page->draft)
             ->filter(fn ($component) => $component['enabled'])
             ->map(function ($component) {
                 $component['children'] = collect($component['children'])
@@ -196,7 +196,7 @@ class BuildingService implements BuildingServiceInterface
     public function publishDraft(Page $page): bool
     {
         $page->live = $page->draft;
-        
+
         return $page->save();
     }
 }
