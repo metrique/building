@@ -5,9 +5,9 @@ namespace Metrique\Building\Services;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 use Metrique\Building\Exceptions\BuildingException;
-use Metrique\Building\Support\Component;
 use Metrique\Building\Models\Page;
 use Metrique\Building\Rules\ComponentIsBoundRule;
+use Metrique\Building\Support\Component;
 use ReflectionClass;
 
 class BuildingService implements BuildingServiceInterface
@@ -32,12 +32,13 @@ class BuildingService implements BuildingServiceInterface
                     ->mapWithKeys(function ($value, $key) {
                         return [Str::camel($key) => $value];
                     })->toArray();
+
                 return $component;
             })
             ->sortByDesc('order')
             ->toArray();
     }
-    
+
     protected function findComponent(string $componentId, Page $page): ?array
     {
         return collect($page->draft)->firstWhere('id', $componentId);
@@ -55,7 +56,7 @@ class BuildingService implements BuildingServiceInterface
         )->push(
             $component->toArray()
         )->toArray();
-        
+
         return $page->save();
     }
 
@@ -83,7 +84,7 @@ class BuildingService implements BuildingServiceInterface
                 return $value['id'] == $component->id()
                     ? $component->toArray()
                     : $value;
-            })->toArray()
+            })->toArray(),
         ]);
 
         return $component;
@@ -107,13 +108,13 @@ class BuildingService implements BuildingServiceInterface
 
     public function validateComponent(string $class): bool
     {
-        return (new ComponentIsBoundRule)->passes(null, $class);
+        return (new ComponentIsBoundRule())->passes(null, $class);
     }
-    
+
     public function buildComponentForm(string $componentId, Page $page): FormBuilderInterface
     {
         $formBuilder = resolve(FormBuilderInterface::class);
-        
+
         $formBuilder->make(
             $this->readComponentOnPage($componentId, $page)
         );
@@ -165,9 +166,10 @@ class BuildingService implements BuildingServiceInterface
         $data['properties'] = $component->properties();
         $data['rules'] = $component->rules();
         $data['themes'] = $component->themes();
+        $data['view'] = $component->view();
         $data['values'] = collect($component->properties())->mapWithKeys(function ($item, $key) use ($data) {
             return [
-                $key => $data['values'][$key] ?? null
+                $key => $data['values'][$key] ?? null,
             ];
         })->toArray();
 
