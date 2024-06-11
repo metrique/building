@@ -2,7 +2,7 @@
 
 namespace Metrique\Building\Http\Requests;
 
-use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Metrique\Building\Rules\ComponentIsBoundRule;
 use Metrique\Building\Services\BuildingServiceInterface;
@@ -18,7 +18,7 @@ class ComponentEditRequest extends FormRequest
     {
         return true;
     }
-    
+
     /**
      * Get custom attributes for validator errors.
      *
@@ -37,7 +37,7 @@ class ComponentEditRequest extends FormRequest
      */
     public function rules()
     {
-        $this->redirect = url()->previous() . '#' . $this->request->get('_id');
+        $this->redirect = url()->previous().'#'.$this->request->get('_id');
 
         return $this->fetchRules(
             $this->request->get(
@@ -60,7 +60,7 @@ class ComponentEditRequest extends FormRequest
         $this->merge(
             collect($this->request)->mapWithKeys(function ($value, $key) {
                 return [
-                    str_replace('_' . $this->_id, '', $key) => $value
+                    str_replace('_'.$this->_id, '', $key) => $value,
                 ];
             })->toArray()
         );
@@ -73,13 +73,13 @@ class ComponentEditRequest extends FormRequest
                 $componentId,
                 $this->page
             );
-        
+
         $rules = collect($component->rules())->map(function ($field) {
             return collect($field)->map(
-                fn ($rule) => is_a($rule, Rule::class, true) ? new $rule : $rule
+                fn ($rule) => is_a($rule, ValidationRule::class, true) ? new $rule : $rule
             )->toArray();
         });
-        
+
         if ($this->request->get('_type', '') == 'attributes') {
             return $rules->intersectByKeys(
                 $component->attributes()
