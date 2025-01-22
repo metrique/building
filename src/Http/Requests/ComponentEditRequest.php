@@ -2,10 +2,10 @@
 
 namespace Metrique\Building\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Metrique\Building\Rules\ComponentIsBoundRule;
 use Metrique\Building\Services\BuildingServiceInterface;
+use ReflectionClass;
 
 class ComponentEditRequest extends FormRequest
 {
@@ -76,7 +76,10 @@ class ComponentEditRequest extends FormRequest
 
         $rules = collect($component->rules())->map(function ($field) {
             return collect($field)->map(
-                fn ($rule) => is_a($rule, ValidationRule::class, true) ? new $rule : $rule
+                function ($rule) {
+                    $instantiable = rescue(fn ($rule) => (new ReflectionClass($rule))->isInstantiable(), fn () => false);
+                    $instantiable ? new $rule : $rule;
+                }
             )->toArray();
         });
 
